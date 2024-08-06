@@ -28,12 +28,12 @@ namespace SWP391.E.BL5.G3.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             Console.WriteLine(Directory.GetCurrentDirectory());
-            IConfiguration config = new ConfigurationBuilder()
+            IConfiguration configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", true, true)
             .Build();
-            var strConn = config["ConnectionStrings:MyDatabase"];
-            optionsBuilder.UseSqlServer(strConn);
+            var stringConnection = configuration["ConnectionStrings:MyDatabase"];
+            optionsBuilder.UseSqlServer(stringConnection);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
