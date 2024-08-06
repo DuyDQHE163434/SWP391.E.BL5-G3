@@ -1,0 +1,58 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\references\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\controllers\\bookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\controllers\\bookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\references\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BookingController.cs",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\BookingController.cs",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\BookingController.cs",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\BookingController.cs",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\BookingController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-06T16:59:33.881Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\appsettings.json",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\appsettings.json",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\appsettings.json",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-08-06T16:55:25.57Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
