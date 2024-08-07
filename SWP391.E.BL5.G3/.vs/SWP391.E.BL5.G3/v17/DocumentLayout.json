@@ -7,8 +7,44 @@
       "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\controllers\\bookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\references\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\booking\\tourdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\booking\\tourdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\references\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\booking\\listtour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\booking\\listtour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\references\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\references\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\models\\tour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\models\\tour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\references\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\references\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\references\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\login\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\login\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\references\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\references\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\references\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,11 +54,125 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\HomeController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-07T05:53:36.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TourDetails.cshtml",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Booking\\TourDetails.cshtml",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Booking\\TourDetails.cshtml",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Booking\\TourDetails.cshtml",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Booking\\TourDetails.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-07T05:50:58.63Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Program.cs",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Program.cs",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Program.cs",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-07T05:45:55.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Tour.cs",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Models\\Tour.cs",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Models\\Tour.cs",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Models\\Tour.cs",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\Models\\Tour.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAAAA8AAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-07T05:45:41.467Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ListTour.cshtml",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Booking\\ListTour.cshtml",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Booking\\ListTour.cshtml",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Booking\\ListTour.cshtml",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Booking\\ListTour.cshtml",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAUwCkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-07T05:45:10.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Privacy.cshtml",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Home\\Privacy.cshtml",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Home\\Privacy.cshtml",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Home\\Privacy.cshtml",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Home\\Privacy.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-07T03:11:04.696Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Home\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-07T03:10:48.949Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Login\\Login.cshtml",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Login\\Login.cshtml",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Login\\Login.cshtml",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Login\\Login.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-07T03:10:26.554Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-07T03:10:22.098Z"
             },
             {
               "$type": "Document",
@@ -32,14 +182,14 @@
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\BookingController.cs",
               "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\BookingController.cs",
               "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\BookingController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAANAAAA",
+              "ViewState": "AQIAABgAAAAAAAAAAAAQwBwAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-06T16:59:33.881Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\appsettings.json",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\appsettings.json",

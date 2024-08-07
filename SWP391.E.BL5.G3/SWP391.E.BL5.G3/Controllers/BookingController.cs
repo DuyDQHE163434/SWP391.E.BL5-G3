@@ -27,5 +27,22 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View(await tours.ToListAsync());
         }
+        public async Task<IActionResult> TourDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tour = await _context.Tours
+                .FirstOrDefaultAsync(m => m.TourId == id);
+            if (tour == null)
+            {
+                return NotFound();
+            }
+
+            return View(tour); // View name should be "TourDetails"
+        }
+
     }
 }
