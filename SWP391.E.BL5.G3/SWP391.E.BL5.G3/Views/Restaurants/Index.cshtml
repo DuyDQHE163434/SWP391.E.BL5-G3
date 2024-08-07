@@ -1,5 +1,6 @@
 ﻿@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
-@model IEnumerable<SWP391.E.BL5.G3.Models.Restaurant>
+@model X.PagedList.IPagedList<SWP391.E.BL5.G3.Models.Restaurant>
+@using X.PagedList.Mvc.Core
 
 @{
     ViewData["Title"] = "Index";
@@ -12,13 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RestaurantName)
+                Restaurant Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Location)
+                Location
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Description
             </th>
             <th></th>
         </tr>
@@ -40,3 +41,7 @@
         }
     </tbody>
 </table>
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", "Restaurants", new { page = page }))
+</div>
