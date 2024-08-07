@@ -6,11 +6,11 @@ using SWP391.E.BL5.G3.Models;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
-    public class BookingController : Controller
+    public class ToursController : Controller
     {
         private readonly traveltestContext _context;
 
-        public BookingController(traveltestContext context)
+        public ToursController(traveltestContext context)
         {
             _context = context;
         }

@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\SWP391.E.BL5.G3.props" />
-</Project>
