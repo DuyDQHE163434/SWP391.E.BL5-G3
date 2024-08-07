@@ -32,7 +32,7 @@
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
               "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
               "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
-              "ViewState": "AQIAAEsAAAAAAAAAAAAqwGYAAAAAAAAA",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAqwGYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-08-07T15:56:41.381Z",
               "EditorCaption": ""
@@ -47,8 +47,7 @@
               "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
               "ViewState": "AQIAAA0AAAAAAAAAAAAQwBwAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-07T15:55:05.298Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-07T15:55:05.298Z"
             }
           ]
         }
