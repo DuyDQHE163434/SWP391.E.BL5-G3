@@ -30,5 +30,10 @@ namespace SWP391.E.BL5.G3.Controllers
             }
             return View();
         }
+        public IActionResult Register(int mess, string email)
+        {
+            
+            return View();
+        }
     }
 }
