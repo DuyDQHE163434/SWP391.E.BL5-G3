@@ -17,7 +17,6 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             var restaurants = new List<Restaurant>();
 
-            // if search string is not null, page value will be 1
             if (searchString != null)
             {
                 page = 1;
