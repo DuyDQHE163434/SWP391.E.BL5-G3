@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9TYl4QpUfa3JAMofrQ6p0h2nIzgyjOG4icqMH4/Nlf8=",
+  "Hash": "Od7qkS38jp3ZyBR/qKy5HC8f8Ib+PPTiSP9cYQVQKCQ=",
   "Source": "SWP391.E.BL5.G3",
   "BasePath": "_content/SWP391.E.BL5.G3",
   "Mode": "Default",
@@ -72,6 +72,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\wwwroot\\css\\tour.jpg",
+      "SourceId": "SWP391.E.BL5.G3",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\wwwroot\\",
+      "BasePath": "_content/SWP391.E.BL5.G3",
+      "RelativePath": "css/tour.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\tour.jpg"
     },
     {
       "Identity": "C:\\FU Learning\\Summer2024\\SWP391\\References\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\wwwroot\\favicon.ico",
