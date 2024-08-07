@@ -13,16 +13,39 @@ namespace SWP391.E.BL5.G3.Controllers
             _context = context;
         }
 
-        public IActionResult Index(int page = 1)
+        public IActionResult Index(string searchString, string currentSearchString, int? page)
         {
-            return View(DisplayPagedList(page, 5));
-        }
+            var restaurants = new List<Restaurant>();
 
-        public IPagedList<Restaurant> DisplayPagedList(int pageNumber, int pageSize)
-        {
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentSearchString;
+            }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                restaurants = _context.Restaurants.Where(item =>
+                    item.RestaurantName.Contains(searchString)).ToList();
+            }
+            else
+            {
+                restaurants = _context.Restaurants.ToList();
+            }
+
+            ViewBag.currentSearchString = searchString;
+
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+
             pageNumber = pageNumber < 1 ? 1 : pageNumber;
-            var restaurants = _context.Restaurants.ToPagedList(pageNumber, pageSize);
-            return restaurants;
+
+            restaurants = restaurants.OrderByDescending(item => item.RestaurantName).ToList();
+
+            return View(restaurants.ToPagedList(pageNumber, pageSize));
         }
 
     }
