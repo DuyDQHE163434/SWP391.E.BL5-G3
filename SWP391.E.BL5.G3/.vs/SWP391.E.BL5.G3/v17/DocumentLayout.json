@@ -3,12 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\login\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\login\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\dao_context\\dao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\dao_context\\dao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\swp391.e.bl5.g3.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\login\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\login\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,15 +30,54 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Program.cs",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Program.cs",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Program.cs",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T13:33:36.353Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DAO.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\DAO_Context\\DAO.cs",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\DAO_Context\\DAO.cs",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\DAO_Context\\DAO.cs",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\DAO_Context\\DAO.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAAC8AAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T13:29:39.911Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SWP391.E.BL5.G3",
+              "DocumentMoniker": "C:\\Users\\Admin\\Source\\Repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj",
+              "ToolTip": "C:\\Users\\Admin\\Source\\Repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-08-08T13:26:36.011Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Register.cshtml",
               "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
@@ -45,9 +96,10 @@
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
               "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
               "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAQwBwAAAAjAAAA",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAowBoAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-07T15:55:05.298Z"
+              "WhenOpened": "2024-08-07T15:55:05.298Z",
+              "EditorCaption": ""
             }
           ]
         }
