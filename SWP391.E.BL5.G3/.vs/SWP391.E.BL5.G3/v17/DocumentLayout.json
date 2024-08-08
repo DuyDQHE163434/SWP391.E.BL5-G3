@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\dao_context\\dao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\dao_context\\dao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\dao_context\\sendemail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\dao_context\\sendemail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,10 +21,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\dao_context\\dao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\dao_context\\dao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -30,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,7 +42,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "SendEmail.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\DAO_Context\\SendEmail.cs",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\DAO_Context\\SendEmail.cs",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\DAO_Context\\SendEmail.cs",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\DAO_Context\\SendEmail.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAQwAgAAAA8AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T14:00:10.826Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Program.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Program.cs",
@@ -50,19 +67,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "DAO.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\DAO_Context\\DAO.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\DAO_Context\\DAO.cs",
               "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\DAO_Context\\DAO.cs",
               "RelativeToolTip": "SWP391.E.BL5.G3\\DAO_Context\\DAO.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAAAC8AAAABAAAA",
+              "ViewState": "AQIAAEIAAAAAAAAAAAAgwE4AAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-08T13:29:39.911Z"
+              "WhenOpened": "2024-08-08T13:29:39.911Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "SWP391.E.BL5.G3.csproj",
               "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj",
@@ -74,7 +92,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Register.cshtml",
               "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
@@ -86,13 +104,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "LoginController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
               "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
               "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
-              "ViewState": "AQIAAEIAAAAAAAAAAAAowFcAAAANAAAA",
+              "ViewState": "AQIAADMAAAAAAAAAAAAYwFcAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-07T15:55:05.298Z",
               "EditorCaption": ""
