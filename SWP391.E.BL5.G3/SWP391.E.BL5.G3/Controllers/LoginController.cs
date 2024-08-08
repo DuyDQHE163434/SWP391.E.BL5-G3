@@ -88,5 +88,14 @@ namespace SWP391.E.BL5.G3.Controllers
             }
             return View();
         }
+        public IActionResult CheckEmailRegister(int mess)
+        {
+            if (mess == 1)
+            {
+                ViewBag.mess1 = "Tài Khoản Email không đúng hoặc không tồn tại vui lòng kiểm tra lại !!!";
+            }
+
+            return View();
+        }
     }
 }
