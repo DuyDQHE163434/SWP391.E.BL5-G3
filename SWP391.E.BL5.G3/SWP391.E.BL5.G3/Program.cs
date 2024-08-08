@@ -3,7 +3,11 @@ using SWP391.E.BL5.G3.Controllers;
 using SWP391.E.BL5.G3.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSession(options => {
+    options.Cookie.Name = "devquyduy";
+    options.IdleTimeout = new TimeSpan(0, 30, 0);
 
+});
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<traveltestContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("MyDatabase")));
@@ -20,7 +24,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();
