@@ -34,15 +34,21 @@
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Name)</td>
                 <td>
-                    <img src="~/images/CatBa.jpg" alt="@item.Name" style="width: 100px; height: 100px;" />
+                    <img src="@Url.Content("~/images/" + item.Image)" alt="@item.Name" style="width: 100px; height: 100px;" />
                 </td>
                 <td>@Html.DisplayFor(modelItem => item.Price)</td>
                 <td>@Html.DisplayFor(modelItem => item.Rating)</td>
                 <td>@Html.DisplayFor(modelItem => item.Duration)</td>
                 <td>
-                    <a asp-action="TourDetails" asp-route-id="@item.TourId">Details</a> |
-                    <a asp-action="EditTour" asp-route-id="@item.TourId">Edit</a> |
-                    <a asp-action="DeleteTour" asp-route-id="@item.TourId">Delete</a>
+                    <form method="get" asp-action="TourDetails" asp-route-id="@item.TourId" style="display:inline;">
+                        <button type="submit" class="btn btn-info">Details</button>
+                    </form>
+                    <form method="get" asp-action="EditTour" asp-route-id="@item.TourId" style="display:inline;">
+                        <button type="submit" class="btn btn-warning">Edit</button>
+                    </form>
+                    <form method="post" asp-action="DeleteTour" asp-route-id="@item.TourId" style="display:inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this tour?');">Delete</button>
+                    </form>
                 </td>
             </tr>
         }

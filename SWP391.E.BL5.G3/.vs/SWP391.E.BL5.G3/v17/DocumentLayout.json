@@ -1,36 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\tours\\listtour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\tours\\listtour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\controllers\\tourscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\controllers\\tourscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\tours\\deletetour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\tours\\deletetour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\tours\\edittour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\tours\\edittour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\tours\\tourdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\tours\\tourdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\tours\\createtour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\tours\\createtour.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\models\\tour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\models\\tour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -38,99 +9,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DeleteTour.cshtml",
-              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\DeleteTour.cshtml",
-              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Tours\\DeleteTour.cshtml",
-              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\DeleteTour.cshtml",
-              "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Tours\\DeleteTour.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACcAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-08T15:35:50.97Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "EditTour.cshtml",
-              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\EditTour.cshtml",
-              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Tours\\EditTour.cshtml",
-              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\EditTour.cshtml",
-              "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Tours\\EditTour.cshtml",
-              "ViewState": "AQIAACwAAAAAAAAAAAAQwGUAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-08T15:35:12.078Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TourDetails.cshtml",
-              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\TourDetails.cshtml",
-              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Tours\\TourDetails.cshtml",
-              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\TourDetails.cshtml",
-              "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Tours\\TourDetails.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAkAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-08T15:32:56.996Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ListTour.cshtml",
-              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\ListTour.cshtml",
-              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Tours\\ListTour.cshtml",
-              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\ListTour.cshtml",
-              "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Tours\\ListTour.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAA/AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-08T15:32:52.705Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CreateTour.cshtml",
-              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\CreateTour.cshtml",
-              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Tours\\CreateTour.cshtml",
-              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\CreateTour.cshtml",
-              "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Tours\\CreateTour.cshtml",
-              "ViewState": "AQIAABAAAAAAAAAAAAAcwD4AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-08T15:32:45.57Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Tour.cs",
-              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Models\\Tour.cs",
-              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Models\\Tour.cs",
-              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Models\\Tour.cs",
-              "RelativeToolTip": "SWP391.E.BL5.G3\\Models\\Tour.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAkwCcAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-08T15:32:31.906Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ToursController.cs",
-              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\ToursController.cs",
-              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\ToursController.cs",
-              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\ToursController.cs",
-              "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\ToursController.cs",
-              "ViewState": "AQIAAI0AAAAAAAAAAAAUwKwAAAAuAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-08T15:32:12.057Z",
-              "EditorCaption": ""
             }
           ]
         }
