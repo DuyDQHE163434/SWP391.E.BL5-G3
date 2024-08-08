@@ -39,7 +39,11 @@
                 <td>@Html.DisplayFor(modelItem => item.Price)</td>
                 <td>@Html.DisplayFor(modelItem => item.Rating)</td>
                 <td>@Html.DisplayFor(modelItem => item.Duration)</td>
-                <td><a asp-action="TourDetails" asp-route-id="@item.TourId">Details</a></td>
+                <td>
+                    <a asp-action="TourDetails" asp-route-id="@item.TourId">Details</a> |
+                    <a asp-action="EditTour" asp-route-id="@item.TourId">Edit</a> |
+                    <a asp-action="DeleteTour" asp-route-id="@item.TourId">Delete</a>
+                </td>
             </tr>
         }
     </tbody>
