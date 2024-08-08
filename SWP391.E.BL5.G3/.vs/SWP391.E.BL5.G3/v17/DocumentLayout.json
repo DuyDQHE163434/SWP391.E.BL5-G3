@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\tours\\tourdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\tours\\tourdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -34,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,7 +50,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\appsettings.json",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\appsettings.json",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\appsettings.json",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-08-08T03:44:10.678Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\_ViewImports.cshtml",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\_ViewImports.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-08T03:44:07.836Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "ToursController.cs",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\ToursController.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\ToursController.cs",
@@ -50,12 +83,11 @@
               "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\ToursController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAABIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-07T19:04:31.995Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-07T19:04:31.995Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "TourDetails.cshtml",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\TourDetails.cshtml",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Tours\\TourDetails.cshtml",
@@ -63,12 +95,11 @@
               "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Tours\\TourDetails.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-07T19:04:27.123Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-07T19:04:27.123Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "ListTour.cshtml",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\ListTour.cshtml",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Tours\\ListTour.cshtml",
@@ -76,12 +107,11 @@
               "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Tours\\ListTour.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAB8AAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-07T19:04:12.442Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-07T19:04:12.442Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\HomeController.cs",
@@ -89,12 +119,11 @@
               "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\HomeController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-07T19:04:08.119Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-07T19:04:08.119Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Register.cshtml",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
@@ -102,12 +131,11 @@
               "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
               "ViewState": "AQIAAA8AAAAAAAAAAAAqwGYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-07T15:56:41.381Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-07T15:56:41.381Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "LoginController.cs",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
@@ -115,8 +143,7 @@
               "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
               "ViewState": "AQIAAA0AAAAAAAAAAAAQwBwAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-07T15:55:05.298Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-07T15:55:05.298Z"
             }
           ]
         }
