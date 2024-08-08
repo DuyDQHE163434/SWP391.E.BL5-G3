@@ -13,8 +13,7 @@
 @using (Html.BeginForm("Index", "Restaurants", FormMethod.Get))
 {
     <p>
-        Search for restaurant name: @Html.TextBox("searchString",
-    ViewBag.currentSearchString as string)
+        @Html.TextBox("searchString", ViewBag.currentSearchString as string)
         <input type="submit" value="Search" />
     </p>
 }
@@ -22,6 +21,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>
                 Restaurant Name
             </th>
@@ -29,9 +29,8 @@
                 Location
             </th>
             <th>
-                Description
+                Action
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -39,13 +38,16 @@
         {
             <tr>
                 <td>
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.RestaurantName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Location)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    <a asp-action="" asp-route-id="@item.RestaurantId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.RestaurantId">Details</a>
                 </td>
             </tr>
         }
