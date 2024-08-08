@@ -13,7 +13,8 @@ namespace SWP391.E.BL5.G3.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string searchString, string currentSearchString, int? page)
+        // view list of restaurants
+        public IActionResult Index(string currentSearchString, string searchString, int? page)
         {
             var restaurants = new List<Restaurant>();
 
@@ -43,9 +44,27 @@ namespace SWP391.E.BL5.G3.Controllers
 
             pageNumber = pageNumber < 1 ? 1 : pageNumber;
 
-            restaurants = restaurants.OrderByDescending(item => item.RestaurantName).ToList();
+            restaurants = restaurants.OrderBy(item => item.RestaurantName).ToList();
 
             return View(restaurants.ToPagedList(pageNumber, pageSize));
+        }
+
+        // view details of a restaurant
+        public IActionResult Details(int? id)
+        {
+            if (id == null || _context.Restaurants == null)
+            {
+                return NotFound();
+            }
+
+            var restaurant = _context.Restaurants.FirstOrDefault(item => item.RestaurantId == id);
+
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+
+            return View(restaurant);
         }
 
     }
