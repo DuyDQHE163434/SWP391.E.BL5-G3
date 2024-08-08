@@ -1,0 +1,47 @@
+﻿@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@model X.PagedList.IPagedList<SWP391.E.BL5.G3.Models.Hotel>
+@using X.PagedList.Mvc.Core
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>List of Hotel:</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Hotel Name
+            </th>
+            <th>
+                Location
+            </th>
+            <th>
+                Description
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HotelName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", "Hotel", new { page = page }))
+</div>
