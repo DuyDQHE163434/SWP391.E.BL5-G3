@@ -14,7 +14,7 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         // view list of restaurants
-        public IActionResult Index(string currentSearchString, string searchString, int? page)
+        public IActionResult ListRestaurants(string currentSearchString, string searchString, int? page)
         {
             var restaurants = new List<Restaurant>();
 
@@ -50,7 +50,7 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         // view details of a restaurant
-        public IActionResult Details(int? id)
+        public IActionResult RestaurantDetails(int? id)
         {
             if (id == null || _context.Restaurants == null)
             {
@@ -64,6 +64,23 @@ namespace SWP391.E.BL5.G3.Controllers
                 return NotFound();
             }
 
+            return View(restaurant);
+        }
+
+        public IActionResult AddRestaurant()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddRestaurant(Restaurant restaurant)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(restaurant);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(ListRestaurants));
+            }
             return View(restaurant);
         }
 
