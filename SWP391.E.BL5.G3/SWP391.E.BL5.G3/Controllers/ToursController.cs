@@ -54,7 +54,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price,Rating,Duration,AirPlane,Status,Itinerary,Inclusions,Exclusions,GroupSize,Guide")] Tour tour, IFormFile imageFile) 
+        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price")] Tour tour, IFormFile imageFile)
         {
             if (ModelState.IsValid)
             {
@@ -68,6 +68,7 @@ namespace SWP391.E.BL5.G3.Controllers
                     tour.Image = imageFile.FileName;
                 }
 
+                tour.CreateDate = DateTime.Now; // Nếu muốn thiết lập ngày tạo
                 _context.Add(tour);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(ListTour));
