@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using SWP391.E.BL5.G3.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
@@ -54,21 +55,26 @@ namespace SWP391.E.BL5.G3.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price")] Tour tour, IFormFile imageFile)
+        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price")] Tour tour, IFormFile image)
         {
             if (ModelState.IsValid)
             {
-                if (imageFile != null)
+                if (image != null && image.Length > 0)
                 {
-                    var filePath = Path.Combine("wwwroot/images", imageFile.FileName);
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    Directory.CreateDirectory(uploadsFolder); 
+
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                        await imageFile.CopyToAsync(stream);
+                        await image.CopyToAsync(stream);
                     }
-                    tour.Image = imageFile.FileName;
+                    tour.Image = uniqueFileName;
                 }
 
-                tour.CreateDate = DateTime.Now; // Nếu muốn thiết lập ngày tạo
+                tour.CreateDate = DateTime.Now;
                 _context.Add(tour);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(ListTour));
