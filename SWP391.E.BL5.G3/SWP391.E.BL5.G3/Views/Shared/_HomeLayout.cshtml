@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="~/SWP391.E.BL5.G3.styles.css" asp-append-version="true" />
 </head>
 <body>
+    <div class="position-absolute" style="top: 0px; left: 0px; width: 100%; height: 50vh; z-index:-1"></div>
     <header>
+
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SWP391.E.BL5.G3</a>
@@ -28,31 +30,30 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark btn btn-info mx-2" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
                         </li>
-                        <li class="nav-item"> 
+                        <li class="nav-item">
                             <a class="nav-link text-dark btn btn-info mx-2" asp-area="" asp-controller="Restaurants" asp-action="Index">Restaurants</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark btn btn-info mx-2" asp-area="" asp-controller="Tours" asp-action="ListTour">Tours</a>
-
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Restaurants" asp-action="ListRestaurants">Restaurants</a>
-
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
+    <main class="">
         <div class="container">
-            &copy; 2024 - SWP391.E.BL5.G3 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2024 - SWP391.E.BL5.G3 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+    </main>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
