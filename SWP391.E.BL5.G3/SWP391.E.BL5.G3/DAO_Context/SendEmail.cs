@@ -43,5 +43,40 @@ namespace SWP391.E.BL5.G3.DAO_Context
                 return false; // Email sending failed
             }
         }
+        public static bool theSendEmailForGotPassWord(string fromEmail, string toEmail, string subject, string body, string smtpServer, int smtpPort, string smtpUsername, string smtpPassword, string email)
+        {
+            DAO dal = new DAO();
+            try
+            {
+                SmtpClient smtpClient = new SmtpClient(smtpServer);
+                smtpClient.Port = smtpPort;
+                smtpClient.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
+                smtpClient.EnableSsl = true; // Enable SSL for secure communication with the SMTP server
+
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.From = new MailAddress(fromEmail);
+                mailMessage.To.Add(toEmail);
+                mailMessage.Subject = subject;
+                if (dal.IsEmailValid(email))
+                {
+                    mailMessage.Body = body;
+                    smtpClient.Send(mailMessage);
+                    return true; // Email sent successfully
+                }
+                else
+                {
+                    mailMessage.Body = "Tạo Tài Khoản Không Thành Công Vui Lòng Kiểm Tra Lại Các Thông Tin!!!";
+                }
+
+
+                smtpClient.Send(mailMessage);
+                return true; // Email sent successfully
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+                return false; // Email sending failed
+            }
+        }
     }
 }
