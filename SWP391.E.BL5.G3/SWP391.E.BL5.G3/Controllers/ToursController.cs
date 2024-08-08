@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using SWP391.E.BL5.G3.Models;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
@@ -27,6 +29,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View(await tours.ToListAsync());
         }
+
         public async Task<IActionResult> TourDetails(int? id)
         {
             if (id == null)
@@ -41,8 +44,35 @@ namespace SWP391.E.BL5.G3.Controllers
                 return NotFound();
             }
 
-            return View(tour); // View name should be "TourDetails"
+            return View(tour);
         }
 
+        public IActionResult CreateTour()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price,Rating,Duration,AirPlane,Status,Itinerary,Inclusions,Exclusions,GroupSize,Guide")] Tour tour, IFormFile imageFile) 
+        {
+            if (ModelState.IsValid)
+            {
+                if (imageFile != null)
+                {
+                    var filePath = Path.Combine("wwwroot/images", imageFile.FileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(stream);
+                    }
+                    tour.Image = imageFile.FileName;
+                }
+
+                _context.Add(tour);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(ListTour));
+            }
+            return View(tour);
+        }
     }
 }
