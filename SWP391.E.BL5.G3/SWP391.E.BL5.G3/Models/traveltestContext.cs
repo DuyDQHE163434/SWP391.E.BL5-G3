@@ -179,6 +179,8 @@ namespace SWP391.E.BL5.G3.Models
             {
                 entity.Property(e => e.Description).HasMaxLength(500);
 
+                entity.Property(e => e.Email).HasMaxLength(50);
+
                 entity.Property(e => e.FirstName).HasMaxLength(50);
 
                 entity.Property(e => e.Image).IsUnicode(false);

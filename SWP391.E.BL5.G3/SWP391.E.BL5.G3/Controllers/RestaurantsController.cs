@@ -42,11 +42,21 @@ namespace SWP391.E.BL5.G3.Controllers
             int pageSize = 5;
             int pageNumber = (page ?? 1);
 
+            var totalItems = _context.Restaurants.Count();
+            var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            
             pageNumber = pageNumber < 1 ? 1 : pageNumber;
 
-            restaurants = restaurants.OrderBy(item => item.RestaurantName).ToList();
+            restaurants = restaurants
+                .OrderBy(item => item.RestaurantName)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
 
-            return View(restaurants.ToPagedList(pageNumber, pageSize));
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+
+            return View(restaurants);
         }
 
         // view details of a restaurant
@@ -67,6 +77,7 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(restaurant);
         }
 
+        // add a new restaurant
         public IActionResult AddRestaurant()
         {
             return View();
@@ -84,5 +95,24 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(restaurant);
         }
 
+        // delete restaurant
+        [HttpPost]
+        public IActionResult DeleteRestaurant(int? id)
+        {
+            if (id == null || _context.Restaurants == null)
+            {
+                return NotFound();
+            }
+
+            var restaurant = _context.Restaurants.FirstOrDefault(item => item.RestaurantId == id);
+
+            if (restaurant != null)
+            {
+                _context.Restaurants.Remove(restaurant);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction(nameof(ListRestaurants));
+        }
     }
 }
