@@ -2,10 +2,7 @@
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System.Security.Principal;
 using SWP391.E.BL5.G3.Models;
-using System.IO;
-using Microsoft.EntityFrameworkCore;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
