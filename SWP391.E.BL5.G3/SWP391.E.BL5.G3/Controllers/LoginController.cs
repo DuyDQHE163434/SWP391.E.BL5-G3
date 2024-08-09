@@ -220,7 +220,7 @@ namespace SWP391.E.BL5.G3.Controllers
                     PhoneNumber = HttpContext.Request.Form["PhoneNumber"],
                     RoleId = 1,
                     Action = true,
-                    Gender = Convert.ToBoolean(HttpContext.Request.Form["Gender"])
+                    Gender = Convert.ToBoolean(Convert.ToInt32(HttpContext.Request.Form["Gender"]))
                 };
                 if (usercheck != null)
                 {
