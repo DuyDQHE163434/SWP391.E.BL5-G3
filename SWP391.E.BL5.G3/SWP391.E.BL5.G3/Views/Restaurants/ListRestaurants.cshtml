@@ -46,6 +46,10 @@
         @Html.TextBox("searchString", ViewBag.currentSearchString as string)
         <input type="submit" value="Search" />
     </p>
+    <p>
+        @Html.DropDownListFor("province")
+        <input type="submit" value="Submit" />
+    </p>
 }
 
 <table id="dataTable" class="table">

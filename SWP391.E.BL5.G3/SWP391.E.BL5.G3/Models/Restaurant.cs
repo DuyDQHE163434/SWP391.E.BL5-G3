@@ -13,7 +13,11 @@ namespace SWP391.E.BL5.G3.Models
 
         public int RestaurantId { get; set; }
         public string RestaurantName { get; set; } = null!;
+        public string? Image { get; set; }
+        public int Province { get; set; }
+        public string CuisineType { get; set; } = null!;
         public string Location { get; set; } = null!;
+        public string? ContactNumber { get; set; }
         public string? Description { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
@@ -21,4 +25,5 @@ namespace SWP391.E.BL5.G3.Models
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<Tour> Tours { get; set; }
     }
+
 }
