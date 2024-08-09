@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWP391.E.BL5.G3.Models;
-using Microsoft.Extensions.Options;
-using SWP391.E.BL5.G3.Models;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
