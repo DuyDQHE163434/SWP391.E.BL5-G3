@@ -1,0 +1,83 @@
+﻿@model List<TourGuide>
+
+@{
+    Layout = "/Views/Shared/Layouts/_AdminLayout.cshtml";
+    ViewData["Title"] = "Tour Guide Management";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                    <h6>Tour Guide Table</h6>
+                    <a href="@Url.Action("CreateTourGuide", "Admin")" class="btn btn-primary">Create Tour Guide</a>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    @if (Model == null || !Model.Any())
+                    {
+                        <p class="text-center py-4">No tour guides available.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Phone Number</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Rate</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
+                                        <th class="text-secondary opacity-7"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var guide in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img src="@guide.Image" class="avatar avatar-sm me-3" alt="@guide.FirstName @guide.LastName">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">@guide.FirstName @guide.LastName</h6>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs text-secondary mb-0">@guide.Email</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs text-secondary mb-0">@guide.PhoneNumber</p>
+                                            </td>
+                                            <td class="align-middle">
+                                                <span class="text-secondary text-xs font-weight-bold">
+                                                    @(guide.Rate.HasValue ? guide.Rate.ToString() : "N/A")
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs text-secondary mb-0">
+                                                    @(guide.Description)
+                                                </p>
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="@Url.Action("EditTourGuide", "Admin", new { id = guide.TourGuideId })" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit tour guide">
+                                                    Edit
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
