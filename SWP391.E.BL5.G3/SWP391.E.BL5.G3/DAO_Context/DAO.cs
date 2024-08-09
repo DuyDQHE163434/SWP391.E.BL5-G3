@@ -1,17 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
-
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
-using System.Reflection;
-using System.Security.Principal;
-using System.Text;
 using System.Text.RegularExpressions;
 using SWP391.E.BL5.G3.Models;
-
-
 
 namespace SWP391.E.BL5.G3.DAO_Context
 {
@@ -75,7 +65,7 @@ namespace SWP391.E.BL5.G3.DAO_Context
                 return false; // Email sending failed
             }
         }
-       
+
         public bool IsPhoneNumberValidVietnam(string phoneNumber)
         {
             // Define a regular expression pattern for Vietnamese phone numbers
@@ -113,9 +103,6 @@ namespace SWP391.E.BL5.G3.DAO_Context
             }
             return true;
         }
-
-
-
 
     }
 }
