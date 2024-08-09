@@ -15,12 +15,13 @@
                 <div class="card-body px-0 pt-0 pb-2">
                     <form id="editTourGuideForm" asp-action="EditTourGuide" method="post" enctype="multipart/form-data">
                         <input type="hidden" asp-for="TourGuideId" />
+                        <input type="hidden" asp-for="Image" /> 
 
                         <div class="text-center mb-4">
                             <div class="avatar avatar-xl rounded-circle">
-                                <img src="@Model.Image" class="img-fluid" alt="Tour Guide Image" />
+                                <img src="@Model.Image" class="img-fluid" alt="Tour Guide Image" id="tourGuideImage" style="cursor: pointer;" />
                             </div>
-                            <input type="file" class="form-control mt-2" id="imageFile" name="imageFile" />
+                            <input type="file" class="d-none" id="imageFile" name="imageFile" accept="image/*" onchange="previewImage(event)" />
                         </div>
 
                         <div class="row">
@@ -64,3 +65,18 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('tourGuideImage').addEventListener('click', function () {
+        document.getElementById('imageFile').click();
+    });
+
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            const output = document.getElementById('tourGuideImage');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
