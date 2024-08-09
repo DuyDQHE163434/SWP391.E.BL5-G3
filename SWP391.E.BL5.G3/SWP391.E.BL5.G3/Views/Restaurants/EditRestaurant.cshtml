@@ -1,15 +1,16 @@
-﻿@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
-@model SWP391.E.BL5.G3.Models.Restaurant
+﻿@model SWP391.E.BL5.G3.Models.Restaurant
 
 @{
-    ViewData["Title"] = "Add new Restaurant";
+    ViewData["Title"] = Model.RestaurantName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddRestaurant">
+        <form asp-action="EditRestaurant">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RestaurantId" />
             <div class="form-group">
                 <label asp-for="RestaurantName" class="control-label">Restaurant name:</label>
                 <input asp-for="RestaurantName" class="form-control" />
@@ -22,11 +23,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label">Description:</label>
-                <textarea asp-for="Description" rows="4" cols="50"></textarea>
+                <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="CreatedAt" />
             <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-primary" />
+                <input type="submit" value="Update" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -35,3 +37,4 @@
 <div>
     <a asp-action="ListRestaurants">Back to List</a>
 </div>
+

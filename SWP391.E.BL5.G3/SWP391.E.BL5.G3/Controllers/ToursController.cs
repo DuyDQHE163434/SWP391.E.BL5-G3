@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
 using SWP391.E.BL5.G3.Models;
-using Microsoft.AspNetCore.Http;
-using System.IO;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
@@ -65,7 +60,7 @@ namespace SWP391.E.BL5.G3.Controllers
                     var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
                     var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                    Directory.CreateDirectory(uploadsFolder); 
+                    Directory.CreateDirectory(uploadsFolder);
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
