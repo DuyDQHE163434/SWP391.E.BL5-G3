@@ -4,53 +4,55 @@
     ViewData["Title"] = "Booking Management - List of Tours";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
 
-<form method="get" asp-controller="Tours" asp-action="ListTour">
-    <p>
-        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" />
-        <input type="submit" value="Search" />
-    </p>
-</form>
+    <div class="row mb-3">
+        <div class="col-md-8 offset-md-2">
+            <form method="get" asp-controller="Tours" asp-action="ListTour" class="input-group">
+                <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search tours..." />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-<p>
-    <a asp-action="CreateTour" class="btn btn-primary">Create Tour</a>
-</p>
+    <div class="mb-3 text-right">
+        <a asp-action="CreateTour" class="btn btn-primary">Create Tour</a>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Name)</th>
-            <th>@Html.DisplayNameFor(model => model.Image)</th>
-            <th>@Html.DisplayNameFor(model => model.Price)</th>
-            <th>@Html.DisplayNameFor(model => model.Rating)</th>
-            <th>@Html.DisplayNameFor(model => model.Duration)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <table class="table table-striped table-bordered table-hover">
+        <thead class="thead-dark">
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td>
-                    <img src="@Url.Content("~/images/" + item.Image)" alt="@item.Name" style="width: 100px; height: 100px;" />
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                <td>@Html.DisplayFor(modelItem => item.Rating)</td>
-                <td>@Html.DisplayFor(modelItem => item.Duration)</td>
-                <td>
-                    <form method="get" asp-action="TourDetails" asp-route-id="@item.TourId" style="display:inline;">
-                        <button type="submit" class="btn btn-info">Details</button>
-                    </form>
-                    <form method="get" asp-action="EditTour" asp-route-id="@item.TourId" style="display:inline;">
-                        <button type="submit" class="btn btn-warning">Edit</button>
-                    </form>
-                    <form method="post" asp-action="DeleteTour" asp-route-id="@item.TourId" style="display:inline;">
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this tour?');">Delete</button>
-                    </form>
-                </td>
+                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Image)</th>
+                <th>@Html.DisplayNameFor(model => model.Price)</th>
+                <th>@Html.DisplayNameFor(model => model.Rating)</th>
+                <th>@Html.DisplayNameFor(model => model.Duration)</th>
+                <th class="text-center">Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td class="text-center">
+                        <img src="@Url.Content("~/images/" + item.Image)" alt="@item.Name" class="img-thumbnail" style="width: 100px; height: 100px;" />
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Duration)</td>
+                    <td class="text-center">
+                        <a asp-action="TourDetails" asp-route-id="@item.TourId" class="btn btn-info btn-sm">Details</a>
+                        <a asp-action="EditTour" asp-route-id="@item.TourId" class="btn btn-warning btn-sm">Edit</a>
+                        <form method="post" asp-action="DeleteTour" asp-route-id="@item.TourId" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this tour?');">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
