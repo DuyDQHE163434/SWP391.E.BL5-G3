@@ -11,7 +11,7 @@ builder.Services.AddSession(options => {
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<traveltestContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("MyDatabase")));
-builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+//builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
