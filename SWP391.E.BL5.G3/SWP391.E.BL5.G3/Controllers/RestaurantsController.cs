@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SWP391.E.BL5.G3.Models;
 using X.PagedList;
 
@@ -88,10 +89,64 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             if (ModelState.IsValid)
             {
+                restaurant.CreatedAt = DateTime.Now;
+                restaurant.UpdatedAt = restaurant.CreatedAt;
                 _context.Add(restaurant);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(ListRestaurants));
             }
+            return View(restaurant);
+        }
+
+        // edit restaurant
+        public IActionResult EditRestaurant(int? id)
+        {
+            if (id == null || _context.Restaurants == null)
+            {
+                return NotFound();
+            }
+
+            var restaurant = _context.Restaurants.Find(id);
+
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+
+            return View(restaurant);
+        }
+
+        [HttpPost]
+        public IActionResult EditRestaurant(int id, Restaurant restaurant)
+        {
+            if (id != restaurant.RestaurantId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    restaurant.CreatedAt = restaurant.CreatedAt;
+                    restaurant.UpdatedAt = DateTime.Now;
+                    _context.Update(restaurant);
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CheckRestaurantExisted(restaurant.RestaurantId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(ListRestaurants));
+            }
+
             return View(restaurant);
         }
 
@@ -114,5 +169,11 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return RedirectToAction(nameof(ListRestaurants));
         }
+
+        public bool CheckRestaurantExisted(int id)
+        {
+            return (_context.Restaurants?.Any(item => item.RestaurantId == id)).GetValueOrDefault();
+        }
+
     }
 }
