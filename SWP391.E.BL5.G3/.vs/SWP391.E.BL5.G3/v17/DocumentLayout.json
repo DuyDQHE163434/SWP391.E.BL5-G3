@@ -3,38 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\",
   "Documents": [
     {
-<<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-=======
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\login\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\login\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
->>>>>>> main
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\models\\traveltestcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\models\\traveltestcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-<<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\login\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\login\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-=======
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\models\\traveltestcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\models\\traveltestcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\dao_context\\dao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\dao_context\\dao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\dao_context\\sendemail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\dao_context\\sendemail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
->>>>>>> main
     },
     {
       "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\users\\admin\\source\\repos\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -52,11 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-<<<<<<< HEAD
-          "SelectedChildIndex": 3,
-=======
-          "SelectedChildIndex": 4,
->>>>>>> main
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -64,151 +46,90 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-<<<<<<< HEAD
-=======
+              "DocumentIndex": 1,
               "Title": "traveltestContext.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Models\\traveltestContext.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Models\\traveltestContext.cs",
               "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Models\\traveltestContext.cs",
               "RelativeToolTip": "SWP391.E.BL5.G3\\Models\\traveltestContext.cs",
-              "ViewState": "AQIAABoAAAAAAAAAAAAUwAAAAAAAAAAA",
+              "ViewState": "AQIAAMkAAAAAAAAAAAAiwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T11:34:05.982Z",
+              "WhenOpened": "2024-08-09T11:54:29.779Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SendEmail.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\DAO_Context\\SendEmail.cs",
-              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\DAO_Context\\SendEmail.cs",
-              "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\DAO_Context\\SendEmail.cs",
-              "RelativeToolTip": "SWP391.E.BL5.G3\\DAO_Context\\SendEmail.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAAQwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T08:22:16.107Z"
+              "DocumentIndex": 2,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\appsettings.Development.json",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\appsettings.Development.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-08-09T11:54:22.033Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "DAO.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\DAO_Context\\DAO.cs",
-              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\DAO_Context\\DAO.cs",
-              "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\DAO_Context\\DAO.cs",
-              "RelativeToolTip": "SWP391.E.BL5.G3\\DAO_Context\\DAO.cs",
-              "ViewState": "AQIAAE4AAAAAAAAAAAAYwHgAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T08:08:45.138Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
->>>>>>> main
               "Title": "Register.cshtml",
               "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
               "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
               "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Login\\Register.cshtml",
-<<<<<<< HEAD
               "ViewState": "AQIAAFIAAAAAAAAAAAAUwGYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-08-09T06:26:36.95Z"
-=======
-              "ViewState": "AQIAADsAAAAAAAAAAAAiwEQAAAA0AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-09T07:55:17.088Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\appsettings.json",
-              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\appsettings.json",
-              "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\appsettings.json",
-              "RelativeToolTip": "SWP391.E.BL5.G3\\appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAABNAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-08-09T07:51:42.705Z",
-              "EditorCaption": ""
->>>>>>> main
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "LoginController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
               "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
               "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
-<<<<<<< HEAD
               "ViewState": "AQIAAM4AAAAAAAAAAAAUwN4AAABSAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T06:04:23.332Z",
-=======
-              "ViewState": "AQIAAMcAAAAAAAAAAADwv9UAAAAmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T07:49:02.462Z",
->>>>>>> main
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-09T06:04:23.332Z"
             },
             {
               "$type": "Document",
-<<<<<<< HEAD
               "DocumentIndex": 0,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\appsettings.json",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\appsettings.json",
               "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\appsettings.json",
               "RelativeToolTip": "SWP391.E.BL5.G3\\appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAABmAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2024-08-09T06:01:58.01Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-=======
-              "DocumentIndex": 7,
->>>>>>> main
+              "DocumentIndex": 6,
               "Title": "Login.cshtml",
               "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Login\\Login.cshtml",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Login\\Login.cshtml",
               "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Login\\Login.cshtml",
               "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Login\\Login.cshtml",
-<<<<<<< HEAD
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-08-09T05:06:04.009Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-=======
-              "ViewState": "AQIAACEAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-09T08:22:09.579Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
->>>>>>> main
+              "DocumentIndex": 5,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Program.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Program.cs",
               "ToolTip": "C:\\Users\\Admin\\source\\repos\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Program.cs",
               "RelativeToolTip": "SWP391.E.BL5.G3\\Program.cs",
-<<<<<<< HEAD
               "ViewState": "AQIAABgAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-08T19:07:34.048Z"
-=======
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABIAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T07:51:41.294Z"
->>>>>>> main
             }
           ]
         }
