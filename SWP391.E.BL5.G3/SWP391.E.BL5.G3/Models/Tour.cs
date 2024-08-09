@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace SWP391.E.BL5.G3.Models
@@ -29,7 +30,6 @@ namespace SWP391.E.BL5.G3.Models
         public string? Exclusions { get; set; }
         public int? GroupSize { get; set; }
         public string? Guide { get; set; }
-
         public virtual Hotel? Hotel { get; set; }
         public virtual Restaurant? Restaurant { get; set; }
         public virtual TourGuide? Staff { get; set; }
