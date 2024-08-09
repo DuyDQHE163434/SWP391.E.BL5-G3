@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\login\\checkemailregister.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\login\\checkemailregister.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -41,14 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|c:\\fu learning\\summer2024\\swp391\\swp391.e.bl5-g3\\swp391.e.bl5.g3\\swp391.e.bl5.g3\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94DBDF2D-DAAC-40EC-A39D-E6E47EBB6538}|SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj|solutionrelative:swp391.e.bl5.g3\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,7 +62,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 13,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,7 +70,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "CheckEmailRegister.cshtml",
+              "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Login\\CheckEmailRegister.cshtml",
+              "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Login\\CheckEmailRegister.cshtml",
+              "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Login\\CheckEmailRegister.cshtml",
+              "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Login\\CheckEmailRegister.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-09T06:48:15.129Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "CreateTour.cshtml",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\CreateTour.cshtml",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Tours\\CreateTour.cshtml",
@@ -74,12 +91,11 @@
               "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Tours\\CreateTour.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-09T06:30:00.511Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-09T06:30:00.511Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Shared\\_Layout.cshtml",
@@ -92,7 +108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "_ValidationScriptsPartial.cshtml",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
@@ -100,12 +116,11 @@
               "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-09T06:29:46.087Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-09T06:29:46.087Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "_HomeLayout.cshtml",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Shared\\_HomeLayout.cshtml",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Shared\\_HomeLayout.cshtml",
@@ -113,12 +128,11 @@
               "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Shared\\_HomeLayout.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAABPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-09T06:29:42.759Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-09T06:29:42.759Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "ListTour.cshtml",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Views\\Tours\\ListTour.cshtml",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Views\\Tours\\ListTour.cshtml",
@@ -126,12 +140,11 @@
               "RelativeToolTip": "SWP391.E.BL5.G3\\Views\\Tours\\ListTour.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-09T06:25:40.271Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-09T06:25:40.271Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "ToursController.cs",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\ToursController.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\ToursController.cs",
@@ -143,7 +156,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\HomeController.cs",
@@ -155,7 +168,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "LoginController.cs",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
@@ -163,12 +176,11 @@
               "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\LoginController.cs",
               "ViewState": "AQIAAMkAAAAAAAAAAAAAAN4AAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T05:58:39.708Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-09T05:58:39.708Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "SendEmail.cs",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\DAO_Context\\SendEmail.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\DAO_Context\\SendEmail.cs",
@@ -180,7 +192,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\appsettings.json",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\appsettings.json",
@@ -192,27 +204,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Program.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Program.cs",
               "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Program.cs",
               "RelativeToolTip": "SWP391.E.BL5.G3\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAhAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T05:56:58.775Z"
+              "WhenOpened": "2024-08-09T05:56:58.775Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 0,
               "Title": "AdminController.cs",
               "DocumentMoniker": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "SWP391.E.BL5.G3\\Controllers\\AdminController.cs",
               "ToolTip": "C:\\FU Learning\\Summer2024\\SWP391\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\Controllers\\AdminController.cs",
               "RelativeToolTip": "SWP391.E.BL5.G3\\Controllers\\AdminController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAMQAAABSAAAA",
+              "ViewState": "AQIAAHwAAAAAAAAAAAAgwKUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T05:56:48.67Z"
+              "WhenOpened": "2024-08-09T05:56:48.67Z",
+              "EditorCaption": ""
             }
           ]
         }
