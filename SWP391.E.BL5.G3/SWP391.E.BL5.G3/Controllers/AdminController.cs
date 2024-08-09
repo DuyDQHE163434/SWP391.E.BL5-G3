@@ -4,6 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWP391.E.BL5.G3.Models;
+using Microsoft.Extensions.Options;
+using System.Security.Principal;
+using SWP391.E.BL5.G3.Models;
+using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
@@ -29,6 +34,13 @@ namespace SWP391.E.BL5.G3.Controllers
             return View();
         }
 
+        public IActionResult TourGuideManagement()
+        {
+            // Fetch the list of tour guides from the database
+            var tourGuides = traveltestContext.TourGuides.ToList();
+            return View(tourGuides);
+        }
+
         // GET: TourGuide/CreateTourGuide
         public IActionResult CreateTourGuide()
         {
@@ -47,7 +59,6 @@ namespace SWP391.E.BL5.G3.Controllers
                 tourGuide.PhoneNumber = tourGuide.PhoneNumber?.Trim();
                 tourGuide.Email = tourGuide.Email?.Trim();
                 tourGuide.Description = tourGuide.Description?.Trim();
-
                 if (imageFile != null && imageFile.Length > 0)
                 {
                     using (var stream = new MemoryStream())
@@ -65,6 +76,8 @@ namespace SWP391.E.BL5.G3.Controllers
                     }
                     traveltestContext.Add(tourGuide);
                     await traveltestContext.SaveChangesAsync();
+                        traveltestContext.Add(tourGuide);
+                        await traveltestContext.SaveChangesAsync();
                 }
             }
             return RedirectToAction(nameof(TourGuideManagement)); // Redirect to the index or list page
@@ -103,6 +116,10 @@ namespace SWP391.E.BL5.G3.Controllers
                 existingTourGuide.Email = tourGuide.Email.Trim();
                 existingTourGuide.Description = tourGuide.Description.Trim();
 
+        public async Task<IActionResult> EditTourGuide([Bind("Id,FirstName,LastName,PhoneNumber,Email,Description")] TourGuide tourGuide, IFormFile imageFile)
+        {
+            if (ModelState.IsValid)
+            {
                 if (imageFile != null && imageFile.Length > 0)
                 {
                     using (var stream = new MemoryStream())
@@ -153,7 +170,16 @@ namespace SWP391.E.BL5.G3.Controllers
             ViewData["SearchQuery"] = searchQuery;
             return View(tourGuides);
         }
+                        tourGuide.Image = uploadResult.SecureUrl.ToString();
+                    }
+                }
 
+                traveltestContext.Update(tourGuide);
+                await traveltestContext.SaveChangesAsync();
+                return RedirectToAction(nameof(TourGuideManagement));
+            }
+            return View(tourGuide);
+        }
     }
 
     public class CloudinarySettings
