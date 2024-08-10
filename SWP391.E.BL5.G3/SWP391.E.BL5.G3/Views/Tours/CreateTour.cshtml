@@ -4,55 +4,58 @@
     ViewData["Title"] = "Create Tour";
 }
 
-<h1>Create Tour</h1>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger">
-        <ul>
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-            {
-                <li>@error.ErrorMessage</li>
-            }
-        </ul>
-    </div>
-}
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
 
-<h4>Tour</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    <div class="card shadow-lg p-4">
         <form asp-action="CreateTour" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <label asp-for="Name" class="font-weight-bold">Tour Name</label>
+                <input asp-for="Name" class="form-control" placeholder="Enter tour name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input type="file" asp-for="Image" class="form-control" />
+                <label asp-for="Image" class="font-weight-bold">Tour Image</label>
+                <input type="file" asp-for="Image" class="form-control-file" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <label asp-for="Description" class="font-weight-bold">Description</label>
+                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Describe the tour"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input type="number" asp-for="Price" class="form-control" />
+                <label asp-for="Price" class="font-weight-bold">Price</label>
+                <input asp-for="Price" type="number" class="form-control" placeholder="Enter price" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <div class="form-group text-center">
+                <input type="submit" value="Create Tour" class="btn btn-primary btn-lg" />
             </div>
         </form>
     </div>
-</div>
 
-<div>
-    <a asp-action="ListTour">Back to List</a>
+    <div class="text-center mt-4">
+        <a asp-action="ListTour" class="btn btn-secondary btn-lg">Back to List</a>
+    </div>
 </div>
 
 @section Scripts {
