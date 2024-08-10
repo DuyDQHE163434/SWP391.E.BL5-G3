@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SWP391.E.BL5.G3.Models;
+using SWP391.E.BL5.G3.ViewModels;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
@@ -13,18 +14,29 @@ namespace SWP391.E.BL5.G3.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> ListTour(string searchString)
+        public async Task<IActionResult> ListTour(string searchString, int pageNumber = 1)
         {
-            var tours = from t in _context.Tours
-                        select t;
+            var toursQuery = _context.Tours.AsQueryable();
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                tours = tours.Where(s => s.Name.Contains(searchString));
+                toursQuery = toursQuery.Where(t => t.Name.Contains(searchString));
             }
 
-            return View(await tours.ToListAsync());
+            int pageSize = 2; // Số lượng tour trên mỗi trang
+            var tours = await toursQuery.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            var totalTours = await toursQuery.CountAsync();
+
+            var model = new TourListViewModel
+            {
+                Tours = tours,
+                PageNumber = pageNumber,
+                TotalPages = (int)Math.Ceiling(totalTours / (double)pageSize)
+            };
+
+            return View(model);
         }
+
 
         public async Task<IActionResult> TourDetails(int? id)
         {
