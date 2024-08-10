@@ -9,12 +9,12 @@ namespace SWP391.E.BL5.G3.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly traveltestContext traveltestContext;
+        private readonly traveltestContext _traveltestContext;
         private readonly Cloudinary _cloudinary;
 
         public AdminController(traveltestContext traveltestContext, IOptions<CloudinarySettings> cloudinarySettings)
         {
-            this.traveltestContext = traveltestContext;
+            _traveltestContext = traveltestContext;
             var cloudinarySettingsValue = cloudinarySettings.Value;
             var account = new Account(
                 cloudinarySettingsValue.CloudName,
@@ -63,19 +63,21 @@ namespace SWP391.E.BL5.G3.Controllers
                         var uploadResult = await _cloudinary.UploadAsync(uploadParams);
                         tourGuide.Image = uploadResult.SecureUrl.ToString();
                     }
-                    traveltestContext.Add(tourGuide);
-                    await traveltestContext.SaveChangesAsync();
-                        traveltestContext.Add(tourGuide);
-                        await traveltestContext.SaveChangesAsync();
+
+                    _traveltestContext.Add(tourGuide);
+                    await _traveltestContext.SaveChangesAsync();
                 }
+
+                return RedirectToAction(nameof(TourGuideManagement));
             }
-            return RedirectToAction(nameof(TourGuideManagement)); // Redirect to the index or list page
+
+            return View(tourGuide);
         }
 
         [HttpGet]
         public async Task<IActionResult> EditTourGuide(int id)
         {
-            var tourGuide = await traveltestContext.TourGuides.FindAsync(id);
+            var tourGuide = await _traveltestContext.TourGuides.FindAsync(id);
             if (tourGuide == null)
             {
                 return NotFound();
@@ -90,34 +92,13 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Retrieve the existing tour guide record from the database
-                var existingTourGuide = await traveltestContext.TourGuides.FindAsync(tourGuide.TourGuideId);
+                var existingTourGuide = await _traveltestContext.TourGuides.FindAsync(tourGuide.TourGuideId);
 
                 if (existingTourGuide == null)
                 {
-                    return NotFound(); // Handle the case where the record does not exist
+                    return NotFound();
                 }
 
-                // Update the existing record with new values
-                existingTourGuide.FirstName = tourGuide.FirstName.Trim();
-                existingTourGuide.LastName = tourGuide.LastName.Trim();
-                existingTourGuide.PhoneNumber = tourGuide.PhoneNumber.Trim();
-                existingTourGuide.Email = tourGuide.Email.Trim();
-                existingTourGuide.Description = tourGuide.Description.Trim();
-
-        public async Task<IActionResult> EditTourGuide([Bind("Id,FirstName,LastName,PhoneNumber,Email,Description")] TourGuide tourGuide, IFormFile imageFile)
-        {
-            if (ModelState.IsValid)
-            {
-                // Retrieve the existing tour guide record from the database
-                var existingTourGuide = await traveltestContext.TourGuides.FindAsync(tourGuide.TourGuideId);
-
-                if (existingTourGuide == null)
-                {
-                    return NotFound(); // Handle the case where the record does not exist
-                }
-
-                // Update the existing record with new values
                 existingTourGuide.FirstName = tourGuide.FirstName.Trim();
                 existingTourGuide.LastName = tourGuide.LastName.Trim();
                 existingTourGuide.PhoneNumber = tourGuide.PhoneNumber.Trim();
@@ -137,7 +118,7 @@ namespace SWP391.E.BL5.G3.Controllers
                         };
 
                         var uploadResult = await _cloudinary.UploadAsync(uploadParams);
-                        existingTourGuide.Image = uploadResult.SecureUrl.ToString(); // Update the image URL if a new image is uploaded
+                        existingTourGuide.Image = uploadResult.SecureUrl.ToString();
                     }
                 }
                 else
@@ -145,9 +126,8 @@ namespace SWP391.E.BL5.G3.Controllers
                     existingTourGuide.Image = tourGuide.Image;
                 }
 
-                // Save changes to the database
-                traveltestContext.Update(existingTourGuide);
-                await traveltestContext.SaveChangesAsync();
+                _traveltestContext.Update(existingTourGuide);
+                await _traveltestContext.SaveChangesAsync();
 
                 return RedirectToAction(nameof(TourGuideManagement));
             }
@@ -157,7 +137,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
         public async Task<IActionResult> TourGuideManagement(string searchQuery)
         {
-            var query = traveltestContext.TourGuides.AsQueryable();
+            var query = _traveltestContext.TourGuides.AsQueryable();
 
             if (!string.IsNullOrEmpty(searchQuery))
             {
@@ -174,44 +154,6 @@ namespace SWP391.E.BL5.G3.Controllers
             ViewData["SearchQuery"] = searchQuery;
             return View(tourGuides);
         }
-                        tourGuide.Image = uploadResult.SecureUrl.ToString();
-                    }
-                }
-                else
-                {
-                    existingTourGuide.Image = tourGuide.Image;
-                }
-
-                // Save changes to the database
-                traveltestContext.Update(existingTourGuide);
-                await traveltestContext.SaveChangesAsync();
-
-                return RedirectToAction(nameof(TourGuideManagement));
-            }
-
-            return View(tourGuide);
-        }
-
-        public async Task<IActionResult> TourGuideManagement(string searchQuery)
-        {
-            var query = traveltestContext.TourGuides.AsQueryable();
-
-            if (!string.IsNullOrEmpty(searchQuery))
-            {
-                query = query.Where(tg =>
-                    tg.Email.Contains(searchQuery) ||
-                    tg.FirstName.Contains(searchQuery) ||
-                    tg.LastName.Contains(searchQuery) ||
-                    (tg.FirstName + " " + tg.LastName).Contains(searchQuery) ||
-                    tg.PhoneNumber.Contains(searchQuery));
-            }
-
-            var tourGuides = await query.ToListAsync();
-
-            ViewData["SearchQuery"] = searchQuery;
-            return View(tourGuides);
-        }
-
     }
 
     public class CloudinarySettings
