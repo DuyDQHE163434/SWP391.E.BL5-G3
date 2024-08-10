@@ -4,94 +4,112 @@
     ViewData["Title"] = "Edit Tour";
 }
 
-<h1>Edit Tour</h1>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="EditTour" enctype="multipart/form-data">
-            <input type="hidden" asp-for="TourId" />
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <form asp-action="EditTour" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="TourId" />
 
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label font-weight-bold">Tour Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="Enter tour name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Image" class="control-label font-weight-bold">Tour Image</label>
+                        <div class="mb-3">
+                            @if (Model.Image != null)
+                            {
+                                <img src="@Url.Content("~/images/" + Model.Image)" alt="Current Image" class="img-thumbnail" style="width: 300px; height: 300px;" />
+                            }
+                            else
+                            {
+                                <p>No image uploaded.</p>
+                            }
+                        </div>
+                        <input type="file" asp-for="Image" class="form-control-file" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label font-weight-bold">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="4" placeholder="Describe the tour"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Price" class="control-label font-weight-bold">Price</label>
+                            <input asp-for="Price" class="form-control" placeholder="Enter price" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Duration" class="control-label font-weight-bold">Duration</label>
+                            <input asp-for="Duration" class="form-control" placeholder="Enter duration" />
+                            <span asp-validation-for="Duration" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="AirPlane" class="control-label font-weight-bold">Airplane</label>
+                            <input asp-for="AirPlane" class="form-control" placeholder="Enter airplane details" />
+                            <span asp-validation-for="AirPlane" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Rating" class="control-label font-weight-bold">Rating</label>
+                            <input asp-for="Rating" class="form-control" placeholder="Enter rating" />
+                            <span asp-validation-for="Rating" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Itinerary" class="control-label font-weight-bold">Itinerary</label>
+                        <textarea asp-for="Itinerary" class="form-control" rows="3" placeholder="Describe the itinerary"></textarea>
+                        <span asp-validation-for="Itinerary" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Inclusions" class="control-label font-weight-bold">Inclusions</label>
+                            <textarea asp-for="Inclusions" class="form-control" rows="2" placeholder="List inclusions"></textarea>
+                            <span asp-validation-for="Inclusions" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Exclusions" class="control-label font-weight-bold">Exclusions</label>
+                            <textarea asp-for="Exclusions" class="form-control" rows="2" placeholder="List exclusions"></textarea>
+                            <span asp-validation-for="Exclusions" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="GroupSize" class="control-label font-weight-bold">Group Size</label>
+                            <input asp-for="GroupSize" class="form-control" placeholder="Enter group size" />
+                            <span asp-validation-for="GroupSize" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Guide" class="control-label font-weight-bold">Guide</label>
+                            <input asp-for="Guide" class="form-control" placeholder="Enter guide name" />
+                            <span asp-validation-for="Guide" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group text-center">
+                        <input type="submit" value="Save Changes" class="btn btn-success btn-lg" />
+                    </div>
+                </form>
             </div>
-
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input type="file" asp-for="Image" class="form-control"  value=""/>
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Duration" class="control-label"></label>
-                <input asp-for="Duration" class="form-control" />
-                <span asp-validation-for="Duration" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="AirPlane" class="control-label"></label>
-                <input asp-for="AirPlane" class="form-control" />
-                <span asp-validation-for="AirPlane" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Rating" class="control-label"></label>
-                <input asp-for="Rating" class="form-control" />
-                <span asp-validation-for="Rating" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Itinerary" class="control-label"></label>
-                <textarea asp-for="Itinerary" class="form-control"></textarea>
-                <span asp-validation-for="Itinerary" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Inclusions" class="control-label"></label>
-                <textarea asp-for="Inclusions" class="form-control"></textarea>
-                <span asp-validation-for="Inclusions" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Exclusions" class="control-label"></label>
-                <textarea asp-for="Exclusions" class="form-control"></textarea>
-                <span asp-validation-for="Exclusions" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="GroupSize" class="control-label"></label>
-                <input asp-for="GroupSize" class="form-control" />
-                <span asp-validation-for="GroupSize" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Guide" class="control-label"></label>
-                <input asp-for="Guide" class="form-control" />
-                <span asp-validation-for="Guide" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="ListTour">Back to List</a>
+    <div class="text-center mt-4">
+        <a asp-action="ListTour" class="btn btn-secondary btn-lg">Back to List</a>
+    </div>
 </div>
 
 @section Scripts {
