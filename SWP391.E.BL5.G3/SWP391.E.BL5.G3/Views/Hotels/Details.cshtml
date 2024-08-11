@@ -1,0 +1,50 @@
+﻿@model SWP391.E.BL5.G3.Models.Hotel
+
+@{
+    ViewData["Title"] = "Hotel Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.HotelName</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Location</dt>
+        <dd class="col-sm-10">@Model.Location</dd>
+
+        <dt class="col-sm-2">Description</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+
+        <dt class="col-sm-2">Image</dt>
+        <dd class="col-sm-10">
+            <img src="@Model.Image" alt="Image" style="width: 300px; height: auto;" />
+        </dd>
+
+        <dt class="col-sm-2">Price</dt>
+        <dd class="col-sm-10">@Model.Price</dd>
+
+        <dt class="col-sm-2">Status</dt>
+        <dd class="col-sm-10">@(@Model.Status ? "Booked" : "Available")</dd>
+
+        <!-- Hiển thị BookingCount chỉ trên trang chi tiết -->
+        <dt class="col-sm-2">Booking Count</dt>
+        <dd class="col-sm-10">@Model.BookingCount</dd>
+    </dl>
+</div>
+
+@if (!Model.Status)
+{
+    <form asp-action="BookRoom" method="post">
+        <input type="hidden" name="id" value="@Model.HotelId" />
+        <button type="submit" class="btn btn-success">Book Now</button>
+    </form>
+}
+else
+{
+    <p class="text-danger">This room is already booked.</p>
+}
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.HotelId" class="btn btn-warning">Edit</a> |
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</p>
