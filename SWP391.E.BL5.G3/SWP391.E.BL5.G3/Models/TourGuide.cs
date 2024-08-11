@@ -14,10 +14,10 @@ namespace SWP391.E.BL5.G3.Models
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
-        public string Image { get; set; } = null!;
+        public string? Image { get; set; } = null!;
         public string Email { get; set; } = null!;
-        public int Rate { get; set; }
-        public string? Description { get; set; }
+        public double? Rate { get; set; }
+        public string Description { get; set; }
 
         public virtual ICollection<Tour> Tours { get; set; }
     }

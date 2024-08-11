@@ -105,11 +105,19 @@ namespace SWP391.E.BL5.G3.Models
 
             modelBuilder.Entity<Restaurant>(entity =>
             {
+                entity.Property(e => e.ContactNumber)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.CuisineType).HasMaxLength(20);
+
                 entity.Property(e => e.Description).HasMaxLength(500);
+
+                entity.Property(e => e.Image).IsUnicode(false);
 
                 entity.Property(e => e.Location).HasMaxLength(200);
 
@@ -178,6 +186,10 @@ namespace SWP391.E.BL5.G3.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.Property(e => e.Description).HasMaxLength(500);
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.FirstName).HasMaxLength(50);
 
