@@ -46,6 +46,10 @@
         @Html.TextBox("searchString", ViewBag.currentSearchString as string)
         <input type="submit" value="Search" />
     </p>
+    <p>
+        @* @Html.DropDownListFor("province") *@
+        <input type="submit" value="Submit" />
+    </p>
 }
 
 <table id="dataTable" class="table">
@@ -80,7 +84,7 @@
                     @Html.DisplayFor(modelItem => item.Location)
                 </td>
                 <td>
-                    <a asp-action="ListRestaurants" asp-route-id="@item.RestaurantId">Edit</a> |
+                    <a asp-action="EditRestaurant" asp-route-id="@item.RestaurantId">Edit</a> |
                     <a asp-action="RestaurantDetails" asp-route-id="@item.RestaurantId">Details</a> |
                     <a href="javascript:void(0);" onclick="showDeleteModal('@item.RestaurantId')">Delete</a>
                 </td>

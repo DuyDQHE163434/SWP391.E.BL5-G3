@@ -1,0 +1,23 @@
+﻿@model SWP391.E.BL5.G3.Models.Hotel
+
+@{
+    ViewData["Title"] = "Booking Success";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Booking Success</h1>
+
+<div>
+    <p>Your booking was successful!</p>
+    <p><strong>Hotel:</strong> @Model.HotelName</p>
+    <p><strong>Location:</strong> @Model.Location</p>
+    <p><strong>Description:</strong> @Model.Description</p>
+    <p>
+        <strong>Image:</strong><br />
+        <img src="@Model.Image" alt="Hotel Image" style="max-width: 400px; height: auto;" />
+    </p>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
