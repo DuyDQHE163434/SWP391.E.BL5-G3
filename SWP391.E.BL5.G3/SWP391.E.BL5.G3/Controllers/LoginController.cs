@@ -61,6 +61,10 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 ViewBag.mess1 = "Account registration successful !!!";
             }
+            else if( mess == 5)
+            {
+                ViewBag.mess1 = "Change Password successful !!!";
+            }
             else
             {
                 ViewBag.mess1 = "";
@@ -242,6 +246,115 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 return RedirectToAction("Register", "Login", new { mess = 1 });
             }
+        }
+        public IActionResult ForgotPassWord(int mess)
+        {
+            return View();
+        }
+
+
+        public IActionResult ForgotPassWordAccess()
+        {
+            traveltestContext context = new traveltestContext();
+            DAO dal = new DAO();
+            String Email = "";
+            Email = HttpContext.Request.Form["email"];
+
+
+            Random r = new Random();
+            string OTP = r.Next(100000, 999999).ToString();
+
+
+            //sendemail
+
+            string fromEmail = "duydqhe163434@fpt.edu.vn";
+            string toEmail = Email;
+            string subject = "Hello " + Email;
+
+            string body =
+                "Mã OTP Change Password của Bạn Là: " + OTP;
+            string smtpServer = "smtp.gmail.com";
+            int smtpPort = 587;
+            string smtpUsername = "duydqhe163434@fpt.edu.vn";
+            string smtpPassword = "htay mxgi flsx dxde";
+
+            bool result = SendEmail.theSendEmailForGotPassWord(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword, Email);
+
+            //Check Email
+            if (dal.IsEmailValid(Email) && result == true)
+            {
+
+                HttpContext.Session.SetString("Email", Email.ToString());
+                HttpContext.Session.SetString("OTP", OTP.ToString());
+
+
+                return RedirectToAction("ConfilmOTP", "Login", new { mess = 2 });
+            }
+            else
+            {
+                return RedirectToAction("Register", "Login", new { mess = 1 });
+            }
+
+        }
+
+        public IActionResult ConfilmOTP(string messcf, string mess)
+        {
+            String OTP = HttpContext.Session.GetString("OTP");
+            String Email = HttpContext.Session.GetString("Email");
+            ViewBag.messcf = messcf;
+            ViewBag.Email = Email;
+            ViewBag.OTP = OTP;
+            ViewBag.Mess = mess;
+            return View();
+        }
+        public IActionResult ConfilmOTPAccess(string email, string otp, string mess)
+        {
+            String OTP = "";
+            OTP = HttpContext.Request.Form["otpcf"];
+            ViewBag.OTP = otp;
+            if (OTP == otp)
+            {
+
+
+                return RedirectToAction("ChangePassWord", "Login", new { email = email });
+            }
+            else
+            {
+                return RedirectToAction("ConfilmOTP", "Login", new { messcf = 1 });
+            }
+        }
+        public IActionResult ChangePassWord(string email)
+        {
+            HttpContext.Session.SetString("Email", email);
+            ViewBag.Email = email;
+
+            return View();
+        }
+        public IActionResult ChangePassWordAccess()
+        {
+            traveltestContext context = new traveltestContext();
+            DAO dal = new DAO();
+            String Email = "";
+            Email = HttpContext.Request.Form["email"];
+            String Pass = "";
+            Pass = HttpContext.Request.Form["pass"];
+            String Cf_Pass = "";
+            Cf_Pass = HttpContext.Request.Form["Confirm-Password"];
+
+            User users = dal.getUser(HttpContext.Session.GetString("Email"));
+            if (Pass == Cf_Pass && dal.ChangePass(users, Pass))
+            {
+
+
+
+                return RedirectToAction("Login", "Login", new {mess = 5});
+            }
+            else
+            {
+                return RedirectToAction("ChangePassWord", "Login", new { email = Email });
+            }
+
+
         }
     }
 }
