@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SWP391.E.BL5.G3.Models;
 using SWP391.E.BL5.G3.ViewModels;
@@ -18,14 +19,14 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             if (pageNumber < 1) pageNumber = 1;
 
-            var toursQuery = _context.Tours.AsQueryable();
+            var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
 
             if (!string.IsNullOrEmpty(searchString))
             {
                 toursQuery = toursQuery.Where(t => t.Name.Contains(searchString));
             }
 
-            int pageSize = 2; // Số lượng tour trên mỗi trang
+            int pageSize = 5; // Số lượng tour trên mỗi trang
             var totalTours = await toursQuery.CountAsync(); // Tính tổng số tour
 
             var tours = await toursQuery
@@ -64,12 +65,16 @@ namespace SWP391.E.BL5.G3.Controllers
 
         public IActionResult CreateTour()
         {
+            // Lấy danh sách tỉnh từ cơ sở dữ liệu
+            var provinces = _context.Provinces.ToList(); // có thể sử dụng ToListAsync() cho async
+            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "ProvinceName");
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price")] Tour tour, IFormFile image)
+        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price,ProvinceId")] Tour tour, IFormFile image)
         {
             if (ModelState.IsValid)
             {
@@ -89,10 +94,18 @@ namespace SWP391.E.BL5.G3.Controllers
                 }
 
                 tour.CreateDate = DateTime.Now;
+
+                // Thêm tour vào cơ sở dữ liệu
                 _context.Add(tour);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(ListTour));
             }
+
+            // Nếu model không hợp lệ, sẽ lấy lại danh sách tỉnh
+            var provinces = _context.Provinces.ToList();
+            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "Name");
+
             return View(tour);
         }
 

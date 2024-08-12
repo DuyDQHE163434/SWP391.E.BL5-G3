@@ -12,4 +12,10 @@ namespace SWP391.E.BL5.G3.ViewModels
         public bool HasNextPage => PageNumber < TotalPages;
         public string CurrentFilter { get; set; } // Thêm để giữ giá trị tìm kiếm hiện tại
     }
+
+    public class TourExtended
+    {
+        public Tour Tour { get; set; }
+        public string ProvinceName { get; set; }
+    }
 }
