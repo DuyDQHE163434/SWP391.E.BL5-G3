@@ -54,7 +54,9 @@ namespace SWP391.E.BL5.G3.Controllers
             }
 
             var tour = await _context.Tours
+                .Include(t => t.Province) // Bao gồm thông tin tỉnh
                 .FirstOrDefaultAsync(m => m.TourId == id);
+
             if (tour == null)
             {
                 return NotFound();
@@ -122,12 +124,15 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 return NotFound();
             }
+
+            var provinces = await _context.Provinces.ToListAsync();
+            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "ProvinceName", tour.ProvinceId); // Giữ lại tỉnh đã chọn
+
             return View(tour);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTour(int id, [Bind("TourId,Name,Image,Description,Price,Duration,AirPlane,Rating,Itinerary,Inclusions,Exclusions,GroupSize,Guide")] Tour tour, IFormFile image)
+        public async Task<IActionResult> EditTour(int id, [Bind("TourId,Name,Image,Description,Price,Duration,AirPlane,Rating,Itinerary,Inclusions,Exclusions,GroupSize,Guide,ProvinceId")] Tour tour, IFormFile image)
         {
             if (id != tour.TourId)
             {
@@ -152,6 +157,12 @@ namespace SWP391.E.BL5.G3.Controllers
                         }
                         tour.Image = uniqueFileName;
                     }
+                    else
+                    {
+                        // Giữ lại tên file cũ nếu không upload ảnh mới
+                        var existingTour = await _context.Tours.AsNoTracking().FirstOrDefaultAsync(t => t.TourId == id);
+                        tour.Image = existingTour.Image;
+                    }
 
                     _context.Update(tour);
                     await _context.SaveChangesAsync();
@@ -169,8 +180,14 @@ namespace SWP391.E.BL5.G3.Controllers
                 }
                 return RedirectToAction(nameof(ListTour));
             }
+
+            // Nếu model không hợp lệ, lấy lại danh sách tỉnh
+            var provinces = await _context.Provinces.ToListAsync();
+            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "ProvinceName", tour.ProvinceId); // Giữ lại tỉnh đã chọn
+
             return View(tour);
         }
+
 
 
         // Delete Tour
