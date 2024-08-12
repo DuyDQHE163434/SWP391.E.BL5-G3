@@ -41,8 +41,13 @@ namespace SWP391.E.BL5.G3.Models
 
         public int BookingCount { get; set; }
 
+        public int? ProvinceId { get; set; }
+
+
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
+        public virtual Province Province { get; set; }
+
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<Tour> Tours { get; set; }
     }
