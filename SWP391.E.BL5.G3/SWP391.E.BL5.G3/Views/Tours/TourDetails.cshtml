@@ -41,6 +41,9 @@
 
                     <p class="card-text"><strong>Exclusions:</strong></p>
                     <p class="card-text text-muted">@Model.Exclusions</p>
+
+                    <p class="card-text"><strong>Province:</strong> @(Model.Province != null ? Model.Province.ProvinceName : "N/A")</p>
+
                 </div>
             </div>
         </div>
