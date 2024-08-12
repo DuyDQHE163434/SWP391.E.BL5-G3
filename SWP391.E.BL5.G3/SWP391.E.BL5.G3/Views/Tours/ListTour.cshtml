@@ -1,4 +1,4 @@
-﻿ @model SWP391.E.BL5.G3.ViewModels.TourListViewModel
+﻿@model SWP391.E.BL5.G3.ViewModels.TourListViewModel
 
 @{
     ViewData["Title"] = "Booking Management - List of Tours";
@@ -10,7 +10,7 @@
     <div class="row mb-3">
         <div class="col-md-8 offset-md-2">
             <form method="get" asp-controller="Tours" asp-action="ListTour" class="input-group">
-                <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search tours..." />
+                <input type="text" name="searchString" value="@Model.CurrentFilter" class="form-control" placeholder="Search tours..." />
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-outline-secondary">Search</button>
                 </div>
@@ -62,7 +62,7 @@
             @if (Model.HasPreviousPage)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-action="ListTour" asp-route-pageNumber="@(Model.PageNumber - 1)" aria-label="Previous">
+                    <a class="page-link" asp-action="ListTour" asp-route-pageNumber="@(Model.PageNumber - 1)" asp-route-searchString="@Model.CurrentFilter" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
@@ -79,14 +79,14 @@
             @for (int i = 1; i <= Model.TotalPages; i++)
             {
                 <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                    <a class="page-link" asp-action="ListTour" asp-route-pageNumber="@i">@i</a>
+                    <a class="page-link" asp-action="ListTour" asp-route-pageNumber="@i" asp-route-searchString="@Model.CurrentFilter">@i</a>
                 </li>
             }
 
             @if (Model.HasNextPage)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-action="ListTour" asp-route-pageNumber="@(Model.PageNumber + 1)" aria-label="Next">
+                    <a class="page-link" asp-action="ListTour" asp-route-pageNumber="@(Model.PageNumber + 1)" asp-route-searchString="@Model.CurrentFilter" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                     </a>
@@ -101,6 +101,4 @@
             }
         </ul>
     </nav>
-
-
 </div>
