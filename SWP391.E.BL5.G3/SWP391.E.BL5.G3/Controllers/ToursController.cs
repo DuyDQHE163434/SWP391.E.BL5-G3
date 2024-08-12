@@ -16,6 +16,8 @@ namespace SWP391.E.BL5.G3.Controllers
 
         public async Task<IActionResult> ListTour(string searchString, int pageNumber = 1)
         {
+            if (pageNumber < 1) pageNumber = 1;
+
             var toursQuery = _context.Tours.AsQueryable();
 
             if (!string.IsNullOrEmpty(searchString))
@@ -24,14 +26,19 @@ namespace SWP391.E.BL5.G3.Controllers
             }
 
             int pageSize = 2; // Số lượng tour trên mỗi trang
-            var tours = await toursQuery.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-            var totalTours = await toursQuery.CountAsync();
+            var totalTours = await toursQuery.CountAsync(); // Tính tổng số tour
+
+            var tours = await toursQuery
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(); // Lấy danh sách tour trên trang hiện tại
 
             var model = new TourListViewModel
             {
                 Tours = tours,
                 PageNumber = pageNumber,
-                TotalPages = (int)Math.Ceiling(totalTours / (double)pageSize)
+                TotalPages = (int)Math.Ceiling(totalTours / (double)pageSize),
+                CurrentFilter = searchString // Lưu giá trị tìm kiếm
             };
 
             return View(model);

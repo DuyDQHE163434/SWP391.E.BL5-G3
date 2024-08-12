@@ -19,7 +19,7 @@ namespace SWP391.E.BL5.G3.Models
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
 
-        public virtual Feedback Parent { get; set; }
+        public virtual Feedback? Parent { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<Feedback> InverseParent { get; set; }
     }
