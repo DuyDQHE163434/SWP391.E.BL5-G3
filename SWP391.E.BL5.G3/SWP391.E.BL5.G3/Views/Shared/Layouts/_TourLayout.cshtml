@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="~/assets/img/favicon.png">
+    <title>@ViewData["Title"]</title>
+
+    <!-- Fonts and icons -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link href="~/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link id="pagestyle" href="~/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+    <div id="loading" class="loading-overlay d-none">
+        <div class="spinner-border text-primary" role="status"></div>
+        <div class="text-primary mt-2">Loading...</div>
+    </div>
+
+    <!-- Navbar -->
+    @await Html.PartialAsync("Partials/Navbar")
+
+    <main class="main-content position-relative border-radius-lg">
+        <div class="container mt-4">
+            @RenderBody() <!-- Nội dung từ View sẽ được hiển thị ở đây -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    @await Html.PartialAsync("Partials/Footer")
+
+    <script src="~/assets/js/core/popper.min.js"></script>
+    <script src="~/assets/js/core/bootstrap.min.js"></script>
+    <script src="~/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="~/assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="~/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+</body>
+
+</html>
