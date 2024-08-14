@@ -13,7 +13,7 @@ namespace SWP391.E.BL5.G3.Authorization
 
         public User GetUserById(int id)
         {
-            var user = context.Users.Where(u => u.Equals(id)).FirstOrDefault();
+            var user = context.Users.Where(u => u.UserId.Equals(id)).FirstOrDefault();
             if (user == null) throw new KeyNotFoundException("User not found");
             return user;
         }
