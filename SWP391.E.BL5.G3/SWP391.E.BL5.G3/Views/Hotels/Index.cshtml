@@ -1,12 +1,10 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@model X.PagedList.IPagedList<SWP391.E.BL5.G3.Models.Hotel>
-@using X.PagedList.Mvc.Core
-@using Microsoft.AspNetCore.Mvc.Rendering
+﻿@model IEnumerable<SWP391.E.BL5.G3.Models.Hotel>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var currentFilter = ViewData["CurrentFilter"]?.ToString() ?? "None";
+    var currentSearch = ViewData["CurrentSearch"]?.ToString() ?? string.Empty;
 }
 
 <h1>List of Hotels</h1>
@@ -15,7 +13,7 @@
     <a asp-action="Create" class="btn btn-primary">Add New Hotel</a>
 </p>
 
-<!-- Hiển thị thông báo -->
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success">
@@ -29,24 +27,25 @@
     </div>
 }
 
-<style>
-    .filter-select {
-        width: 200px; /* Căn chỉnh kích thước cho phù hợp */
-    }
-</style>
 
-<form asp-controller="Hotels" asp-action="Index" method="get" class="form-inline mb-3">
-    <div class="form-group mr-2">
-        <label for="filter" class="sr-only">Filter</label>
-        @Html.DropDownList("filter", new SelectList(new[]
-                 {
-        new { Value = "None", Text = "None" },
-        new { Value = "HighestPrice", Text = "Highest Price" },
-        new { Value = "LowestPrice", Text = "Lowest Price" },
-        new { Value = "MostBooked", Text = "Most Booked" }
-        }, "Value", "Text", currentFilter), new { @class = "form-control filter-select", onchange = "this.form.submit()" })
-    </div>
-</form>
+<div class="filter-search-container">
+    <form asp-controller="Hotels" asp-action="Index" method="get">
+        <div class="form-group">
+            <input type="text" name="searchString" value="@currentSearch" placeholder="Search by hotel name..." class="form-control search-box" />
+        </div>
+        <div class="form-group">
+            <label for="filter" class="sr-only"></label>
+            @Html.DropDownList("filter", new SelectList(new[]
+                     {
+            new { Value = "None", Text = "None" },
+            new { Value = "HighestPrice", Text = "Highest Price" },
+            new { Value = "LowestPrice", Text = "Lowest Price" },
+            new { Value = "MostBooked", Text = "Most Booked" }
+            }, "Value", "Text", currentFilter), new { @class = "form-control filter-select", onchange = "this.form.submit()" })
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
 
 <table class="table table-striped table-bordered">
     <thead class="thead-dark">
@@ -66,39 +65,59 @@
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.HotelId)</td>
-                <td>@Html.DisplayFor(modelItem => item.HotelName)</td>
-                <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                <td>@(item.HotelName ?? "N/A")</td>
+                <td>@(item.Location ?? "N/A")</td>
                 <td>
                     @if (!string.IsNullOrEmpty(item.Description))
                     {
-                        <span>@TruncateDescription(item.Description, 50)</span> <!-- Hiển thị phần mô tả rút gọn -->
+                        <span>@item.Description</span>
+                    }
+                    else
+                    {
+                        <span>N/A</span>
                     }
                 </td>
-                <td><img src="@item.Image" alt="Image" style="width: 100px; height: auto;" /></td>
-                <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Image))
+                    {
+                        <img src="@item.Image" alt="Image" style="width: 100px; height: auto;" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
+                </td>
+                <td>@(item.Price.HasValue ? item.Price.Value.ToString("C") : "N/A")</td>
                 <td>@(item.Status ? "Active" : "Inactive")</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.HotelId" class="btn btn-sm btn-info">Details</a> |
-                    <a asp-action="Edit" asp-route-id="@item.HotelId" class="btn btn-sm btn-warning">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.HotelId" class="btn btn-sm btn-danger">Delete</a>
+                    <div class="btn-group">
+                        <a asp-action="Edit" asp-route-id="@item.HotelId" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.HotelId" class="btn btn-info btn-sm">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.HotelId" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<div>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, filter = currentFilter }))
+<div class="container">
+    <div class="verticals twelve">
+        <div class="pagination m-t-20">
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <a href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1, filter = currentFilter, searchString = currentSearch })">‹</a>
+            }
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <a href="@Url.Action("Index", new { page = i, filter = currentFilter, searchString = currentSearch })">@i</a>
+            }
+
+            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+            {
+                <a href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1, filter = currentFilter, searchString = currentSearch })">›</a>
+            }
+        </div>
+    </div>
 </div>
-
-@functions {
-    public static string TruncateDescription(string description, int maxLength)
-    {
-        if (description.Length <= maxLength)
-        {
-            return description;
-        }
-
-        return description.Substring(0, maxLength) + "...";
-    }
-}
