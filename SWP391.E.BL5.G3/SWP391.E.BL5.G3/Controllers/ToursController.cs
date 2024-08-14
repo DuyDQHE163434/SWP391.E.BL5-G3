@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SWP391.E.BL5.G3.Models;
@@ -221,6 +222,13 @@ namespace SWP391.E.BL5.G3.Controllers
         private bool TourExists(int id)
         {
             return _context.Tours.Any(e => e.TourId == id);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Index()
+        {
+            return View();
         }
     }
 }
