@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.DAO_Context;
 using SWP391.E.BL5.G3.Models;
 
@@ -6,8 +7,15 @@ namespace SWP391.E.BL5.G3.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly JwtUtils jwtUtils;
         traveltestContext context = new traveltestContext();
         DAO dal = new DAO();
+
+        public LoginController(JwtUtils jwtUtils)
+        {
+            this.jwtUtils = jwtUtils;
+        }
+
         public IActionResult LoginAccess()
         {
             String Username = HttpContext.Request.Form["username"];
@@ -34,6 +42,10 @@ namespace SWP391.E.BL5.G3.Controllers
                 {
                     HttpContext.Session.SetString("descr", "");
                 }
+
+                string token = jwtUtils.GenerateJwtToken(account);
+                Response.Cookies.Append("accessToken", token);
+
                 return RedirectToAction("index", "Home");
             }
             else
@@ -61,7 +73,7 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 ViewBag.mess1 = "Account registration successful !!!";
             }
-            else if( mess == 5)
+            else if (mess == 5)
             {
                 ViewBag.mess1 = "Change Password successful !!!";
             }
@@ -347,7 +359,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
 
 
-                return RedirectToAction("Login", "Login", new {mess = 5});
+                return RedirectToAction("Login", "Login", new { mess = 5 });
             }
             else
             {
