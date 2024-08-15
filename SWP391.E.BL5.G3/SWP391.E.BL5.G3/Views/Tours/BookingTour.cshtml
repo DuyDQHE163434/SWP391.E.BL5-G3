@@ -1,0 +1,60 @@
+﻿@model SWP391.E.BL5.G3.Models.Booking
+
+@{
+    ViewData["Title"] = "Đặt Tour";
+    Layout = "/Views/Shared/Layouts/_TourLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+
+    <form asp-action="BookingConfirm" method="post" class="needs-validation" novalidate>
+        <input type="hidden" asp-for="TourId" />
+
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Phone" class="control-label"></label>
+            <input asp-for="Phone" class="form-control" required />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="StartDate" class="control-label"></label>
+            <input asp-for="StartDate" class="form-control" type="date" required />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EndDate" class="control-label"></label>
+            <input asp-for="EndDate" class="form-control" type="date" required />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NumPeople" class="control-label"></label>
+            <input asp-for="NumPeople" class="form-control" type="number" min="1" required />
+            <span asp-validation-for="NumPeople" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Message" class="control-label"></label>
+            <textarea asp-for="Message" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Đặt Tour</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
