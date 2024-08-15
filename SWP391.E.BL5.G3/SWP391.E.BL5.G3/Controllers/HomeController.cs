@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 using SWP391.E.BL5.G3.Models;
 using System.Diagnostics;
 
@@ -15,12 +18,19 @@ namespace SWP391.E.BL5.G3.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
+            // Kiểm tra vai trò người dùng
+            if (User.Identity.IsAuthenticated)
+            {
+                var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
-        public IActionResult Privacy()
-        {
-            return View();
+                // Truyền vai trò tới view thông qua ViewData
+                ViewData["Role"] = role;
+
+                return View(); // Hiển thị view mặc định với thông tin vai trò
+            }
+
+            // Nếu không phải là người dùng đã xác thực
+            return View("GuestHome"); // Hiện thị GuestHome cho khách
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -33,7 +33,7 @@ namespace SWP391.E.BL5.G3.Controllers
             return View();
         }
 
-        [AllowAnonymous]
+        [Authorize(Enum.RoleEnum.Admin)]
         // GET: TourGuide/CreateTourGuide
         public IActionResult CreateTourGuide()
         {
@@ -42,7 +42,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
         // POST: TourGuide/CreateTourGuide
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Enum.RoleEnum.Admin)]
         public async Task<IActionResult> CreateTourGuide([Bind("FirstName,LastName,PhoneNumber,Email,Description")] TourGuide tourGuide, IFormFile imageFile)
         {
             if (ModelState.IsValid)
@@ -142,7 +142,7 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         [HttpGet]
-        [Authorize(Enum.RoleEnum.Admin)]    
+        [AllowAnonymous]
         public async Task<IActionResult> TourGuideManagement(string searchQuery)
         {
             var query = _traveltestContext.TourGuides.AsQueryable();

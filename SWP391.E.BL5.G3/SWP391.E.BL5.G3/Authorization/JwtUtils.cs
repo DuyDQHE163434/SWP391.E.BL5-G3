@@ -21,7 +21,7 @@ namespace SWP391.E.BL5.G3.Authorization
         {
             var claims = new Claim[]
             {
-                new Claim(ClaimTypes.Role, user.RoleId.ToString(),ClaimValueTypes.String, configuration["TokenBearer:Issuer"])
+                new Claim(ClaimTypes.Role, user.UserId.ToString(),ClaimValueTypes.String, configuration["TokenBearer:Issuer"])
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenBearer:SignatureKey"]));
             var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
