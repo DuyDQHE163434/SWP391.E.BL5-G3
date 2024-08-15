@@ -1,0 +1,50 @@
+﻿/* wwwroot/css/hotels.css */
+
+.filter-search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+    .filter-search-container form {
+        display: flex;
+        align-items: center;
+        gap: 10px; 
+    }
+
+    .filter-search-container input,
+    .filter-search-container select,
+    .filter-search-container button {
+        border-radius: 4px; 
+        padding: 8px 12px; 
+        border: 1px solid #ced4da; 
+        font-size: 14px;
+    }
+
+        .filter-search-container input:focus,
+        .filter-search-container select:focus,
+        .filter-search-container button:focus {
+            outline: none; 
+            box-shadow: 0 0 0 2px #80bdff; 
+        }
+
+    .filter-search-container button {
+        background-color: #007bff; 
+        color: white; 
+        border: none; 
+        cursor: pointer; 
+    }
+
+        .filter-search-container button:hover {
+            background-color: #0056b3; 
+        }
+
+.btn-group {
+    display: flex;
+    gap: 5px; 
+}
+
+    .btn-group .btn {
+        margin-right: 5px;
+    }
