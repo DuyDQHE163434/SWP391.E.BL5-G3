@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.Controllers;
+using SWP391.E.BL5.G3.Extensions;
 using SWP391.E.BL5.G3.Models;
 using System.Text;
 
@@ -13,7 +15,10 @@ builder.Services.AddSession(options => {
 
 });
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<RoleFilter>();
+});
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<JwtUtils>();
 builder.Services.AddDbContext<traveltestContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("MyDatabase")));
@@ -29,6 +34,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                        ValidateAudience = true,
                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenBearer:SignatureKey"])),
                        ValidateLifetime = true
+                   };
+
+                   option.Events = new JwtBearerEvents
+                   {
+                       OnMessageReceived = context =>
+                       {
+                           var token = context.Request.Cookies["accessToken"];
+
+
+                           if (!string.IsNullOrEmpty(token))
+                           {
+                               context.Token = token; 
+                           }
+
+                           return Task.CompletedTask;
+                       }
                    };
                });
 
@@ -47,6 +68,7 @@ app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<JwtMiddleware>();

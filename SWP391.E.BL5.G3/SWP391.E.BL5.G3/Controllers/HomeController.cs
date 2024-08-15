@@ -4,16 +4,21 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using SWP391.E.BL5.G3.Models;
 using System.Diagnostics;
+using SWP391.E.BL5.G3.Authorization;
+using CloudinaryDotNet.Actions;
+using SWP391.E.BL5.G3.Enum;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly JwtUtils _jwtUtils;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, JwtUtils jwtUtils)
         {
             _logger = logger;
+            _jwtUtils = jwtUtils;
         }
 
         public IActionResult Index()
@@ -23,8 +28,9 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
+                var roleName =  ((RoleEnum)int.Parse(role)).ToString();
                 // Truyền vai trò tới view thông qua ViewData
-                ViewData["Role"] = role;
+                ViewData["Role"] = roleName;
 
                 return View(); // Hiển thị view mặc định với thông tin vai trò
             }
