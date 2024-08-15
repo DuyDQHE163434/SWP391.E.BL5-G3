@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.Controllers;
 using SWP391.E.BL5.G3.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSession(options => {
@@ -10,8 +14,24 @@ builder.Services.AddSession(options => {
 });
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<JwtUtils>();
 builder.Services.AddDbContext<traveltestContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("MyDatabase")));
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, option =>
+               {
+                   option.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidIssuer = builder.Configuration["TokenBearer:Issuer"],
+                       ValidateIssuer = true,
+                       ValidAudience = builder.Configuration["TokenBearer:Audience"],
+                       ValidateAudience = true,
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenBearer:SignatureKey"])),
+                       ValidateLifetime = true
+                   };
+               });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +48,8 @@ app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

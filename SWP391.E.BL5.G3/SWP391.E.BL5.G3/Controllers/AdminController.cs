@@ -3,10 +3,12 @@ using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.Models;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly traveltestContext _traveltestContext;
@@ -24,11 +26,14 @@ namespace SWP391.E.BL5.G3.Controllers
             _cloudinary = new Cloudinary(account);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Enum.RoleEnum.Admin)]
         // GET: TourGuide/CreateTourGuide
         public IActionResult CreateTourGuide()
         {
@@ -37,7 +42,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
         // POST: TourGuide/CreateTourGuide
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize(Enum.RoleEnum.Admin)]
         public async Task<IActionResult> CreateTourGuide([Bind("FirstName,LastName,PhoneNumber,Email,Description")] TourGuide tourGuide, IFormFile imageFile)
         {
             if (ModelState.IsValid)
@@ -75,6 +80,7 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> EditTourGuide(int id)
         {
             var tourGuide = await _traveltestContext.TourGuides.FindAsync(id);
@@ -86,8 +92,8 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(tourGuide);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPut]
+        [AllowAnonymous]
         public async Task<IActionResult> EditTourGuide([Bind("TourGuideId,FirstName,LastName,PhoneNumber,Email,Description,Image,Rate")] TourGuide tourGuide, IFormFile? imageFile)
         {
             if (ModelState.IsValid)
@@ -135,6 +141,8 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(tourGuide);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> TourGuideManagement(string searchQuery)
         {
             var query = _traveltestContext.TourGuides.AsQueryable();
