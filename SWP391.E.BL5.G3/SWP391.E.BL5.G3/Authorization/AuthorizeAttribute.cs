@@ -30,11 +30,21 @@ namespace SWP391.E.BL5.G3.Authorization
             var user = (User)context.HttpContext.Items["User"];
             try
             {
-                var userDTO = toDTO(user);
-                if (user == null || (_roles.Any() && !_roles.Any(item => userDTO.Roles.Equals(item))))
+                if (user == null)
                 {
                     // not logged in or role not authorized
                     context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
+                    context.Result = new RedirectResult("/Error/Error401", false);
+                    return;
+                }
+                else
+                {
+                    var userDTO = toDTO(user);
+                    if (user == null || (_roles.Any() && !_roles.Any(item => userDTO.Roles.Equals(item))))
+                    {
+                        // not logged in or role not authorized
+                        context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
+                    }
                 }
             }
             catch (Exception ex)

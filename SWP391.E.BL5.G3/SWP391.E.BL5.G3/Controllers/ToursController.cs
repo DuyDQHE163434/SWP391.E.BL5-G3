@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SWP391.E.BL5.G3.Authorization;
+using SWP391.E.BL5.G3.Enum;
 using SWP391.E.BL5.G3.Models;
 using SWP391.E.BL5.G3.ViewModels;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
+    [Authorize]
     public class ToursController : Controller
     {
         private readonly traveltestContext _context;
@@ -17,7 +19,8 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize(RoleEnum.Admin)]
         public async Task<IActionResult> ListTour(string searchString, int pageNumber = 1)
         {
             if (pageNumber < 1) pageNumber = 1;
@@ -70,7 +73,7 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin,Travel_Agent")]
+        [Authorize(RoleEnum.Admin)]
         public IActionResult CreateTour()
         {
             // Lấy danh sách tỉnh từ cơ sở dữ liệu
@@ -81,7 +84,7 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Travel_Agent")]
+        [Authorize(RoleEnum.Admin)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTour([Bind("Name,Description,Price,ProvinceId")] Tour tour, IFormFile image)
         {
@@ -120,7 +123,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
         // Edit Tour
         [HttpGet]
-        [Authorize(Roles = "Admin,Travel_Agent")]
+        [Authorize(RoleEnum.Admin)]
         public async Task<IActionResult> EditTour(int? id)
         {
             if (id == null)
@@ -141,7 +144,7 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Travel_Agent")]
+        [Authorize(RoleEnum.Admin)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditTour(int id, [Bind("TourId,Name,Image,Description,Price,Duration,AirPlane,Rating,Itinerary,Inclusions,Exclusions,GroupSize,Guide,ProvinceId")] Tour tour, IFormFile image)
         {
@@ -203,7 +206,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
         // Delete Tour
         [HttpGet]
-        [Authorize(Roles = "Admin,Travel_Agent")]
+        [Authorize(RoleEnum.Admin)]
         public async Task<IActionResult> DeleteTour(int? id)
         {
             if (id == null)
@@ -222,7 +225,7 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         [HttpPost, ActionName("DeleteTour")]
-        [Authorize(Roles = "Admin,Travel_Agent")]
+        [Authorize(RoleEnum.Admin)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteTourConfirmed(int id)
         {
