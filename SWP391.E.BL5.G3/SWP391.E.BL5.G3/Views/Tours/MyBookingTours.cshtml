@@ -1,0 +1,38 @@
+﻿@model IEnumerable<SWP391.E.BL5.G3.Models.Booking>
+
+@{
+    ViewData["Title"] = "Danh Sách Tour Đặt Của Tôi";
+    Layout = "/Views/Shared/_HomeLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Tên</th>
+                <th>Số Điện Thoại</th>
+                <th>Ngày Bắt Đầu</th>
+                <th>Ngày Kết Thúc</th>
+                <th>Số Người</th>
+                <th>Tour</th>
+                <th>Ghi Chú</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.Name</td>
+                    <td>@booking.Phone</td>
+                    <td>@booking.StartDate.ToShortDateString()</td>
+                    <td>@booking.EndDate.ToShortDateString()</td>
+                    <td>@booking.NumPeople</td>
+                    <td>@booking.Tour?.Name ?? "N/A"</td>
+                    <td>@booking.Message</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

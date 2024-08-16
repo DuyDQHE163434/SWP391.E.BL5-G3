@@ -1,8 +1,9 @@
-﻿@model SWP391.E.BL5.G3.Models.Booking
+﻿@using System.Security.Claims
+@model SWP391.E.BL5.G3.Models.Booking
 
 @{
     ViewData["Title"] = "Đặt Tour";
-    Layout = "/Views/Shared/Layouts/_TourLayout.cshtml";
+    Layout = "/Views/Shared/_HomeLayout.cshtml";
 }
 
 <div class="container mt-4">
@@ -10,39 +11,40 @@
 
     <form asp-action="BookingConfirm" method="post" class="needs-validation" novalidate>
         <input type="hidden" asp-for="TourId" />
+        <input type="hidden" asp-for="UserId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
 
         <div class="form-group">
-            <label asp-for="Name" class="control-label"></label>
+            <label asp-for="Name" class="control-label">Họ và Tên</label>
             <input asp-for="Name" class="form-control" required />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Phone" class="control-label"></label>
+            <label asp-for="Phone" class="control-label">Số Điện Thoại</label>
             <input asp-for="Phone" class="form-control" required />
             <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="StartDate" class="control-label"></label>
+            <label asp-for="StartDate" class="control-label">Ngày Bắt Đầu</label>
             <input asp-for="StartDate" class="form-control" type="date" required />
             <span asp-validation-for="StartDate" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="EndDate" class="control-label"></label>
+            <label asp-for="EndDate" class="control-label">Ngày Kết Thúc</label>
             <input asp-for="EndDate" class="form-control" type="date" required />
             <span asp-validation-for="EndDate" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="NumPeople" class="control-label"></label>
+            <label asp-for="NumPeople" class="control-label">Số Người</label>
             <input asp-for="NumPeople" class="form-control" type="number" min="1" required />
             <span asp-validation-for="NumPeople" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Message" class="control-label"></label>
+            <label asp-for="Message" class="control-label">Ghi Chú</label>
             <textarea asp-for="Message" class="form-control" rows="3"></textarea>
             <span asp-validation-for="Message" class="text-danger"></span>
         </div>
@@ -55,6 +57,6 @@
 
 @section Scripts {
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_ValidationScriptsPartial"); // Bảo đảm các script kiểm tra tính hợp lệ hoạt động tốt
     }
 }
