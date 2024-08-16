@@ -6,7 +6,7 @@ namespace SWP391.E.BL5.G3.Models
     public partial class Booking
     {
         public int BookingId { get; set; }
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
         public DateTime StartDate { get; set; }

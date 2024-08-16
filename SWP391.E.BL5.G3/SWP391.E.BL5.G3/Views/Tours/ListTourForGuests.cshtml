@@ -44,8 +44,20 @@
                     <td>@Html.DisplayFor(modelItem => item.Duration)</td>
                     <td>@(item.Province != null ? Html.DisplayFor(modelItem => item.Province.ProvinceName) : "N/A")</td>
                     <td class="text-center">
-                        <a asp-action="TourDetails" asp-route-id="@item.TourId" class="btn btn-info btn-sm">Chi tiết</a>
-                        <a asp-action="Booking" asp-route-id="@item.TourId" class="btn btn-success btn-sm">Đặt Tour</a>
+                        <a asp-action="TourDetails" asp-route-id="@item.TourId" class="btn btn-info btn-sm">Details</a>
+
+                        @{
+                            var role = ViewData["Role"]?.ToString();
+                            if (role == "Customer")
+                            {
+                                <a asp-action="BookingTour" asp-route-tourId="@item.TourId" class="btn btn-success btn-sm">Booking</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-success btn-sm" asp-area="" asp-controller="Login"
+                                   asp-action="Login">Booking</a>
+                            }
+                        }
                     </td>
                 </tr>
             }
