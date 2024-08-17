@@ -26,10 +26,10 @@
                 <tr>
                     <td>@booking.Name</td>
                     <td>@booking.Phone</td>
-                    <td>@booking.StartDate.ToShortDateString()</td>
-                    <td>@booking.EndDate.ToShortDateString()</td>
+                    <td>@booking.StartDate</td>
+                    <td>@booking.EndDate</td>
                     <td>@booking.NumPeople</td>
-                    <td>@booking.Tour?.Name ?? "N/A"</td>
+                    <td>@booking.Tour?.Name</td>
                     <td>@booking.Message</td>
                 </tr>
             }

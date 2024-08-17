@@ -7,12 +7,12 @@ namespace SWP391.E.BL5.G3.Models
     {
         public int BookingId { get; set; }
         public int? UserId { get; set; }
-        public string Name { get; set; }
-        public string Phone { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public int NumPeople { get; set; }
-        public string Message { get; set; }
+        public string? Name { get; set; }
+        public string? Phone { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public int? NumPeople { get; set; }
+        public string? Message { get; set; }
         public int? TourId { get; set; }
         public int? HotelId { get; set; }
         public int? RestaurantId { get; set; }
