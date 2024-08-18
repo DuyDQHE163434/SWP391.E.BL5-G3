@@ -1,0 +1,113 @@
+﻿@using SWP391.E.BL5.G3.Controllers
+@model PagedResult<Feedback>
+
+@{
+    Layout = "/Views/Shared/Layouts/_AdminLayout.cshtml";
+    ViewData["Title"] = "Feedback Management";
+    var searchQuery = ViewData["SearchQuery"] as string;
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Feedback Table</h6>
+                </div>
+                <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center w-100">
+                        <!-- Search Form -->
+                        <form asp-action="FeedbackManagement" method="get" class="mb-3 flex-grow-1">
+                            <div class="input-group">
+                                <input type="text" name="searchQuery" class="form-control" placeholder="Search by content, user name" value="@searchQuery" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    @if (Model.Items == null || !Model.Items.Any())
+                    {
+                        <p class="text-center py-4">No feedback available.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Avatar</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Full Name</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Feedback On</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Content</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Rating</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Created Date</th>
+                                        <th class="text-secondary opacity-7"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var feedback in Model.Items)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img src="@feedback.User.Image" class="avatar avatar-sm me-3" alt="@feedback.User.FirstName @feedback.User.LastName">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="text-secondary text-xs font-weight-bold">@feedback.User.FirstName @feedback.User.LastName</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-secondary text-xs font-weight-bold">
+                                                    @{
+                                                        string entityName = feedback.EntityId switch
+                                                        {
+                                                            1 => "Tour",
+                                                            2 => "Hotel",
+                                                            3 => "Restaurant",
+                                                            4 => "TourGuide",
+                                                            5 => "Vehicle",
+                                                            _ => "Unknown"
+                                                        };
+                                                    }
+                                                    @entityName
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs text-secondary mb-0">@feedback.Content</p>
+                                            </td>
+                                            <td>
+                                                <span class="text-secondary text-xs font-weight-bold">@feedback.Rating</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-secondary text-xs font-weight-bold">@feedback.CreatedDate?.ToString("yyyy-MM-dd")</span>
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="@Url.Action("ReplyFeedback", "Admin", new { id = feedback.FeedbackId })" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Reply feedback">
+                                                    Reply
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for handling Enter key press and trimming the search query -->
+<script>
+    document.querySelector('form').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Prevent default form submission
+            const searchInput = this.querySelector('input[name="searchQuery"]');
+            searchInput.value = searchInput.value.trim(); // Trim the search query
+            this.submit(); // Submit the form
+        }
+    });
+</script>
