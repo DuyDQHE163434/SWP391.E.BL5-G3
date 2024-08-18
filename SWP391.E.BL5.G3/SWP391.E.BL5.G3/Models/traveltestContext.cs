@@ -102,6 +102,12 @@ namespace SWP391.E.BL5.G3.Models
             modelBuilder.Entity<District>(entity =>
             {
                 entity.Property(e => e.DistrictName).HasMaxLength(50);
+
+                entity.HasOne(d => d.Province)
+                    .WithMany(p => p.Districts)
+                    .HasForeignKey(d => d.ProvinceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Districts_Provinces");
             });
 
             modelBuilder.Entity<Feedback>(entity =>

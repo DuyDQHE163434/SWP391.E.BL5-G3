@@ -5,14 +5,11 @@ namespace SWP391.E.BL5.G3.Models
 {
     public partial class District
     {
-        //public District()
-        //{
-        //    Provinces = new HashSet<Province>();
-        //}
 
         public int DistrictId { get; set; }
         public string DistrictName { get; set; } = null!;
+        public int ProvinceId { get; set; }
 
-        //public virtual ICollection<Province> Provinces { get; set; }
+        public virtual Province Province { get; set; } = null!;
     }
 }
