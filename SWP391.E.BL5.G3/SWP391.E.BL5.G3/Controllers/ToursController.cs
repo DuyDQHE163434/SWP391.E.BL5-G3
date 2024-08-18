@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SWP391.E.BL5.G3.Authorization;
+using SWP391.E.BL5.G3.DTOs;
 using SWP391.E.BL5.G3.Enum;
 using SWP391.E.BL5.G3.Models;
 using SWP391.E.BL5.G3.ViewModels;
@@ -26,7 +27,17 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             if (pageNumber < 1) pageNumber = 1;
 
+            // Lấy ID của người dùng hiện tại
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
+
+            // Kiểm tra vai trò người dùng
+            if (User.IsInRole(RoleEnum.Travel_Agent.ToString()))
+            {
+                // Chỉ lấy các tour mà Travel_Agent đã tạo
+                toursQuery = toursQuery.Where(t => t.UserId.ToString() == userId);
+            }
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -321,6 +332,7 @@ namespace SWP391.E.BL5.G3.Controllers
                     NumPeople = booking?.NumPeople,
                     Message = booking?.Message,
                     TourId = booking?.TourId,
+                    Status = (int)BookingStatusEnum.Pending
                 };
                 // Thêm booking vào cơ sở dữ liệu
                 _context.Bookings.Add(bookingg);
@@ -378,5 +390,6 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View("MyBookingTours", bookings); // Đảm bảo trả về view mới
         }
+
     }
 }
