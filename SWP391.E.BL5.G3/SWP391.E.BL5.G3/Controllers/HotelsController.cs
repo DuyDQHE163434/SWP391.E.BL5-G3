@@ -90,10 +90,10 @@ namespace SWP391.E.BL5.G3.Controllers
                             await hotel.ImageFile.CopyToAsync(stream);
                         }
 
-                        hotel.Image = $"/images/{fileName}"; 
+                        hotel.Image = $"/images/{fileName}";
                     }
 
-                    hotel.BookingCount = 0; 
+                    hotel.BookingCount = 0;
                     _context.Add(hotel);
                     await _context.SaveChangesAsync();
 
@@ -192,14 +192,14 @@ namespace SWP391.E.BL5.G3.Controllers
 
             try
             {
-                
+
                 var bookings = _context.Bookings.Where(b => b.HotelId == id);
                 if (bookings.Any())
                 {
                     _context.Bookings.RemoveRange(bookings);
                 }
 
-                
+
                 _context.Hotels.Remove(hotel);
                 await _context.SaveChangesAsync();
 
@@ -239,16 +239,16 @@ namespace SWP391.E.BL5.G3.Controllers
                 return NotFound();
             }
 
-           
-            if (hotel.Status) 
+
+            if (hotel.Status)
             {
                 TempData["ErrorMessage"] = "This room is already booked.";
                 return RedirectToAction("Error");
             }
 
-           
+
             hotel.Status = true;
-            hotel.BookingCount++; 
+            hotel.BookingCount++;
             _context.Update(hotel);
             await _context.SaveChangesAsync();
 
