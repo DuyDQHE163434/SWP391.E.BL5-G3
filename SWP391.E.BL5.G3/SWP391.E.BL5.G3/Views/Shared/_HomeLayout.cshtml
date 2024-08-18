@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/SWP391.E.BL5.G3.styles.css" asp-append-version="true" />
 </head>
 <body>
+<<<<<<< Updated upstream
     <div class="position-absolute" style="top: 0px; left: 0px; width: 100%; height: 50vh; z-index:-1"></div>
     <header>
 
@@ -40,6 +41,66 @@
                             <a class="nav-link text-dark btn btn-info mx-2" asp-area="" asp-controller="Hotels" asp-action="Index">Hotels</a>
                         </li>
                     </ul>
+=======
+    <div class="min-vh-100 d-flex flex-column">
+        <div class="position-absolute bg-primary" style="top: 0px; left: 0px; width: 100%; height: 50vh; z-index:-1"></div>
+        <header>
+            <nav class="navbar navbar-expand-md navbar-toggleable-sm mb-3">
+                <div class="container-md">
+                    <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">SWP391.E.BL5.G3</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants" asp-action="ListRestaurants">Restaurants</a>
+                            </li>
+                            <li class="nav-item">
+                                @{
+                                    var role = ViewData["Role"]?.ToString();
+                                    if (role == "Admin" || role == "Travel_Agent")
+                                    {
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Tours" asp-action="ListTour">Tours</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Tours" asp-action="ListTourForGuests">Tours</a>
+                                    }
+                                }
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Hotels" asp-action="Index">Hotels</a>
+                            </li>
+                            <li class="flex-fill"></li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="@(Url.Content("~/images/" + (Model?.Image ?? "default-user.png")))" alt="Profile" class="rounded-circle" width="30" height="30">
+
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                                        <li><a class="dropdown-item" asp-controller="User" asp-action="Profile">My Profile</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Login" asp-action="Logout">Logout</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Login" asp-action="CheckEmailRegister">Register</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+>>>>>>> Stashed changes
                 </div>
             </div>
         </nav>
