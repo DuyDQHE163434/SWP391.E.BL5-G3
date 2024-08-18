@@ -30,7 +30,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-4">
                     <div class="login-wrap p-0">
-                        
+
                         @{
                             if (ViewBag.mess1 != null)
                             {
@@ -42,7 +42,7 @@
                                 <input type="text" class="form-control" placeholder="Username" value="@ViewBag.Email" required name="username">
                             </div>
                             @{
-                                
+
                                 if (ViewBag.mess2 != null)
                                 {
                                     <h5 style="z-index:999;font-size:20px;color:red;font-weight:700;text-shadow: black 0.1em 0.1em 0.2em">@ViewBag.mess2 </h5>
@@ -74,18 +74,18 @@
                             <div style="font-size:20px">
                                 <input type="radio" required name="Gender" value="1" checked>
                                 <label>Male</label>
-                                <input type="radio" required name="Gender" value="0" >
+                                <input type="radio" required name="Gender" value="0">
                                 <label>Female</label>
                             </div>
-                            
+
 
                             <div class="form-group">
                                 <button type="submit" class="form-control btn btn-primary submit px-3">Register</button>
-                               
+
                             </div>
                         </form>
-                        
-                        
+
+
 
                     </div>
                 </div>

@@ -9,7 +9,8 @@ using SWP391.E.BL5.G3.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSession(options => {
+builder.Services.AddSession(options =>
+{
     options.Cookie.Name = "devquyduy";
     options.IdleTimeout = new TimeSpan(0, 30, 0);
 
@@ -45,7 +46,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
                            if (!string.IsNullOrEmpty(token))
                            {
-                               context.Token = token; 
+                               context.Token = token;
                            }
 
                            return Task.CompletedTask;
