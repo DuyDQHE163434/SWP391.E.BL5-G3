@@ -9,6 +9,7 @@ namespace SWP391.E.BL5.G3.Models
         {
             Bookings = new HashSet<Booking>();
             Feedbacks = new HashSet<Feedback>();
+            Tours = new HashSet<Tour>(); // Thêm mục này để lưu các tour mà người dùng đã tạo
         }
 
         public int UserId { get; set; }
@@ -25,5 +26,7 @@ namespace SWP391.E.BL5.G3.Models
 
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
+        public virtual ICollection<Tour> Tours { get; set; } // Thêm phần này
+
     }
 }

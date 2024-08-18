@@ -56,7 +56,7 @@ namespace SWP391.E.BL5.G3.Models
                     .IsFixedLength();
 
                 entity.Property(e => e.StartDate).HasColumnType("date");
-
+                entity.Property(e => e.Status);
                 entity.HasOne(d => d.Hotel)
                     .WithMany(p => p.Bookings)
                     .HasForeignKey(d => d.HotelId)

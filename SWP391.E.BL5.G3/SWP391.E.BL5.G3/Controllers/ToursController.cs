@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SWP391.E.BL5.G3.Authorization;
+using SWP391.E.BL5.G3.DTOs;
 using SWP391.E.BL5.G3.Enum;
 using SWP391.E.BL5.G3.Models;
 using SWP391.E.BL5.G3.ViewModels;
@@ -26,7 +27,17 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             if (pageNumber < 1) pageNumber = 1;
 
+            // Lấy ID của người dùng hiện tại
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
+
+            // Kiểm tra vai trò người dùng
+            if (User.IsInRole(RoleEnum.Travel_Agent.ToString()))
+            {
+                // Chỉ lấy các tour mà Travel_Agent đã tạo
+                toursQuery = toursQuery.Where(t => t.UserId.ToString() == userId);
+            }
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -302,25 +313,26 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BookingConfirm([Bind("Name,Phone,StartDate,EndDate,NumPeople,Message,TourId")] Booking booking)
+        public async Task<IActionResult> BookingTour([Bind("Name,Phone,StartDate,EndDate,NumPeople,Message,TourId,UserId")] Booking booking)
         {
             // Gán UserId từ Claim và chuyển đổi nó sang int
-            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            booking.UserId = Convert.ToInt32(userIdString); // Chuyển đổi từ string sang int, có thể dùng int.Parse(userIdString) nếu bạn chắc chắn về kiểu
+            //var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //booking.UserId = Convert.ToInt32(userIdString); // Chuyển đổi từ string sang int, có thể dùng int.Parse(userIdString) nếu bạn chắc chắn về kiểu
 
             // Kiểm tra tính hợp lệ cho model
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 var bookingg = new Booking
                 {
-                    Name = booking.Name,
-                    Phone = booking.Phone,
-                    StartDate = booking.StartDate,
-                    EndDate = booking.EndDate,
-                    UserId = booking.UserId,
-                    NumPeople = booking.NumPeople,
-                    Message = booking.Message,
-                    TourId = booking.TourId,
+                    Name = booking?.Name,
+                    Phone = booking?.Phone,
+                    StartDate = booking?.StartDate,
+                    EndDate = booking?.EndDate,
+                    UserId = booking?.UserId,
+                    NumPeople = booking?.NumPeople,
+                    Message = booking?.Message,
+                    TourId = booking?.TourId,
+                    Status = (int)BookingStatusEnum.Pending
                 };
                 // Thêm booking vào cơ sở dữ liệu
                 _context.Bookings.Add(bookingg);
@@ -330,10 +342,37 @@ namespace SWP391.E.BL5.G3.Controllers
                 return RedirectToAction(nameof(ListTourForGuests));
             }
 
+
             // Nếu model không hợp lệ, trả lại tương ứng với thông tin đã nhập
             return View(booking);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BookingConfirm([Bind("Name,Phone,StartDate,EndDate,NumPeople,Message,TourId,UserId")] Booking booking)
+        {
+            if (!ModelState.IsValid)
+            {
+                var bookingg = new Booking
+                {
+                    Name = booking?.Name,
+                    Phone = booking?.Phone,
+                    StartDate = booking?.StartDate,
+                    EndDate = booking?.EndDate,
+                    UserId = booking?.UserId,
+                    NumPeople = booking?.NumPeople,
+                    Message = booking?.Message,
+                    TourId = booking?.TourId,
+                };
+                _context.Bookings.Add(bookingg);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(ListTourForGuests));
+            }
+
+            return View(booking);
+        }
 
 
         [HttpGet]
@@ -351,5 +390,6 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View("MyBookingTours", bookings); // Đảm bảo trả về view mới
         }
+
     }
 }

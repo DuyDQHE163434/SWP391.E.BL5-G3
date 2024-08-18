@@ -31,7 +31,10 @@ namespace SWP391.E.BL5.G3.Models
         public int? GroupSize { get; set; }
         public string? Guide { get; set; }
         public int? ProvinceId { get; set; }
+        public int? UserId { get; set; } // Thêm thuộc tính UserId
 
+
+        public virtual User User { get; set; } // Thêm phần này
         public virtual Hotel? Hotel { get; set; }
         public virtual Province? Province { get; set; }
         public virtual Restaurant? Restaurant { get; set; }

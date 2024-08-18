@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SWP391.E.BL5.G3.Models.Booking>
 
 @{
-    ViewData["Title"] = "Danh Sách Tour Đặt Của Tôi";
+    ViewData["Title"] = "My Tours Booking";
     Layout = "/Views/Shared/_HomeLayout.cshtml";
 }
 
@@ -11,13 +11,14 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Tên</th>
-                <th>Số Điện Thoại</th>
-                <th>Ngày Bắt Đầu</th>
-                <th>Ngày Kết Thúc</th>
-                <th>Số Người</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Number</th>
                 <th>Tour</th>
-                <th>Ghi Chú</th>
+                <th>Note</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -26,11 +27,29 @@
                 <tr>
                     <td>@booking.Name</td>
                     <td>@booking.Phone</td>
-                    <td>@booking.StartDate.ToShortDateString()</td>
-                    <td>@booking.EndDate.ToShortDateString()</td>
+                    <td>@booking.StartDate.GetValueOrDefault().ToString("dd/MM/yyyy")</td>
+                    <td>@booking.EndDate.GetValueOrDefault().ToString("dd/MM/yyyy")</td>
+                    @* <td>@booking.StartDate</td>
+                    <td>@booking.EndDate</td> *@
                     <td>@booking.NumPeople</td>
-                    <td>@booking.Tour?.Name ?? "N/A"</td>
+                    <td>@booking.Tour?.Name</td>
                     <td>@booking.Message</td>
+                    <td>
+                        
+                        @{
+                            if(booking.Status == 1)
+                            {
+                            }
+                            switch(booking.Status)
+                            {
+                                case 1: <span class="btn btn-secondary">Pending</span>break;
+                                case 2: <span class="btn btn-primary">Confirmed</span>break;
+                                case 3: <span class="btn btn-danger">Canceled</span>break;
+                                case 4: <span class="btn btn-success">Done</span>break;
+                                default:<span class="btn btn-warning">Unkown</span>break;
+                            }
+                        }
+                        </td>
                 </tr>
             }
         </tbody>
