@@ -163,8 +163,7 @@ namespace SWP391.E.BL5.G3.Controllers
             ViewData["SearchQuery"] = searchQuery;
             return View(tourGuides);
         }
-        [HttpPost]
-        [Authorize(Enum.RoleEnum.Admin)]
+       
         public IActionResult ListRegisterTravelAgent()
         {
             DAO dal = new DAO();
