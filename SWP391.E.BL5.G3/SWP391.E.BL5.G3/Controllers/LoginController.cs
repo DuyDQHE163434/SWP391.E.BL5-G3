@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.DAO_Context;
 using SWP391.E.BL5.G3.Models;
@@ -85,13 +86,11 @@ namespace SWP391.E.BL5.G3.Controllers
         }
         public IActionResult Logout()
         {
-
+            Response.Cookies.Delete("accessToken");
             HttpContext.Session.Clear();
-
-            return RedirectToAction("index", "Home");
-
-
+            return RedirectToAction("Index", "Home");
         }
+
         public IActionResult Register(int mess, string email)
         {
             ViewBag.Email = email;

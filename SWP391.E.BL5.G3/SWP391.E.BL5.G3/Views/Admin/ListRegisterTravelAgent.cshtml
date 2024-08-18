@@ -91,6 +91,7 @@
                                         <th>Phone Number</th>
                                         <th>Role ID</th>
                                         <th>Gender</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -105,8 +106,28 @@
                                             <td>@b.FirstName</td>
                                             <td>@b.LastName</td>
                                             <td>@b.PhoneNumber</td>
-                                            <td>@b.RoleId</td>
+                                            @if (@b.RoleId == 2)
+                                            {
+                                                <td>active</td>
+                                            }
+                                            else if (@b.RoleId == 4)
+                                            {
+                                                <td>Unactive</td>
+                                            }
                                             <td>@b.Gender</td>
+
+                                            <td>
+
+                                                @if (@b.RoleId == 2)
+                                                {
+                                                    <a href="/Admin/RequestUnaccept?Id=@b.UserId&email=@b.Email">Unacceptance</a>
+                                                }
+                                                else if (@b.RoleId == 4)
+                                                {
+                                                    <a href="/Admin/RequestAccept?Id=@b.UserId&email=@b.Email">Acceptance</a>
+                                                }
+                                            </td>
+
                                         </tr>
                                     }
                                 </tbody>

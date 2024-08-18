@@ -163,15 +163,13 @@ namespace SWP391.E.BL5.G3.Controllers
             ViewData["SearchQuery"] = searchQuery;
             return View(tourGuides);
         }
-       
+
         public IActionResult ListRegisterTravelAgent()
         {
             DAO dal = new DAO();
             List<User> listuserregistertravelagent = dal.GetListUserRegisterTravelAgent();
             ViewBag.ListUserTravelAgent = listuserregistertravelagent;
             return View();
-
-
         }
 
         [AllowAnonymous]
@@ -237,6 +235,43 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View(viewModel);
         }
+
+        public IActionResult RequestAccept(int id, string email)
+        {
+            DAO dal = new DAO();
+            string fromEmail = "duydqhe163434@fpt.edu.vn";
+            string toEmail = email;
+            string subject = "Hello " + email;
+
+            string body = "Tài Khoản Của Bạn Đã Đăng Ký TravelAgent Thành Công";
+            string smtpServer = "smtp.gmail.com";
+            int smtpPort = 587;
+            string smtpUsername = "duydqhe163434@fpt.edu.vn";
+            string smtpPassword = "htay mxgi flsx dxde";
+            bool result = SendEmail.theSendEmailRegisterTravelAgent(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword);
+            string stt = "Accept";
+            dal.AccessRegisterTravelAgent(id, stt);
+            return RedirectToAction("ListRegisterTravelAgent", "Admin");
+        }
+        public IActionResult RequestUnaccept(int id, string email)
+        {
+            DAO dal = new DAO();
+            string fromEmail = "duydqhe163434@fpt.edu.vn";
+            string toEmail = email;
+            string subject = "Hello " + email;
+
+            string body = "Vì Một Số Lý Do Nào Đó Từ Phía Của Chúng Tôi Không Thể Cung Cấp Dịch Vụ Travelagent Cho Bạn Được Nữa Mọi Chi Tiết Xin Vui Lòng Liên Hệ Admin ";
+            string smtpServer = "smtp.gmail.com";
+            int smtpPort = 587;
+            string smtpUsername = "duydqhe163434@fpt.edu.vn";
+            string smtpPassword = "htay mxgi flsx dxde";
+            bool result = SendEmail.theSendEmailRegisterTravelAgent(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword);
+            string stt = "Unaccept";
+            dal.AccessRegisterTravelAgent(id, stt);
+            return RedirectToAction("ListRegisterTravelAgent", "Admin");
+        }
+=======
+
     }
 
     public class CloudinarySettings
@@ -264,4 +299,4 @@ namespace SWP391.E.BL5.G3.Controllers
         public string ReplyContent { get; set; }
     }
 
-}
+

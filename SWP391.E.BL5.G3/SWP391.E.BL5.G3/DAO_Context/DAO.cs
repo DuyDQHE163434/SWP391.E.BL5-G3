@@ -143,12 +143,26 @@ namespace SWP391.E.BL5.G3.DAO_Context
             List<User> listuserregistertravelagent = new List<User>();
             try
             {
-                listuserregistertravelagent = context.Users.Where(x => x.RoleId == 4).ToList();
+                listuserregistertravelagent = context.Users.Where(x => x.RoleId == 4 || x.RoleId == 2).ToList();
                 return listuserregistertravelagent;
             }
             catch
             {
                 return listuserregistertravelagent;
+            }
+        }
+        public void AccessRegisterTravelAgent(int id, string stt)
+        {
+            User a = context.Users.Where(x => x.UserId == id).FirstOrDefault();
+            if (stt == "Accept")
+            {
+                a.RoleId = 2;
+                context.SaveChanges();
+            }
+            else
+            {
+                a.RoleId = 4;
+                context.SaveChanges();
             }
         }
     }
