@@ -83,6 +83,15 @@ namespace SWP391.E.BL5.G3.Controllers
             }
             return View();
         }
+        public IActionResult Logout()
+        {
+
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("index", "Home");
+
+
+        }
         public IActionResult Register(int mess, string email)
         {
             ViewBag.Email = email;
