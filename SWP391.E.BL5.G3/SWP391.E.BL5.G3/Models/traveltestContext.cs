@@ -157,13 +157,9 @@ namespace SWP391.E.BL5.G3.Models
             modelBuilder.Entity<Province>(entity =>
             {
                 entity.Property(e => e.ProvinceName).HasMaxLength(100);
-
-                entity.HasOne(d => d.District)
-                    .WithMany(p => p.Provinces)
-                    .HasForeignKey(d => d.DistrictId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Provinces_Districts");
             });
+
+
 
             modelBuilder.Entity<Restaurant>(entity =>
             {
