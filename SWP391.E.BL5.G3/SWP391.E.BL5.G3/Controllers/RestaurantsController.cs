@@ -1,20 +1,33 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CloudinaryDotNet;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.Models;
 using X.PagedList;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
+    [Authorize]
     public class RestaurantsController : Controller
     {
         private readonly traveltestContext _context;
+        private readonly Cloudinary _cloudinary;
 
-        public RestaurantsController(traveltestContext context)
+        public RestaurantsController(traveltestContext context, IOptions<CloudinarySettings> cloudinarySettings)
         {
             _context = context;
+            var cloudinarySettingsValue = cloudinarySettings.Value;
+            var account = new Account(
+                cloudinarySettingsValue.CloudName,
+                cloudinarySettingsValue.ApiKey,
+                cloudinarySettingsValue.ApiSecret
+            );
+            _cloudinary = new Cloudinary(account);
         }
 
         // view list of restaurants
+        [AllowAnonymous]
         public IActionResult ListRestaurants(string currentSearchString, string searchString, int? page)
         {
             var restaurants = new List<Restaurant>();
@@ -45,7 +58,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
             var totalItems = _context.Restaurants.Count();
             var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
-            
+
             pageNumber = pageNumber < 1 ? 1 : pageNumber;
 
             restaurants = restaurants
@@ -79,12 +92,14 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         // add a new restaurant
+        [Authorize(Enum.RoleEnum.Admin)]
         public IActionResult AddRestaurant()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Enum.RoleEnum.Admin)]
         public IActionResult AddRestaurant(Restaurant restaurant)
         {
             if (ModelState.IsValid)
@@ -99,6 +114,8 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         // edit restaurant
+        [HttpGet]
+        [Authorize(Enum.RoleEnum.Admin, Enum.RoleEnum.Travel_Agent)]
         public IActionResult EditRestaurant(int? id)
         {
             if (id == null || _context.Restaurants == null)
@@ -116,7 +133,7 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(restaurant);
         }
 
-        [HttpPost]
+        [HttpPut]
         public IActionResult EditRestaurant(int id, Restaurant restaurant)
         {
             if (id != restaurant.RestaurantId)
@@ -174,6 +191,5 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             return (_context.Restaurants?.Any(item => item.RestaurantId == id)).GetValueOrDefault();
         }
-
     }
 }
