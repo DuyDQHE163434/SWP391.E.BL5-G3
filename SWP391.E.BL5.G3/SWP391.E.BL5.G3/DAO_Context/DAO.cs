@@ -137,5 +137,19 @@ namespace SWP391.E.BL5.G3.DAO_Context
             }
             return false;
         }
+
+        public List<User> GetListUserRegisterTravelAgent()
+        {
+            List<User> listuserregistertravelagent = new List<User>();
+            try
+            {
+                listuserregistertravelagent = context.Users.Where(x => x.RoleId == 4).ToList();
+                return listuserregistertravelagent;
+            }
+            catch
+            {
+                return listuserregistertravelagent;
+            }
+        }
     }
 }

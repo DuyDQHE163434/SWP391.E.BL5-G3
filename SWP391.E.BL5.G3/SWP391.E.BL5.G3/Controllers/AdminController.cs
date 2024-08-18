@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWP391.E.BL5.G3.Authorization;
+using SWP391.E.BL5.G3.DAO_Context;
 using SWP391.E.BL5.G3.Models;
 
 namespace SWP391.E.BL5.G3.Controllers
@@ -161,6 +162,17 @@ namespace SWP391.E.BL5.G3.Controllers
 
             ViewData["SearchQuery"] = searchQuery;
             return View(tourGuides);
+        }
+        [HttpPost]
+        [Authorize(Enum.RoleEnum.Admin)]
+        public IActionResult ListRegisterTravelAgent()
+        {
+            DAO dal = new DAO();
+            List<User> listuserregistertravelagent = dal.GetListUserRegisterTravelAgent();
+            ViewBag.ListUserTravelAgent = listuserregistertravelagent;
+            return View();
+
+
         }
     }
 
