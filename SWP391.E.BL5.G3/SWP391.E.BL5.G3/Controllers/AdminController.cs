@@ -237,6 +237,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View(viewModel);
         }
+
         public IActionResult RequestAccept(int id, string email)
         {
             DAO dal = new DAO();
@@ -271,6 +272,8 @@ namespace SWP391.E.BL5.G3.Controllers
             dal.AccessRegisterTravelAgent(id, stt);
             return RedirectToAction("ListRegisterTravelAgent", "Admin");
         }
+=======
+
     }
 
     public class CloudinarySettings
@@ -298,4 +301,4 @@ namespace SWP391.E.BL5.G3.Controllers
         public string ReplyContent { get; set; }
     }
 
-}
+
