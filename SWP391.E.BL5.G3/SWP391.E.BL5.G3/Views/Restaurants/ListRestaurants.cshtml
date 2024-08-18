@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "List of Restaurant";
-    Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 
 <style>
@@ -34,146 +34,88 @@
             }
 </style>
 
-<h1>List of Restaurants:</h1>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="AddRestaurant">Add new Restaurant</a>
-</p>
+    <!--Search-->
+    <div class="row mb-3">
+        <div class="col-md-8 offset-md-2">
+            @using (Html.BeginForm("ListRestaurants", "Restaurants", FormMethod.Get, new { @class = "input-group" }))
+            {
+                @Html.TextBox("searchString", ViewBag.currentSearchString as string, new { @class = "form-control", placeholder = "Search restaurant..." })
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary">Search</button>
+                </div>
+            }
+        </div>
+    </div>
 
-@using (Html.BeginForm("ListRestaurants", "Restaurants", FormMethod.Get))
-{
-    <p>
-        @Html.TextBox("searchString", ViewBag.currentSearchString as string)
-        <input type="submit" value="Search" />
-    </p>
-}
+    <div class="mb-3 text-right">
+        <a asp-action="AddRestaurant" class="btn btn-info btn-sm">Add new Restaurant</a>
+    </div>
 
-<table id="dataTable" class="table">
-    <thead>
-        <tr>
-            <th></th>
-            <th>
-                Restaurant Name
-            </th>
-            <th>
-                Image
-            </th>
-            <th>
-                Location
-            </th>
-            <th>
-                Average Price
-            </th>
-            <th>
-                Contact Number
-            </th>
-            <th>
-                Rating
-            </th>
-            <th>
-                Business Type
-            </th>
-            <th>
-                Cuisine Type
-            </th>
-            <th>
-                Action
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            int serialNumber = 1;
-        }
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @serialNumber
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RestaurantName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Image)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AveragePrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ContactNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rating)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BusinessType.BusinessTypeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CuisineType.CuisineTypeName)
-                </td>
-                <td>
-                    <a asp-action="EditRestaurant" asp-route-id="@item.RestaurantId">Edit</a> |
-                    <a asp-action="RestaurantDetails" asp-route-id="@item.RestaurantId">Details</a> |
-                    <a href="javascript:void(0);" onclick="showDeleteModal('@item.RestaurantId')">Delete</a>
-                </td>
+    <table id="dataTable" class="table table-striped table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr class="text-center">
+                <th></th>
+                <th>Restaurant Name</th>
+                <th>Image</th>
+                <th>Location</th>
+                <th>Average Price</th>
+                <th>Contact Number</th>
+                <th>Rating</th>
+                <th>Business Type</th>
+                <th>Cuisine Type</th>
+                <th>Action</th>
             </tr>
-            serialNumber++;
-        }
-    </tbody>
-</table>
-
-<div class="container">
-    <div class="verticals twelve">
-        <div class="pagination m-t-20">
-            @if (ViewBag.CurrentPage > 1)
-            {
-                <a href="@Url.Action("ListRestaurants", new { page = ViewBag.CurrentPage - 1 })">‹</a>
+        </thead>
+        <tbody>
+            @{
+                int serialNumber = 1;
             }
-
-            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            @foreach (var item in Model)
             {
-                <a href="@Url.Action("ListRestaurants", new { page = i })">@i</a>
+                <tr>
+                    <td>@serialNumber</td>
+                    <td>@Html.DisplayFor(modelItem => item.RestaurantName)</td>
+                    <td>@(item.Image != null ? Html.DisplayFor(modelItem => item.Image) : "N/A")</td>
+                    <td>@(item.Location != null ? Html.DisplayFor(modelItem => item.Location) : "N/A")</td>
+                    <td>@(item.AveragePrice != null ? Html.DisplayFor(modelItem => item.AveragePrice) : "N/A")</td>
+                    <td>@(item.ContactNumber != null ? Html.DisplayFor(modelItem => item.ContactNumber) : "N/A")</td>
+                    <td>@(item.Rating != null ? Html.DisplayFor(modelItem => item.Rating) : "N/A")</td>
+                    <td>@(item.BusinessType.BusinessTypeName != null ? Html.DisplayFor(modelItem => item.BusinessType.BusinessTypeName) : "N/A")</td>
+                    <td>@(item.CuisineType.CuisineTypeName != null ? Html.DisplayFor(modelItem => item.CuisineType.CuisineTypeName) : "N/A")</td>
+                    <td class="text-center">
+                        <a asp-action="EditRestaurant" asp-route-id="@item.RestaurantId" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-action="RestaurantDetails" asp-route-id="@item.RestaurantId" class="btn btn-info btn-sm">Details</a>
+                        <form method="post" asp-action="DeleteRestaurant" asp-route-id="@item.RestaurantId" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this restaurant?');">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                serialNumber++;
             }
+        </tbody>
+    </table>
 
-            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
-            {
-                <a href="@Url.Action("ListRestaurants", new { page = ViewBag.CurrentPage + 1 })">›</a>
-            }
+    <div class="container">
+        <div class="verticals twelve">
+            <div class="pagination m-t-20">
+                @if (ViewBag.CurrentPage > 1)
+                {
+                    <a href="@Url.Action("ListRestaurants", new { page = ViewBag.CurrentPage - 1 })">‹</a>
+                }
+
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <a href="@Url.Action("ListRestaurants", new { page = i })">@i</a>
+                }
+
+                @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                {
+                    <a href="@Url.Action("ListRestaurants", new { page = ViewBag.CurrentPage + 1 })">›</a>
+                }
+            </div>
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this item?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form id="deleteForm" method="post" action="">
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
-    function showDeleteModal(RestaurantId) {
-        var deleteUrl = '@Url.Action("DeleteRestaurant", "Restaurants")/' + RestaurantId;
-        document.getElementById('deleteForm').action = deleteUrl;
-        $('#deleteModal').modal('show');
-    }
-</script>
