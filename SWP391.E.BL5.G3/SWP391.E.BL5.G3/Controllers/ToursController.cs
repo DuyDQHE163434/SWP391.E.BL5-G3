@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SWP391.E.BL5.G3.Authorization;
+using SWP391.E.BL5.G3.Enum;
 using SWP391.E.BL5.G3.Models;
 using SWP391.E.BL5.G3.ViewModels;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
+    [Authorize]
     public class ToursController : Controller
     {
         private readonly traveltestContext _context;
@@ -14,30 +18,41 @@ namespace SWP391.E.BL5.G3.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        //[AllowAnonymous]
+        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
         public async Task<IActionResult> ListTour(string searchString, int pageNumber = 1)
         {
-            var toursQuery = _context.Tours.AsQueryable();
+            if (pageNumber < 1) pageNumber = 1;
+
+            var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
 
             if (!string.IsNullOrEmpty(searchString))
             {
                 toursQuery = toursQuery.Where(t => t.Name.Contains(searchString));
             }
 
-            int pageSize = 2; // Số lượng tour trên mỗi trang
-            var tours = await toursQuery.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-            var totalTours = await toursQuery.CountAsync();
+            int pageSize = 5; // Số lượng tour trên mỗi trang
+            var totalTours = await toursQuery.CountAsync(); // Tính tổng số tour
+
+            var tours = await toursQuery
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(); // Lấy danh sách tour trên trang hiện tại
 
             var model = new TourListViewModel
             {
                 Tours = tours,
                 PageNumber = pageNumber,
-                TotalPages = (int)Math.Ceiling(totalTours / (double)pageSize)
+                TotalPages = (int)Math.Ceiling(totalTours / (double)pageSize),
+                CurrentFilter = searchString // Lưu giá trị tìm kiếm
             };
 
             return View(model);
         }
 
-
+        [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> TourDetails(int? id)
         {
             if (id == null)
@@ -46,7 +61,9 @@ namespace SWP391.E.BL5.G3.Controllers
             }
 
             var tour = await _context.Tours
+                .Include(t => t.Province) // Bao gồm thông tin tỉnh
                 .FirstOrDefaultAsync(m => m.TourId == id);
+
             if (tour == null)
             {
                 return NotFound();
@@ -55,14 +72,21 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(tour);
         }
 
+        [HttpGet]
+        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
         public IActionResult CreateTour()
         {
+            // Lấy danh sách tỉnh từ cơ sở dữ liệu
+            var provinces = _context.Provinces.ToList(); // có thể sử dụng ToListAsync() cho async
+            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "ProvinceName");
+
             return View();
         }
 
         [HttpPost]
+        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price")] Tour tour, IFormFile image)
+        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price,ProvinceId")] Tour tour, IFormFile image)
         {
             if (ModelState.IsValid)
             {
@@ -82,14 +106,24 @@ namespace SWP391.E.BL5.G3.Controllers
                 }
 
                 tour.CreateDate = DateTime.Now;
+
+                // Thêm tour vào cơ sở dữ liệu
                 _context.Add(tour);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(ListTour));
             }
+
+            // Nếu model không hợp lệ, sẽ lấy lại danh sách tỉnh
+            var provinces = _context.Provinces.ToList();
+            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "Name");
+
             return View(tour);
         }
 
         // Edit Tour
+        [HttpGet]
+        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
         public async Task<IActionResult> EditTour(int? id)
         {
             if (id == null)
@@ -102,12 +136,17 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 return NotFound();
             }
+
+            var provinces = await _context.Provinces.ToListAsync();
+            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "ProvinceName", tour.ProvinceId); // Giữ lại tỉnh đã chọn
+
             return View(tour);
         }
 
         [HttpPost]
+        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTour(int id, [Bind("TourId,Name,Image,Description,Price,Duration,AirPlane,Rating,Itinerary,Inclusions,Exclusions,GroupSize,Guide")] Tour tour, IFormFile image)
+        public async Task<IActionResult> EditTour(int id, [Bind("TourId,Name,Image,Description,Price,Duration,AirPlane,Rating,Itinerary,Inclusions,Exclusions,GroupSize,Guide,ProvinceId")] Tour tour, IFormFile image)
         {
             if (id != tour.TourId)
             {
@@ -132,6 +171,12 @@ namespace SWP391.E.BL5.G3.Controllers
                         }
                         tour.Image = uniqueFileName;
                     }
+                    else
+                    {
+                        // Giữ lại tên file cũ nếu không upload ảnh mới
+                        var existingTour = await _context.Tours.AsNoTracking().FirstOrDefaultAsync(t => t.TourId == id);
+                        tour.Image = existingTour.Image;
+                    }
 
                     _context.Update(tour);
                     await _context.SaveChangesAsync();
@@ -149,11 +194,19 @@ namespace SWP391.E.BL5.G3.Controllers
                 }
                 return RedirectToAction(nameof(ListTour));
             }
+
+            // Nếu model không hợp lệ, lấy lại danh sách tỉnh
+            var provinces = await _context.Provinces.ToListAsync();
+            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "ProvinceName", tour.ProvinceId); // Giữ lại tỉnh đã chọn
+
             return View(tour);
         }
 
 
+
         // Delete Tour
+        [HttpGet]
+        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
         public async Task<IActionResult> DeleteTour(int? id)
         {
             if (id == null)
@@ -172,6 +225,7 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         [HttpPost, ActionName("DeleteTour")]
+        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteTourConfirmed(int id)
         {
@@ -185,5 +239,79 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             return _context.Tours.Any(e => e.TourId == id);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ListTourForGuests(string searchString, int pageNumber = 1)
+        {
+            if (pageNumber < 1) pageNumber = 1;
+
+            var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                toursQuery = toursQuery.Where(t => t.Name.Contains(searchString));
+            }
+
+            int pageSize = 5; // Số lượng tour trên mỗi trang
+            var totalTours = await toursQuery.CountAsync(); // Tính tổng số tour
+
+            var tours = await toursQuery
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(); // Lấy danh sách tour trên trang hiện tại
+
+            var model = new TourListViewModel
+            {
+                Tours = tours,
+                PageNumber = pageNumber,
+                TotalPages = (int)Math.Ceiling(totalTours / (double)pageSize),
+                CurrentFilter = searchString // Lưu giá trị tìm kiếm
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BookingConfirm(int tourId, [Bind("Name,Phone,StartDate,EndDate,NumPeople,Message")] Booking booking)
+        {
+            // Tìm tour dựa trên tourId
+            var tour = await _context.Tours.FindAsync(tourId);
+            if (tour == null)
+            {
+                return NotFound(); // Nếu không tìm thấy tour
+            }
+
+            // Kiểm tra dữ liệu đầu vào
+            if (ModelState.IsValid)
+            {
+                // Gán thông tin tour vào booking
+                booking.TourId = tour.TourId;
+
+                // Nếu có thêm thông tin về người dùng, ví dụ từ session, bạn có thể gán UserId ở đây
+                // booking.UserId = currentUserId; // Gán ID người dùng hiện tại nếu có
+
+                // Thêm booking vào cơ sở dữ liệu
+                _context.Bookings.Add(booking);
+                await _context.SaveChangesAsync();
+
+                // Chuyển hướng đến trang danh sách tour cho khách
+                return RedirectToAction(nameof(ListTourForGuests));
+            }
+
+            // Nếu model không hợp lệ, trở lại view đặt tour với thông tin tour
+            ViewBag.Tour = tour; // Truyền thông tin tour để hiển thị lại
+            return View(tour); // Hoặc bạn có thể trả về một view chứa thông tin đặt chỗ nhận từ booking
+        }
+
     }
 }

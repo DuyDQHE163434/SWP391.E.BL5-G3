@@ -4,6 +4,26 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    @if (ViewData["Role"] != null)
+    {
+        var role = ViewData["Role"].ToString();
+        if (role == "Admin")
+        {
+            <h1 class="display-4">Welcome Admin!</h1>
+        }
+        else if (role == "Travel_Agent")
+        {
+            <h1 class="display-4">Welcome Travel Agent!</h1>
+        }
+        else if (role == "Customer")
+        {
+            <h1 class="display-4">Welcome Customer!</h1>
+        }
+    }
+    else
+    {
+        <h1 class="display-4">Welcome Guest!</h1>
+    }
+
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>

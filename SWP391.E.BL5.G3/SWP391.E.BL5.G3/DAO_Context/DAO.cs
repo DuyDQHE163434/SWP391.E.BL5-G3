@@ -103,6 +103,39 @@ namespace SWP391.E.BL5.G3.DAO_Context
             }
             return true;
         }
+        public User getUser(string Email)
+        {
+            try
+            {
+                User users = context.Users.Where(x => x.Email == Email).FirstOrDefault();
+                if (users != null)
+                {
+                    return users;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch
+            {
+                return null;
+            }
 
+        }
+        public Boolean ChangePass(User account, string newPass)
+        {
+            try
+            {
+                User a = context.Users.Where(x => x.Email == account.Email.Trim() && x.Password == account.Password.Trim()).FirstOrDefault();
+                a.Password = newPass;
+                context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+            }
+            return false;
+        }
     }
 }

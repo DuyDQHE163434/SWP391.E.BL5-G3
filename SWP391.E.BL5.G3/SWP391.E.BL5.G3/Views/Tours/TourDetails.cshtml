@@ -1,6 +1,7 @@
 ﻿@model SWP391.E.BL5.G3.Models.Tour
 @{
     ViewData["Title"] = "Tour Details";
+    Layout = "/Views/Shared/_HomeLayout.cshtml";
 }
 
 <div class="container mt-4">
@@ -41,6 +42,9 @@
 
                     <p class="card-text"><strong>Exclusions:</strong></p>
                     <p class="card-text text-muted">@Model.Exclusions</p>
+
+                    <p class="card-text"><strong>Province:</strong> @(Model.Province != null ? Model.Province.ProvinceName : "N/A")</p>
+
                 </div>
             </div>
         </div>

@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SWP391.E.BL5.G3.Models;
-using X.PagedList;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
@@ -15,40 +19,52 @@ namespace SWP391.E.BL5.G3.Controllers
             _context = context;
         }
 
-        public IActionResult Index(int page = 1, string filter = "None")
+        public async Task<IActionResult> Index(string filter = "None", string searchString = "", int? page = 1)
         {
-            // Lấy tất cả khách sạn từ cơ sở dữ liệu
             var hotels = _context.Hotels.AsQueryable();
 
-            // Lọc theo tiêu chí được chọn
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                hotels = hotels.Where(h => h.HotelName.Contains(searchString));
+            }
+
             switch (filter)
             {
                 case "HighestPrice":
-                    hotels = hotels.OrderByDescending(h => h.Price);
+                    hotels = hotels.OrderByDescending(h => h.Price.GetValueOrDefault());
                     break;
                 case "LowestPrice":
-                    hotels = hotels.OrderBy(h => h.Price);
+                    hotels = hotels.OrderBy(h => h.Price.GetValueOrDefault());
                     break;
                 case "MostBooked":
-                    hotels = hotels.OrderByDescending(h => h.BookingCount);
+                    hotels = hotels.OrderByDescending(h => h.BookingCount.GetValueOrDefault());
                     break;
                 default:
-                    // Không sắp xếp gì nếu filter là "None"
                     hotels = hotels.OrderBy(h => h.HotelId);
                     break;
             }
 
-            // Chuyển đổi danh sách khách sạn thành phân trang
-            var pagedHotels = hotels.ToPagedList(page, 5);
-
-            // Lưu giá trị filter vào ViewData để sử dụng trong View
             ViewData["CurrentFilter"] = filter;
+            ViewData["CurrentSearch"] = searchString;
 
-            // Hiển thị thông báo thành công hoặc lỗi nếu có
-            ViewBag.SuccessMessage = TempData["SuccessMessage"];
-            ViewBag.ErrorMessage = TempData["ErrorMessage"];
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
 
-            return View(pagedHotels);
+            try
+            {
+                var totalCount = await hotels.CountAsync();
+                var pagedHotels = await hotels.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+
+                ViewBag.CurrentPage = pageNumber;
+                ViewBag.TotalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+                return View(pagedHotels);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"An error occurred: {ex.Message}";
+                return View(new List<Hotel>());
+            }
         }
 
         public IActionResult Create()
@@ -58,13 +74,26 @@ namespace SWP391.E.BL5.G3.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("HotelName,Location,Description,Image,Status,Price")] Hotel hotel)
+        public async Task<IActionResult> Create(Hotel hotel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    hotel.BookingCount = 0; // Khởi tạo số lần đặt phòng
+                    if (hotel.ImageFile != null && hotel.ImageFile.Length > 0)
+                    {
+                        var fileName = Path.GetFileName(hotel.ImageFile.FileName);
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await hotel.ImageFile.CopyToAsync(stream);
+                        }
+
+                        hotel.Image = $"/images/{fileName}"; 
+                    }
+
+                    hotel.BookingCount = 0; 
                     _context.Add(hotel);
                     await _context.SaveChangesAsync();
 
@@ -96,7 +125,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("HotelId,HotelName,Location,Description,Image,Status,Price")] Hotel hotel)
+        public async Task<IActionResult> Edit(int id, [Bind("HotelId,HotelName,Location,Description,Image,Status,Price,BookingCount")] Hotel hotel)
         {
             if (id != hotel.HotelId)
             {
@@ -150,26 +179,35 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(hotel);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var hotel = await _context.Hotels.FindAsync(id);
             if (hotel == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Hotel not found.";
+                return RedirectToAction(nameof(Index));
             }
 
             try
             {
+                
+                var bookings = _context.Bookings.Where(b => b.HotelId == id);
+                if (bookings.Any())
+                {
+                    _context.Bookings.RemoveRange(bookings);
+                }
+
+                
                 _context.Hotels.Remove(hotel);
                 await _context.SaveChangesAsync();
 
-                TempData["SuccessMessage"] = "Hotel deleted successfully!";
+                TempData["SuccessMessage"] = "Hotel and related records deleted successfully.";
             }
-            catch
+            catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Failed to delete hotel. Please try again.";
+                TempData["ErrorMessage"] = $"There was an error deleting the hotel: {ex.Message}";
             }
 
             return RedirectToAction(nameof(Index));
@@ -201,16 +239,16 @@ namespace SWP391.E.BL5.G3.Controllers
                 return NotFound();
             }
 
-            // Nếu phòng đã được đặt thì không cho đặt lại
-            if (hotel.Status) // Phòng đã được đặt
+           
+            if (hotel.Status) 
             {
                 TempData["ErrorMessage"] = "This room is already booked.";
                 return RedirectToAction("Error");
             }
 
-            // Đánh dấu phòng đã được đặt
+           
             hotel.Status = true;
-            hotel.BookingCount++; // Tăng số lần đặt phòng
+            hotel.BookingCount++; 
             _context.Update(hotel);
             await _context.SaveChangesAsync();
 
