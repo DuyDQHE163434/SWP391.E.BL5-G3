@@ -165,6 +165,8 @@ namespace SWP391.E.BL5.G3.Models
                 entity.Property(e => e.ProvinceName).HasMaxLength(100);
             });
 
+
+
             modelBuilder.Entity<Restaurant>(entity =>
             {
                 entity.Property(e => e.ClosedTime).HasColumnType("time(0)");

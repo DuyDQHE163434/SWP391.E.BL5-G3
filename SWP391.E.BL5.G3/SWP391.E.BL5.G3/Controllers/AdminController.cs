@@ -170,8 +170,6 @@ namespace SWP391.E.BL5.G3.Controllers
             List<User> listuserregistertravelagent = dal.GetListUserRegisterTravelAgent();
             ViewBag.ListUserTravelAgent = listuserregistertravelagent;
             return View();
-
-
         }
 
         [AllowAnonymous]
