@@ -26,7 +26,7 @@ namespace SWP391.E.BL5.G3.Models
         public string? Description { get; set; }
         public string? Summary { get; set; }
         public string? Parking { get; set; }
-        public int? Rating { get; set; }
+        public double? Rating { get; set; }
         public string? Regulations { get; set; }
         public string? Utilities { get; set; }
         public DateTime? CreatedAt { get; set; }
@@ -38,5 +38,4 @@ namespace SWP391.E.BL5.G3.Models
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<Tour> Tours { get; set; }
     }
-
 }
