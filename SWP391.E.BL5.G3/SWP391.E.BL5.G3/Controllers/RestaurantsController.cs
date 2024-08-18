@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.Models;
-using X.PagedList;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
@@ -26,7 +25,7 @@ namespace SWP391.E.BL5.G3.Controllers
             _cloudinary = new Cloudinary(account);
         }
 
-        // view list of restaurants
+        // View the list of restaurants
         [AllowAnonymous]
         public IActionResult ListRestaurants(string currentSearchString, string searchString, int? page)
         {
@@ -44,16 +43,25 @@ namespace SWP391.E.BL5.G3.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 restaurants = _context.Restaurants.Where(item =>
-                    item.RestaurantName.Contains(searchString)).ToList();
+                    item.RestaurantName
+                    .Contains(searchString))
+                    .Include(item => item.BusinessType)
+                    .Include(item => item.CuisineType)
+                    .Include(item => item.Province)
+                    .ToList();
             }
             else
             {
-                restaurants = _context.Restaurants.ToList();
+                restaurants = _context.Restaurants
+                    .Include(item => item.BusinessType)
+                    .Include(item => item.CuisineType)
+                    .Include(item => item.Province)
+                    .ToList();
             }
 
             ViewBag.currentSearchString = searchString;
 
-            int pageSize = 5;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             var totalItems = _context.Restaurants.Count();
@@ -62,7 +70,6 @@ namespace SWP391.E.BL5.G3.Controllers
             pageNumber = pageNumber < 1 ? 1 : pageNumber;
 
             restaurants = restaurants
-                .OrderBy(item => item.RestaurantName)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
@@ -73,7 +80,8 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(restaurants);
         }
 
-        // view details of a restaurant
+        // View details of the selected restaurant
+        [AllowAnonymous]
         public IActionResult RestaurantDetails(int? id)
         {
             if (id == null || _context.Restaurants == null)
@@ -81,7 +89,11 @@ namespace SWP391.E.BL5.G3.Controllers
                 return NotFound();
             }
 
-            var restaurant = _context.Restaurants.FirstOrDefault(item => item.RestaurantId == id);
+            var restaurant = _context.Restaurants
+                .Include(item => item.BusinessType)
+                .Include(item => item.CuisineType)
+                .Include(item => item.Province)
+                .FirstOrDefault(item => item.RestaurantId == id);
 
             if (restaurant == null)
             {
@@ -91,7 +103,7 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(restaurant);
         }
 
-        // add a new restaurant
+        // Add a new restaurant
         [Authorize(Enum.RoleEnum.Admin)]
         public IActionResult AddRestaurant()
         {
@@ -113,8 +125,7 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(restaurant);
         }
 
-        // edit restaurant
-        [HttpGet]
+        // Edit the selected restaurant
         [Authorize(Enum.RoleEnum.Admin, Enum.RoleEnum.Travel_Agent)]
         public IActionResult EditRestaurant(int? id)
         {
@@ -133,7 +144,8 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(restaurant);
         }
 
-        [HttpPut]
+        [HttpPost]
+        [Authorize(Enum.RoleEnum.Admin, Enum.RoleEnum.Travel_Agent)]
         public IActionResult EditRestaurant(int id, Restaurant restaurant)
         {
             if (id != restaurant.RestaurantId)
@@ -167,8 +179,9 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(restaurant);
         }
 
-        // delete restaurant
+        // Delete the selected restaurant
         [HttpPost]
+        [Authorize(Enum.RoleEnum.Admin)]
         public IActionResult DeleteRestaurant(int? id)
         {
             if (id == null || _context.Restaurants == null)
