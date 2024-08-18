@@ -46,10 +46,6 @@
         @Html.TextBox("searchString", ViewBag.currentSearchString as string)
         <input type="submit" value="Search" />
     </p>
-    <p>
-        @* @Html.DropDownListFor("province") *@
-        <input type="submit" value="Submit" />
-    </p>
 }
 
 <table id="dataTable" class="table">
@@ -60,7 +56,25 @@
                 Restaurant Name
             </th>
             <th>
+                Image
+            </th>
+            <th>
                 Location
+            </th>
+            <th>
+                Average Price
+            </th>
+            <th>
+                Contact Number
+            </th>
+            <th>
+                Rating
+            </th>
+            <th>
+                Business Type
+            </th>
+            <th>
+                Cuisine Type
             </th>
             <th>
                 Action
@@ -81,7 +95,25 @@
                     @Html.DisplayFor(modelItem => item.RestaurantName)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AveragePrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BusinessType.BusinessTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CuisineType.CuisineTypeName)
                 </td>
                 <td>
                     <a asp-action="EditRestaurant" asp-route-id="@item.RestaurantId">Edit</a> |
