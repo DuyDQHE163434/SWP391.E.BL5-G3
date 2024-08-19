@@ -120,7 +120,18 @@
                         @Html.DisplayFor(modelItem => item.Rating)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Status)
+                        @switch (item.Status)
+                        {
+                            case 1:
+                                @:Có sẵn
+                                break;
+                            case 2:
+                                @:Đang chạy
+                                break;
+                            case 3:
+                                @:Đang bảo trì
+                                break;
+                        }
                     </td>
                     <td class="text-center">
                         <a asp-action="EditVehicle" asp-route-id="@item.VehicleId" class="btn btn-warning btn-sm">Edit</a>
@@ -130,6 +141,7 @@
                         </form>
                     </td>
                 </tr>
+                serialNumber++;
             }
         </tbody>
     </table>
