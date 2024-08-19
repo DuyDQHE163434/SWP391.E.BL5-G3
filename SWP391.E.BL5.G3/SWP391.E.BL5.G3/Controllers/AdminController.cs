@@ -173,38 +173,52 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 1)
+        public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 3)
         {
             var query = _traveltestContext.Feedbacks
-            .Include(f => f.User) // Include the User information
-            .Where(f => !f.ParentId.HasValue); // Filter out feedbacks with a ParentId
+                .Include(f => f.User); // Include the User information
 
+            // Fetch all feedbacks first
+            var allFeedbacks = await query.ToListAsync();
+
+            // Create a list of replied feedback IDs
+            var repliedFeedbackIds = allFeedbacks
+                .Where(f => allFeedbacks.Any(r => r.ParentId == f.FeedbackId))
+                .Select(f => f.FeedbackId)
+                .ToList();
+
+            // Apply the search filter
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                query = query.Where(f => f.Content.Contains(searchQuery) ||
-                                          f.User.FirstName.Contains(searchQuery) ||
-                                          f.User.LastName.Contains(searchQuery)); // Apply search filter
+                allFeedbacks = allFeedbacks.Where(f => f.Content.Contains(searchQuery) ||
+                                                       f.User.FirstName.ToLower().Contains(searchQuery.ToLower()) ||
+                                                       f.User.LastName.ToLower().Contains(searchQuery.ToLower()) ||
+                                                       (f.User.FirstName.ToLower() + " " + f.User.LastName.ToLower()).Contains(searchQuery.ToLower())).ToList();
             }
 
-            var totalItems = await query.CountAsync(); // Total items before pagination
-
-            var feedbacks = await query
+            // Filter out feedbacks with EntityId = 6 for display
+            var feedbacksToDisplay = allFeedbacks
+                .Where(f => f.EntityId != 6)
                 .OrderByDescending(f => f.CreatedDate) // Order by creation date
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .ToListAsync(); // Apply pagination
+                .ToList(); // Apply pagination
+
+            var totalItems = allFeedbacks.Count; // Total items before pagination
 
             var pagedResult = new PagedResult<Feedback>
             {
-                Items = feedbacks,
+                Items = feedbacksToDisplay,
                 TotalItems = totalItems,
                 PageNumber = page,
                 PageSize = pageSize
             };
 
+            ViewData["RepliedFeedbackIds"] = repliedFeedbackIds;
             ViewData["SearchQuery"] = searchQuery;
 
             return View(pagedResult);
+
         }
 
         [HttpGet]
@@ -240,26 +254,7 @@ namespace SWP391.E.BL5.G3.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ReplyFeedback(ReplyFeedbackViewModel model)
         {
-
-            DAO dal = new DAO();
-            string fromEmail = "duydqhe163434@fpt.edu.vn";
-            string toEmail = email;
-            string subject = "Hello " + email;
-
-            string body = "Vì Một Số Lý Do Nào Đó Từ Phía Của Chúng Tôi Không Thể Cung Cấp Dịch Vụ Travelagent Cho Bạn Được Nữa Mọi Chi Tiết Xin Vui Lòng Liên Hệ Admin ";
-            string smtpServer = "smtp.gmail.com";
-            int smtpPort = 587;
-            string smtpUsername = "duydqhe163434@fpt.edu.vn";
-            string smtpPassword = "htay mxgi flsx dxde";
-            bool result = SendEmail.theSendEmailRegisterTravelAgent(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword);
-            string stt = "Unaccept";
-            dal.AccessRegisterTravelAgent(id, stt);
-            return RedirectToAction("ListRegisterTravelAgent", "Admin");
-        }
-
-=======
             var u = (User)HttpContext.Items["User"];
-
 
             var replyFeedback = new Feedback();
 
@@ -270,7 +265,7 @@ namespace SWP391.E.BL5.G3.Controllers
                 replyFeedback.UserId = u.UserId;
                 replyFeedback.EntityId = 6;
                 replyFeedback.Content = model.ReplyContent;
-                replyFeedback.Rating = model.Feedback.Rating;
+                replyFeedback.Rating = double.Parse(model.Rating);
                 replyFeedback.CreatedDate = DateTime.UtcNow;
                 replyFeedback.ModifiedDate = null; // or set the modified date if needed
 
@@ -310,5 +305,6 @@ namespace SWP391.E.BL5.G3.Controllers
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public string ReplyContent { get; set; }
+        public string Rating { get; set; }  
     }
-
+}
