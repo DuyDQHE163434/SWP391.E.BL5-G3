@@ -98,10 +98,12 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price,ProvinceId")] Tour tour, IFormFile image)
+        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price,ProvinceId,UserId")] Tour tour, IFormFile image)
         {
             if (ModelState.IsValid)
             {
+                tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
                 if (image != null && image.Length > 0)
                 {
                     var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
@@ -158,7 +160,7 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTour(int id, [Bind("TourId,Name,Image,Description,Price,Duration,AirPlane,Rating,Itinerary,Inclusions,Exclusions,GroupSize,Guide,ProvinceId")] Tour tour, IFormFile image)
+        public async Task<IActionResult> EditTour(int id, [Bind("TourId,Name,Image,Description,Price,Duration,AirPlane,Rating,Itinerary,Inclusions,Exclusions,GroupSize,Guide,ProvinceId,UserId")] Tour tour, IFormFile image)
         {
             if (id != tour.TourId)
             {
@@ -169,6 +171,8 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 try
                 {
+                    tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
                     if (image != null && image.Length > 0)
                     {
                         var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");

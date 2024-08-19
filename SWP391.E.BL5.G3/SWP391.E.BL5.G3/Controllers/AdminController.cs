@@ -272,7 +272,7 @@ namespace SWP391.E.BL5.G3.Controllers
             dal.AccessRegisterTravelAgent(id, stt);
             return RedirectToAction("ListRegisterTravelAgent", "Admin");
         }
-=======
+
 
     }
 
@@ -300,5 +300,6 @@ namespace SWP391.E.BL5.G3.Controllers
         public string UserLastName { get; set; }
         public string ReplyContent { get; set; }
     }
+}
 
 
