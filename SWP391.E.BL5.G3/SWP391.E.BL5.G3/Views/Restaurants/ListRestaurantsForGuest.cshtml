@@ -40,7 +40,7 @@
     <!--Search-->
     <div class="row mb-3">
         <div class="col-md-8 offset-md-2">
-            @using (Html.BeginForm("ListRestaurants", "Restaurants", FormMethod.Get, new { @class = "input-group" }))
+            @using (Html.BeginForm("ListRestaurantsForGuest", "Restaurants", FormMethod.Get, new { @class = "input-group" }))
             {
                 @Html.TextBox("searchString", ViewBag.currentSearchString as string, new { @class = "form-control", placeholder = "Search restaurant..." })
                 <div class="input-group-append">
@@ -48,10 +48,6 @@
                 </div>
             }
         </div>
-    </div>
-
-    <div class="mb-3 text-right">
-        <a asp-action="AddRestaurant" class="btn btn-primary">Add new Restaurant</a>
     </div>
 
     <table id="dataTable" class="table table-striped table-bordered table-hover">
@@ -86,11 +82,7 @@
                     <td>@(item.BusinessType.BusinessTypeName != null ? Html.DisplayFor(modelItem => item.BusinessType.BusinessTypeName) : "N/A")</td>
                     <td>@(item.CuisineType.CuisineTypeName != null ? Html.DisplayFor(modelItem => item.CuisineType.CuisineTypeName) : "N/A")</td>
                     <td class="text-center">
-                        <a asp-action="EditRestaurant" asp-route-id="@item.RestaurantId" class="btn btn-warning btn-sm">Edit</a>
                         <a asp-action="RestaurantDetails" asp-route-id="@item.RestaurantId" class="btn btn-info btn-sm">Details</a>
-                        <form method="post" asp-action="DeleteRestaurant" asp-route-id="@item.RestaurantId" style="display:inline;">
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this restaurant?');">Delete</button>
-                        </form>
                     </td>
                 </tr>
                 serialNumber++;
