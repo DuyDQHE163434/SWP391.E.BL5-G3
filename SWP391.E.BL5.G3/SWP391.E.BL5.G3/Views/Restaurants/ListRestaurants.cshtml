@@ -80,7 +80,7 @@
                     <td>@Html.DisplayFor(modelItem => item.RestaurantName)</td>
                     <td>@(item.Image != null ? Html.DisplayFor(modelItem => item.Image) : "N/A")</td>
                     <td>@(item.Location != null ? Html.DisplayFor(modelItem => item.Location) : "N/A")</td>
-                    <td>@(item.AveragePrice != null ? Html.DisplayFor(modelItem => item.AveragePrice) : "N/A")</td>
+                    <td>@(item.AveragePrice != null ? Html.DisplayFor(modelItem => item.AveragePrice, "Currency") : "N/A")</td>
                     <td>@(item.ContactNumber != null ? Html.DisplayFor(modelItem => item.ContactNumber) : "N/A")</td>
                     <td>@(item.Rating != null ? Html.DisplayFor(modelItem => item.Rating) : "N/A")</td>
                     <td>@(item.BusinessType.BusinessTypeName != null ? Html.DisplayFor(modelItem => item.BusinessType.BusinessTypeName) : "N/A")</td>
