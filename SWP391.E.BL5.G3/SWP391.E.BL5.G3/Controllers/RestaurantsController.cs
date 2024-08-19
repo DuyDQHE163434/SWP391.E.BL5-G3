@@ -1,5 +1,6 @@
 ﻿using CloudinaryDotNet;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWP391.E.BL5.G3.Authorization;
@@ -7,7 +8,7 @@ using SWP391.E.BL5.G3.Models;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class RestaurantsController : Controller
     {
         private readonly traveltestContext _context;
@@ -25,64 +26,7 @@ namespace SWP391.E.BL5.G3.Controllers
             _cloudinary = new Cloudinary(account);
         }
 
-        // View the list of restaurants (Guest)
-        [AllowAnonymous]
-        public IActionResult ListRestaurantsForGuest(string currentSearchString, string searchString, int? page)
-        {
-            var restaurants = new List<Restaurant>();
-
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentSearchString;
-            }
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                restaurants = _context.Restaurants.Where(item =>
-                    item.RestaurantName
-                    .Contains(searchString))
-                    .Include(item => item.BusinessType)
-                    .Include(item => item.CuisineType)
-                    .Include(item => item.Province)
-                    .ToList();
-            }
-            else
-            {
-                restaurants = _context.Restaurants
-                    .Include(item => item.BusinessType)
-                    .Include(item => item.CuisineType)
-                    .Include(item => item.Province)
-                    .ToList();
-            }
-
-            ViewBag.currentSearchString = searchString;
-
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-
-            var totalItems = _context.Restaurants.Count();
-            var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
-
-            pageNumber = pageNumber < 1 ? 1 : pageNumber;
-
-            restaurants = restaurants
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-
-            ViewBag.CurrentPage = page;
-            ViewBag.TotalPages = totalPages;
-
-            return View(restaurants);
-        }
-
-        // View the list of restaurants (Admin, Travel Agent)
-        [AllowAnonymous]
-        //[Authorize(Enum.RoleEnum.Admin, Enum.RoleEnum.Travel_Agent)]
+        //[AllowAnonymous]
         public IActionResult ListRestaurants(string currentSearchString, string searchString, int? page)
         {
             var restaurants = new List<Restaurant>();
@@ -137,7 +81,7 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         // View details of the selected restaurant
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult RestaurantDetails(int? id)
         {
             if (id == null || _context.Restaurants == null)
@@ -160,31 +104,41 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         // Add a new restaurant
-        [Authorize(Enum.RoleEnum.Admin)]
+        //[AllowAnonymous]
         public IActionResult AddRestaurant()
         {
+            var businessTypes = _context.BusinessTypes.ToList();
+            var cuisineTypes = _context.CuisineTypes.ToList();
+            var provinces = _context.Provinces.ToList();
+            ViewData["BusinessType"] = new SelectList(businessTypes, "BusinessTypeId", "BusinessTypeName");
+            ViewData["CuisineType"] = new SelectList(cuisineTypes, "CuisineTypeId", "CuisineTypeName");
+            ViewData["Province"] = new SelectList(provinces, "ProvinceId", "ProvinceName");
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        //[Authorize(Enum.RoleEnum.Admin)]
+        //[AllowAnonymous]
         public IActionResult AddRestaurant(Restaurant restaurant)
         {
             if (ModelState.IsValid)
             {
-                restaurant.CreatedAt = DateTime.Now;
-                restaurant.UpdatedAt = restaurant.CreatedAt;
+                //restaurant.CreatedAt = DateTime.Now;
+                //restaurant.UpdatedAt = restaurant.CreatedAt;
                 _context.Add(restaurant);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(ListRestaurants));
             }
+            var businessTypes = _context.BusinessTypes.ToList();
+            var cuisineTypes = _context.CuisineTypes.ToList();
+            var provinces = _context.Provinces.ToList();
+            ViewData["BusinessType"] = new SelectList(businessTypes, "BusinessTypeId", "BusinessTypeName");
+            ViewData["CuisineType"] = new SelectList(cuisineTypes, "CuisineTypeId", "CuisineTypeName");
+            ViewData["Province"] = new SelectList(provinces, "ProvinceId", "ProvinceName");
             return View(restaurant);
         }
 
         // Edit the selected restaurant
-        [AllowAnonymous]
-        //[Authorize(Enum.RoleEnum.Admin, Enum.RoleEnum.Travel_Agent)]
+        //[AllowAnonymous]
         public IActionResult EditRestaurant(int? id)
         {
             if (id == null || _context.Restaurants == null)
@@ -203,8 +157,7 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        //[Authorize(Enum.RoleEnum.Admin, Enum.RoleEnum.Travel_Agent)]
+        //[AllowAnonymous]
         public IActionResult EditRestaurant(int id, Restaurant restaurant)
         {
             if (id != restaurant.RestaurantId)
@@ -240,8 +193,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
         // Delete the selected restaurant
         [HttpPost]
-        [AllowAnonymous]
-        //[Authorize(Enum.RoleEnum.Admin)]
+        //[AllowAnonymous]
         public IActionResult DeleteRestaurant(int? id)
         {
             if (id == null || _context.Restaurants == null)
