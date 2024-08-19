@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SWP391.E.BL5.G3.Models
 {
@@ -29,7 +30,9 @@ namespace SWP391.E.BL5.G3.Models
         public double? Rating { get; set; }
         public string? Regulations { get; set; }
         public string? Utilities { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}")]
         public DateTime? CreatedAt { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}")]
         public DateTime? UpdatedAt { get; set; }
 
         public virtual BusinessType? BusinessType { get; set; }
