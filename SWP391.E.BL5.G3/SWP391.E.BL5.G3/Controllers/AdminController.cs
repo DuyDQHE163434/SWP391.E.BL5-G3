@@ -170,12 +170,10 @@ namespace SWP391.E.BL5.G3.Controllers
             List<User> listuserregistertravelagent = dal.GetListUserRegisterTravelAgent();
             ViewBag.ListUserTravelAgent = listuserregistertravelagent;
             return View();
-
-
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 1)
         {
             var query = _traveltestContext.Feedbacks
             .Include(f => f.User) // Include the User information
@@ -238,25 +236,11 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(viewModel);
         }
 
-        public IActionResult RequestAccept(int id, string email)
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ReplyFeedback(ReplyFeedbackViewModel model)
         {
-            DAO dal = new DAO();
-            string fromEmail = "duydqhe163434@fpt.edu.vn";
-            string toEmail = email;
-            string subject = "Hello " + email;
 
-            string body = "Tài Khoản Của Bạn Đã Đăng Ký TravelAgent Thành Công";
-            string smtpServer = "smtp.gmail.com";
-            int smtpPort = 587;
-            string smtpUsername = "duydqhe163434@fpt.edu.vn";
-            string smtpPassword = "htay mxgi flsx dxde";
-            bool result = SendEmail.theSendEmailRegisterTravelAgent(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword);
-            string stt = "Accept";
-            dal.AccessRegisterTravelAgent(id, stt);
-            return RedirectToAction("ListRegisterTravelAgent", "Admin");
-        }
-        public IActionResult RequestUnaccept(int id, string email)
-        {
             DAO dal = new DAO();
             string fromEmail = "duydqhe163434@fpt.edu.vn";
             string toEmail = email;
@@ -273,7 +257,34 @@ namespace SWP391.E.BL5.G3.Controllers
             return RedirectToAction("ListRegisterTravelAgent", "Admin");
         }
 
+=======
+            var u = (User)HttpContext.Items["User"];
 
+
+            var replyFeedback = new Feedback();
+
+            if (!ModelState.IsValid)
+            {
+                // Set the ParentId to the FeedbackId of the feedback being replied to
+                replyFeedback.ParentId = model.Feedback.FeedbackId;
+                replyFeedback.UserId = u.UserId;
+                replyFeedback.EntityId = 6;
+                replyFeedback.Content = model.ReplyContent;
+                replyFeedback.Rating = model.Feedback.Rating;
+                replyFeedback.CreatedDate = DateTime.UtcNow;
+                replyFeedback.ModifiedDate = null; // or set the modified date if needed
+
+                // Add the new feedback to the database
+                _traveltestContext.Feedbacks.Add(replyFeedback);
+                await _traveltestContext.SaveChangesAsync();
+
+                // Redirect to the feedback management page or another appropriate page
+                return RedirectToAction("FeedbackManagement", new { page = 1 });
+            }
+
+            // If the model state is invalid, return the view with the existing data to show validation errors
+            return View(replyFeedback);
+        }
     }
 
     public class CloudinarySettings
@@ -300,6 +311,4 @@ namespace SWP391.E.BL5.G3.Controllers
         public string UserLastName { get; set; }
         public string ReplyContent { get; set; }
     }
-}
-
 

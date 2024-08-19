@@ -200,7 +200,6 @@ namespace SWP391.E.BL5.G3.Models
                 entity.HasOne(d => d.Province)
                     .WithMany(p => p.Restaurants)
                     .HasForeignKey(d => d.ProvinceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Restaurants_Provinces");
             });
 
@@ -323,7 +322,6 @@ namespace SWP391.E.BL5.G3.Models
                 entity.HasOne(d => d.Province)
                     .WithMany(p => p.Vehicles)
                     .HasForeignKey(d => d.ProvinceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Vehicles_Provinces");
             });
 

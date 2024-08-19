@@ -30,14 +30,18 @@ namespace SWP391.E.BL5.G3.Controllers
             // Lấy ID của người dùng hiện tại
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
+            //lay role user
+            int userrole = Convert.ToInt32(User.FindFirstValue(ClaimTypes.Role));
 
+            var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
+            
             // Kiểm tra vai trò người dùng
-            if (User.IsInRole(RoleEnum.Travel_Agent.ToString()))
+            if (userrole==2)
             {
                 // Chỉ lấy các tour mà Travel_Agent đã tạo
                 toursQuery = toursQuery.Where(t => t.UserId.ToString() == userId);
             }
+          
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -104,19 +108,24 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
+
+
+                
+                // Xử lý upload ảnh
+
                 if (image != null && image.Length > 0)
                 {
                     var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
                     var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
                     var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                    Directory.CreateDirectory(uploadsFolder);
+                    Directory.CreateDirectory(uploadsFolder); // Tạo thư mục nếu không tồn tại
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await image.CopyToAsync(stream);
                     }
-                    tour.Image = uniqueFileName;
+                    tour.Image = uniqueFileName; // Gán tên hình ảnh cho tour
                 }
 
                 tour.CreateDate = DateTime.Now;
@@ -129,11 +138,15 @@ namespace SWP391.E.BL5.G3.Controllers
             }
 
             // Nếu model không hợp lệ, sẽ lấy lại danh sách tỉnh
-            var provinces = _context.Provinces.ToList();
-            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "Name");
+            var provinces = await _context.Provinces.ToListAsync();
+            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "ProvinceName");
+
+            //Console.WriteLine("=====================");
+            //Console.WriteLine(tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
             return View(tour);
         }
+
 
         // Edit Tour
         [HttpGet]
