@@ -23,7 +23,7 @@ namespace SWP391.E.BL5.G3.Models
         public int? BaggageNumber { get; set; }
         public int? NumberOfSeats { get; set; }
         public double? Price { get; set; }
-        public int? Rating { get; set; }
+        public double? Rating { get; set; }
         public int? Status { get; set; }
         public string? Description { get; set; }
         public DateTime? CreatedAt { get; set; }
