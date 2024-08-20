@@ -165,5 +165,18 @@ namespace SWP391.E.BL5.G3.DAO_Context
                 context.SaveChanges();
             }
         }
+        public List<User> GetListAccount()
+        {
+            List<User> listaccount = new List<User>();
+            try
+            {
+                listaccount = context.Users.ToList();
+                return listaccount;
+            }
+            catch
+            {
+                return listaccount;
+            }
+        }
     }
 }
