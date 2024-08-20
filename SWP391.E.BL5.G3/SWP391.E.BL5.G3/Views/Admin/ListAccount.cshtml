@@ -76,7 +76,7 @@
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h6>View List Register TravelAgent</h6>
+                        <h6>View List  Account</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -89,14 +89,16 @@
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Phone Number</th>
-                                        <th>Role ID</th>
+                                        <th>Role</th>
                                         <th>Gender</th>
-                                        <th></th>
+                                        <th> <a href="/Admin/AddAccount">Add Account</a></th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var b in ViewBag.ListUserTravelAgent)
+                                    @foreach (var b in ViewBag.ListAccount)
                                     {
+                                        
                                         <tr>
                                             <td>@b.UserId</td>
                                             <td>@b.Email</td>
@@ -108,24 +110,27 @@
                                             <td>@b.PhoneNumber</td>
                                             @if (@b.RoleId == 2)
                                             {
-                                                <td>active</td>
+                                                <td>TravelAgent</td>
                                             }
-                                            else if (@b.RoleId == 4)
+                                            else if (@b.RoleId == 3)
                                             {
-                                                <td>Unactive</td>
+                                                <td>Customer</td>
                                             }
-                                            <td>@b.Gender</td>
+                                            @if (@b.Gender == true)
+                                            {
+                                                <td>Male</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Female</td>
+                                            }
+
 
                                             <td>
 
-                                                @if (@b.RoleId == 2)
-                                                {
-                                                    <a href="/Admin/RequestUnaccept?Id=@b.UserId&email=@b.Email">Unacceptance</a>
-                                                }
-                                                else if (@b.RoleId == 4)
-                                                {
-                                                    <a href="/Admin/RequestAccept?Id=@b.UserId&email=@b.Email">Acceptance</a>
-                                                }
+
+                                                <a href="/Admin/ResetPass?Id=@b.UserId&email=@b.Email">ResetPass</a>
+                                              
                                             </td>
 
                                         </tr>

@@ -1,4 +1,9 @@
 
+﻿using CloudinaryDotNet.Actions;
+using CloudinaryDotNet;
+using Microsoft.AspNetCore.Mvc;
+
+
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +12,11 @@ using Microsoft.Extensions.Options;
 ﻿using Microsoft.AspNetCore.Mvc;
 using NuGet.Common;
 
+
 using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.DAO_Context;
 using SWP391.E.BL5.G3.Models;
+using Microsoft.Extensions.Options;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
@@ -19,7 +26,11 @@ namespace SWP391.E.BL5.G3.Controllers
         traveltestContext context = new traveltestContext();
         DAO dal = new DAO();
         private readonly Cloudinary _cloudinary;
-        public LoginController(JwtUtils jwtUtils, traveltestContext traveltestContext, IOptions<CloudinarySettings> cloudinarySettings)
+
+        public LoginController(JwtUtils jwtUtils , traveltestContext traveltestContext, IOptions<CloudinarySettings> cloudinarySettings)
+
+        
+
         {
             context = traveltestContext;
             var cloudinarySettingsValue = cloudinarySettings.Value;
@@ -108,9 +119,7 @@ namespace SWP391.E.BL5.G3.Controllers
             return RedirectToAction("Index", "Home");
 
 
-            Response.Cookies.Delete("accessToken");
-            HttpContext.Session.Clear();
-            return RedirectToAction("Index", "Home");
+           
 
         }
 
