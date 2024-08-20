@@ -7,7 +7,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Register Travel System</title>
+    <title>Add Account Travel System</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
@@ -32,12 +32,12 @@
                     <div class="login-wrap p-0">
 
                         @{
-                            if (ViewBag.mess1 != null)
+                            if (ViewBag.mess == 1)
                             {
-                                <h5 style="z-index:999;font-size:20px;color:red;font-weight:700;text-shadow: black 0.1em 0.1em 0.2em">@ViewBag.mess1 </h5>
+                                <h5 style="z-index:999;font-size:20px;color:red;font-weight:700;text-shadow: black 0.1em 0.1em 0.2em"> Email này đã có trong tài khoản !!! </h5>
                             }
                         }
-                        <form action="RegisterAccess" class="signin-form" method="post" enctype="multipart/form-data">
+                        <form action="AddAccountAccess" class="signin-form" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Username" value="@ViewBag.Email" required name="username">
                             </div>
@@ -73,9 +73,7 @@
 
                             <select id="country" name="SelectAccount">
                                 <option value="3">Customer</option>
-                                <option value="4">TravelAgent</option>
-
-
+                                <option value="2">TravelAgent</option>
                             </select>
 
                             <div style="font-size:20px">
@@ -87,7 +85,7 @@
 
 
                             <div class="form-group">
-                                <button type="submit" class="form-control btn btn-primary submit px-3">Register</button>
+                                <button type="submit" class="form-control btn btn-primary submit px-3">Add</button>
 
                             </div>
                         </form>

@@ -279,6 +279,103 @@ namespace SWP391.E.BL5.G3.Controllers
             dal.AccessRegisterTravelAgent(id, stt);
             return RedirectToAction("ListRegisterTravelAgent", "Admin");
         }
+        public IActionResult ResetPass(int id, string email)
+        {
+            DAO dal = new DAO();
+            
+          
+            dal.ResetPass(id, email);
+            return RedirectToAction("ListAccount", "Admin");
+        }
+        public IActionResult AddAccount(int mess)
+        {
+            ViewBag.mess = mess;
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddAccountAccess()
+        {
+            traveltestContext context = new traveltestContext();
+            DAO dal = new DAO();
+            String Username = "";
+            Username = HttpContext.Request.Form["username"];
+            String Pass = "";
+            Pass = HttpContext.Request.Form["pass"];
+            String Cf_Pass = "";
+            Cf_Pass = HttpContext.Request.Form["Confirm-Password"];
+
+            String FirstName = "";
+            FirstName = HttpContext.Request.Form["FirstName"];
+            String LastName = "";
+            LastName = HttpContext.Request.Form["LastName"];
+            String PhoneNumber = "";
+            PhoneNumber = HttpContext.Request.Form["PhoneNumber"];
+            String Gender = "";
+            Gender = HttpContext.Request.Form["Gender"];
+            String SelectAccount = "";
+            SelectAccount = HttpContext.Request.Form["SelectAccount"];
+            IFormFile imageFile = HttpContext.Request.Form.Files["imageFile"];
+         
+
+
+
+            //Check Email
+            if (dal.IsEmailValid(Username) == true && Pass == Cf_Pass && dal.IsPhoneNumberValidVietnam(PhoneNumber) == true && dal.IsValidFirstnameorLastname(FirstName) == true && dal.IsValidFirstnameorLastname(LastName) == true)
+            {
+
+                User usercheck = context.Users.Where(x => x.Email == Username).FirstOrDefault();
+
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        await imageFile.CopyToAsync(stream);
+                        stream.Position = 0;
+
+                        var uploadParams = new ImageUploadParams()
+                        {
+                            File = new FileDescription(imageFile.FileName, stream)
+                        };
+
+                        var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+                        User user = new User()
+                        {
+
+                            Email = HttpContext.Request.Form["username"],
+                            Password = HttpContext.Request.Form["pass"],
+                            FirstName = HttpContext.Request.Form["FirstName"],
+                            LastName = HttpContext.Request.Form["LastName"],
+                            PhoneNumber = HttpContext.Request.Form["PhoneNumber"],
+                            RoleId = Convert.ToInt32(HttpContext.Request.Form["SelectAccount"]),
+                            Action = true,
+                            Image = uploadResult.SecureUrl.ToString(),
+                            Gender = Convert.ToBoolean(Convert.ToInt32(HttpContext.Request.Form["Gender"]))
+                        };
+                        
+                        if (usercheck == null)
+                        {
+                            context.Add(user);
+                            context.SaveChanges();
+                            return RedirectToAction("ListAccount", "Admin");
+                        }
+                        else
+                        {                           
+                            return RedirectToAction("AddAccount", "Admin", new { mess = 1 });
+                        }
+
+                    }
+
+
+                }
+
+                return RedirectToAction("ListAccount", "Admin");
+
+            }
+            else
+            {
+                return RedirectToAction("AddAccount", "Admin", new { mess = 1 });
+            }
+        }
     }
 
     public class CloudinarySettings
