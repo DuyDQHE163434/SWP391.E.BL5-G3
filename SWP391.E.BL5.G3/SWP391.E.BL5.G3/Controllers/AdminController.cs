@@ -171,7 +171,15 @@ namespace SWP391.E.BL5.G3.Controllers
             ViewBag.ListUserTravelAgent = listuserregistertravelagent;
             return View();
         }
+        public IActionResult ListAccount()
+        {
+            DAO dal = new DAO();
+            List<User> ListAccount = dal.GetListAccount();
+            ViewBag.ListAccount = ListAccount;
+            return View();
 
+
+        }
         [AllowAnonymous]
         public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 1)
         {
