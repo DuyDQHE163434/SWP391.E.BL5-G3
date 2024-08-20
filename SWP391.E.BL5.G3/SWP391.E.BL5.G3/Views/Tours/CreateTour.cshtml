@@ -1,9 +1,9 @@
-﻿@model SWP391.E.BL5.G3.Models.Tour
+﻿@using System.Security.Claims
+@model SWP391.E.BL5.G3.Models.Tour
 
 @{
     ViewData["Title"] = "Create Tour";
     Layout = "/Views/Shared/_HomeLayout.cshtml";
-
 }
 
 <div class="container mt-4">
@@ -52,10 +52,12 @@
             <div class="form-group">
                 <label asp-for="ProvinceId" class="font-weight-bold">Select Province</label>
                 <select asp-for="ProvinceId" class="form-control" asp-items="ViewBag.ProvinceList">
-                    <option value="">-- Select Province --</option>
+                        <option value="">-- Select Province --</option>
                 </select>
                 <span asp-validation-for="ProvinceId" class="text-danger"></span>
             </div>
+
+            <input type="hidden" asp-for="UserId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
 
             <div class="form-group text-center">
                 <input type="submit" value="Create Tour" class="btn btn-primary btn-lg" />
