@@ -289,7 +289,7 @@ namespace SWP391.E.BL5.G3.Controllers
                 toursQuery = toursQuery.Where(t => t.Name.Contains(searchString));
             }
 
-            int pageSize = 5; // Số lượng tour trên mỗi trang
+            int pageSize = 6; // Số lượng tour trên mỗi trang
             var totalTours = await toursQuery.CountAsync(); // Tính tổng số tour
 
             var tours = await toursQuery
@@ -406,6 +406,24 @@ namespace SWP391.E.BL5.G3.Controllers
                 .ToListAsync();
 
             return View("MyBookingTours", bookings); // Đảm bảo trả về view mới
+        }
+
+
+        [HttpGet]
+        [Authorize] // Bảo vệ action này, chỉ cho phép người dùng đã xác thực
+        public async Task<IActionResult> ListHistoryBookingTours()
+        {
+            // Lấy ID của người dùng hiện tại
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Truy vấn các booking của người dùng
+            var bookings = await _context.Bookings
+                //.Where(b => b.UserId.ToString() == userId) // Hoặc điều chỉnh theo cách bạn lưu userId
+                .Where(b => b.Status == (int)BookingStatusEnum.Confirmed)
+                .Include(b => b.Tour) // Bao gồm thông tin tour
+                .ToListAsync();
+
+            return View("ListHistoryBookingTours", bookings); // Đảm bảo trả về view mới
         }
 
     }

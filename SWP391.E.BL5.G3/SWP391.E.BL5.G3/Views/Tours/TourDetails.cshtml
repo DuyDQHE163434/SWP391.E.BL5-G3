@@ -21,7 +21,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <p class="card-text"><strong>Price:</strong> @Model.Price</p>
+                            <p class="card-text"><strong>Price:</strong> @string.Format("{0:N0}",Model.Price)</p>
                             <p class="card-text"><strong>Duration:</strong> @Model.Duration</p>
                             <p class="card-text"><strong>Airplane:</strong> @Model.AirPlane</p>
                         </div>
@@ -51,6 +51,15 @@
     </div>
 
     <div class="text-center">
-        <a asp-action="ListTour" class="btn btn-primary btn-lg">Back to List</a>
+        @switch(ViewData["Role"])
+        {
+            case "Admin":
+            case "Travel_Agent":
+                <a asp-action="ListTour" class="btn btn-primary btn-lg">Back to List</a>
+                break;
+            default:
+                <a asp-action="ListTourForGuests" class="btn btn-primary btn-lg">Back to List</a>
+                break;
+        }
     </div>
 </div>
