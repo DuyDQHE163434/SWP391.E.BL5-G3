@@ -1,5 +1,12 @@
+
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+
 ﻿using Microsoft.AspNetCore.Mvc;
 using NuGet.Common;
+
 using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.DAO_Context;
 using SWP391.E.BL5.G3.Models;
@@ -11,12 +18,20 @@ namespace SWP391.E.BL5.G3.Controllers
         private readonly JwtUtils jwtUtils;
         traveltestContext context = new traveltestContext();
         DAO dal = new DAO();
-
-        public LoginController(JwtUtils jwtUtils)
+        private readonly Cloudinary _cloudinary;
+        public LoginController(JwtUtils jwtUtils, traveltestContext traveltestContext, IOptions<CloudinarySettings> cloudinarySettings)
         {
+            context = traveltestContext;
+            var cloudinarySettingsValue = cloudinarySettings.Value;
+            var account = new Account(
+                cloudinarySettingsValue.CloudName,
+                cloudinarySettingsValue.ApiKey,
+                cloudinarySettingsValue.ApiSecret
+            );
+            _cloudinary = new Cloudinary(account);
             this.jwtUtils = jwtUtils;
         }
-
+       
         public IActionResult LoginAccess()
         {
             String Username = HttpContext.Request.Form["username"];
@@ -86,9 +101,17 @@ namespace SWP391.E.BL5.G3.Controllers
         }
         public IActionResult Logout()
         {
+
+
             Response.Cookies.Delete("accessToken");
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
+
+
+            Response.Cookies.Delete("accessToken");
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+
         }
 
         public IActionResult Register(int mess, string email)
@@ -192,7 +215,8 @@ namespace SWP391.E.BL5.G3.Controllers
                 return RedirectToAction("ConfilmOTPregister", "Login", new { messcf = 1 });
             }
         }
-        public IActionResult RegisterAccess()
+        [HttpPost]
+        public async Task<IActionResult> RegisterAccess()
         {
             traveltestContext context = new traveltestContext();
             DAO dal = new DAO();
@@ -213,6 +237,7 @@ namespace SWP391.E.BL5.G3.Controllers
             Gender = HttpContext.Request.Form["Gender"];
             String SelectAccount = "";
             SelectAccount = HttpContext.Request.Form["SelectAccount"];
+            IFormFile imageFile = HttpContext.Request.Form.Files["imageFile"];
             Random r = new Random();
             string OTP = r.Next(100000, 999999).ToString();
 
@@ -236,43 +261,66 @@ namespace SWP391.E.BL5.G3.Controllers
             {
 
                 User usercheck = context.Users.Where(x => x.Email == Username).FirstOrDefault();
-                User user = new User()
+
+                if (imageFile != null && imageFile.Length > 0)
                 {
-                    Email = HttpContext.Request.Form["username"],
-                    Password = HttpContext.Request.Form["pass"],
-                    FirstName = HttpContext.Request.Form["FirstName"],
-                    LastName = HttpContext.Request.Form["LastName"],
-                    PhoneNumber = HttpContext.Request.Form["PhoneNumber"],
-                    RoleId = Convert.ToInt32(HttpContext.Request.Form["SelectAccount"]),
-                    Action = true,
-                    Gender = Convert.ToBoolean(Convert.ToInt32(HttpContext.Request.Form["Gender"]))
-                };
-                if (usercheck != null)
-                {
-                    string body = "Account Creation Failed, This email has been registered, please check again. !!!";
-                    bool result = SendEmail.theSendEmail(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword, Username, Pass, Cf_Pass, FirstName, LastName, PhoneNumber);
-                    return RedirectToAction("Login", "Login", new { mess = 3 });
-                }
-                else
-                {
-                    if (SelectAccount == "4")
+                    using (var stream = new MemoryStream())
                     {
-                        string body = "TravelAgent registration account has been sent successfully, please wait for the administrator to approve. !!!";
-                        bool result = SendEmail.theSendEmail(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword, Username, Pass, Cf_Pass, FirstName, LastName, PhoneNumber);
+                        await imageFile.CopyToAsync(stream);
+                        stream.Position = 0;
+
+                        var uploadParams = new ImageUploadParams()
+                        {
+                            File = new FileDescription(imageFile.FileName, stream)
+                        };
+
+                        var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+                        User user = new User()
+                        {
+
+                            Email = HttpContext.Request.Form["username"],
+                            Password = HttpContext.Request.Form["pass"],
+                            FirstName = HttpContext.Request.Form["FirstName"],
+                            LastName = HttpContext.Request.Form["LastName"],
+                            PhoneNumber = HttpContext.Request.Form["PhoneNumber"],
+                            RoleId = Convert.ToInt32(HttpContext.Request.Form["SelectAccount"]),
+                            Action = true,
+                            Image = uploadResult.SecureUrl.ToString(),
+                            Gender = Convert.ToBoolean(Convert.ToInt32(HttpContext.Request.Form["Gender"]))
+                        };
                         context.Add(user);
                         context.SaveChanges();
-                    }
-                    else
-                    {
-                        string body = "You Have Successfully Registered an Account at Travel System  !!!";
-                        bool result = SendEmail.theSendEmail(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword, Username, Pass, Cf_Pass, FirstName, LastName, PhoneNumber);
-                        context.Add(user);
-                        context.SaveChanges();
+                        if (usercheck != null)
+                        {
+                            string body = "Account Creation Failed, This email has been registered, please check again. !!!";
+                            bool result = SendEmail.theSendEmail(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword, Username, Pass, Cf_Pass, FirstName, LastName, PhoneNumber);
+                            return RedirectToAction("Login", "Login", new { mess = 3 });
+                        }
+                        else
+                        {
+                            if (SelectAccount == "4")
+                            {
+                                string body = "TravelAgent registration account has been sent successfully, please wait for the administrator to approve. !!!";
+                                bool result = SendEmail.theSendEmail(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword, Username, Pass, Cf_Pass, FirstName, LastName, PhoneNumber);
+
+                            }
+                            else
+                            {
+                                string body = "You Have Successfully Registered an Account at Travel System  !!!";
+                                bool result = SendEmail.theSendEmail(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword, Username, Pass, Cf_Pass, FirstName, LastName, PhoneNumber);
+
+                            }
+
+
+                            return RedirectToAction("Login", "Login", new { mess = 4 });
+                        }
+
                     }
 
 
-                    return RedirectToAction("Login", "Login", new { mess = 4 });
                 }
+
+                return RedirectToAction("Login", "Login", new { mess = 4 });
 
             }
             else

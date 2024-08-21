@@ -6,7 +6,7 @@
 <div class="text-center">
     @if (ViewData["Role"] != null)
     {
-        var role = ViewData["Role"].ToString();
+        var role = ViewData["Role"]?.ToString();
         if (role == "Admin")
         {
             <h1 class="display-4">Welcome Admin!</h1>
@@ -24,6 +24,4 @@
     {
         <h1 class="display-4">Welcome Guest!</h1>
     }
-
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>

@@ -173,38 +173,52 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 3)
         {
             var query = _traveltestContext.Feedbacks
-            .Include(f => f.User) // Include the User information
-            .Where(f => !f.ParentId.HasValue); // Filter out feedbacks with a ParentId
+                .Include(f => f.User); // Include the User information
 
+            // Fetch all feedbacks first
+            var allFeedbacks = await query.ToListAsync();
+
+            // Create a list of replied feedback IDs
+            var repliedFeedbackIds = allFeedbacks
+                .Where(f => allFeedbacks.Any(r => r.ParentId == f.FeedbackId))
+                .Select(f => f.FeedbackId)
+                .ToList();
+
+            // Apply the search filter
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                query = query.Where(f => f.Content.Contains(searchQuery) ||
-                                          f.User.FirstName.Contains(searchQuery) ||
-                                          f.User.LastName.Contains(searchQuery)); // Apply search filter
+                allFeedbacks = allFeedbacks.Where(f => f.Content.Contains(searchQuery) ||
+                                                       f.User.FirstName.ToLower().Contains(searchQuery.ToLower()) ||
+                                                       f.User.LastName.ToLower().Contains(searchQuery.ToLower()) ||
+                                                       (f.User.FirstName.ToLower() + " " + f.User.LastName.ToLower()).Contains(searchQuery.ToLower())).ToList();
             }
 
-            var totalItems = await query.CountAsync(); // Total items before pagination
-
-            var feedbacks = await query
+            // Filter out feedbacks with EntityId = 6 for display
+            var feedbacksToDisplay = allFeedbacks
+                .Where(f => f.EntityId != 6)
                 .OrderByDescending(f => f.CreatedDate) // Order by creation date
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .ToListAsync(); // Apply pagination
+                .ToList(); // Apply pagination
+
+            var totalItems = allFeedbacks.Count; // Total items before pagination
 
             var pagedResult = new PagedResult<Feedback>
             {
-                Items = feedbacks,
+                Items = feedbacksToDisplay,
                 TotalItems = totalItems,
                 PageNumber = page,
                 PageSize = pageSize
             };
 
+            ViewData["RepliedFeedbackIds"] = repliedFeedbackIds;
             ViewData["SearchQuery"] = searchQuery;
 
             return View(pagedResult);
+
         }
 
         [HttpGet]
@@ -236,22 +250,35 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(viewModel);
         }
 
-        public IActionResult RequestAccept(int id, string email)
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ReplyFeedback(ReplyFeedbackViewModel model)
         {
-            DAO dal = new DAO();
-            string fromEmail = "duydqhe163434@fpt.edu.vn";
-            string toEmail = email;
-            string subject = "Hello " + email;
+            var u = (User)HttpContext.Items["User"];
 
-            string body = "Tài Khoản Của Bạn Đã Đăng Ký TravelAgent Thành Công";
-            string smtpServer = "smtp.gmail.com";
-            int smtpPort = 587;
-            string smtpUsername = "duydqhe163434@fpt.edu.vn";
-            string smtpPassword = "htay mxgi flsx dxde";
-            bool result = SendEmail.theSendEmailRegisterTravelAgent(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword);
-            string stt = "Accept";
-            dal.AccessRegisterTravelAgent(id, stt);
-            return RedirectToAction("ListRegisterTravelAgent", "Admin");
+            var replyFeedback = new Feedback();
+
+            if (!ModelState.IsValid)
+            {
+                // Set the ParentId to the FeedbackId of the feedback being replied to
+                replyFeedback.ParentId = model.Feedback.FeedbackId;
+                replyFeedback.UserId = u.UserId;
+                replyFeedback.EntityId = 6;
+                replyFeedback.Content = model.ReplyContent;
+                replyFeedback.Rating = double.Parse(model.Rating);
+                replyFeedback.CreatedDate = DateTime.UtcNow;
+                replyFeedback.ModifiedDate = null; // or set the modified date if needed
+
+                // Add the new feedback to the database
+                _traveltestContext.Feedbacks.Add(replyFeedback);
+                await _traveltestContext.SaveChangesAsync();
+
+                // Redirect to the feedback management page or another appropriate page
+                return RedirectToAction("FeedbackManagement", new { page = 1 });
+            }
+
+            // If the model state is invalid, return the view with the existing data to show validation errors
+            return View(replyFeedback);
         }
         public IActionResult RequestUnaccept(int id, string email)
         {
@@ -296,7 +323,7 @@ namespace SWP391.E.BL5.G3.Controllers
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public string ReplyContent { get; set; }
+        public string Rating { get; set; }  
     }
 }
-
 

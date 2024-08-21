@@ -107,8 +107,12 @@ namespace SWP391.E.BL5.G3.Controllers
             if (ModelState.IsValid)
             {
                 tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+
+
                 
                 // Xử lý upload ảnh
+
                 if (image != null && image.Length > 0)
                 {
                     var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
