@@ -1,0 +1,65 @@
+﻿@model IEnumerable<SWP391.E.BL5.G3.Models.Booking>
+
+@{
+    ViewData["Title"] = "List History Booking";
+    Layout = "/Views/Shared/_HomeLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Number</th>
+                <th>Tour</th>
+                <th>Note</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.Name</td>
+                    <td>@booking.Phone</td>
+                    <td>@booking.StartDate.GetValueOrDefault().ToString("dd/MM/yyyy")</td>
+                    <td>@booking.EndDate.GetValueOrDefault().ToString("dd/MM/yyyy")</td>
+                    <td>@booking.NumPeople</td>
+                    <td>@booking.Tour?.Name</td>
+                    <td>@booking.Message</td>
+                    <td>
+
+                        @{
+                            if (booking.Status == 1)
+                            {
+                            }
+                            switch (booking.Status)
+                            {
+                                case 1:
+                                    <span class="btn btn-secondary">Pending</span>
+                                    break;
+                                case 2:
+                                    <span class="btn btn-primary">Confirmed</span>
+                                    break;
+                                case 3:
+                                    <span class="btn btn-danger">Canceled</span>
+                                    break;
+                                case 4:
+                                    <span class="btn btn-success">Done</span>
+                                    break;
+                                default:
+                                    <span class="btn btn-warning">Unkown</span>
+                                    break;
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

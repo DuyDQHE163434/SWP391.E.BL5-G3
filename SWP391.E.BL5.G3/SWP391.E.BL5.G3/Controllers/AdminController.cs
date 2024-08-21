@@ -288,7 +288,7 @@ namespace SWP391.E.BL5.G3.Controllers
             // If the model state is invalid, return the view with the existing data to show validation errors
             return View(replyFeedback);
         }
-        
+
         public IActionResult RequestUnaccept(int id, string email)
         {
             DAO dal = new DAO();
@@ -404,7 +404,6 @@ namespace SWP391.E.BL5.G3.Controllers
                 return RedirectToAction("AddAccount", "Admin", new { mess = 1 });
             }
         }
-
     }
 
     public class CloudinarySettings
