@@ -288,6 +288,25 @@ namespace SWP391.E.BL5.G3.Controllers
             // If the model state is invalid, return the view with the existing data to show validation errors
             return View(replyFeedback);
         }
+        
+        public IActionResult RequestUnaccept(int id, string email)
+        {
+            DAO dal = new DAO();
+            string fromEmail = "duydqhe163434@fpt.edu.vn";
+            string toEmail = email;
+            string subject = "Hello " + email;
+
+            string body = "Vì Một Số Lý Do Nào Đó Từ Phía Của Chúng Tôi Không Thể Cung Cấp Dịch Vụ Travelagent Cho Bạn Được Nữa Mọi Chi Tiết Xin Vui Lòng Liên Hệ Admin ";
+            string smtpServer = "smtp.gmail.com";
+            int smtpPort = 587;
+            string smtpUsername = "duydqhe163434@fpt.edu.vn";
+            string smtpPassword = "htay mxgi flsx dxde";
+            bool result = SendEmail.theSendEmailRegisterTravelAgent(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword);
+            string stt = "Unaccept";
+            dal.AccessRegisterTravelAgent(id, stt);
+            return RedirectToAction("ListRegisterTravelAgent", "Admin");
+        }
+
         public IActionResult ResetPass(int id, string email)
         {
             DAO dal = new DAO();
@@ -385,6 +404,7 @@ namespace SWP391.E.BL5.G3.Controllers
                 return RedirectToAction("AddAccount", "Admin", new { mess = 1 });
             }
         }
+
     }
 
     public class CloudinarySettings
@@ -413,3 +433,4 @@ namespace SWP391.E.BL5.G3.Controllers
         public string Rating { get; set; }  
     }
 }
+
