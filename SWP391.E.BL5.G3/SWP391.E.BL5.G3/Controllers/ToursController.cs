@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.DTOs;
 using SWP391.E.BL5.G3.Enum;
+using SWP391.E.BL5.G3.Extensions;
 using SWP391.E.BL5.G3.Models;
 using SWP391.E.BL5.G3.ViewModels;
 using System.Security.Claims;
@@ -404,6 +405,67 @@ namespace SWP391.E.BL5.G3.Controllers
                 .ToListAsync();
 
             return View("MyBookingTours", bookings); // Đảm bảo trả về view mới
+        }
+        
+        
+        [HttpPost]
+        public async Task<IActionResult> Pay([Bind("Name,Phone,StartDate,EndDate,NumPeople,Message,TourId,UserId")] Booking booking)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                var bookingg = new Booking
+                {
+                    Name = booking?.Name,
+                    Phone = booking?.Phone,
+                    StartDate = booking?.StartDate,
+                    EndDate = booking?.EndDate,
+                    UserId = booking?.UserId,
+                    NumPeople = booking?.NumPeople,
+                    Message = booking?.Message,
+                    TourId = booking?.TourId,
+                    Status = (int)BookingStatusEnum.Pending
+                };
+                // Thêm booking vào cơ sở dữ liệu
+                _context.Bookings.Add(bookingg);
+                await _context.SaveChangesAsync();
+                string vnp_Returnurl = "https://localhost:7295/VnPay/ReturnUrl";
+                string vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"; // URL thanh toán của VNPAY
+                string vnp_TmnCode = "CA6G65VO"; // Mã định danh merchant kết nối (Terminal Id)
+                string vnp_HashSecret = "NTJ0PDLNZOM2W7ZPSCFKWI85HPCDDD7R"; // Secret key cần được cung cấp
+
+                var order = new OrderInfo
+                {
+                    OrderId = DateTime.Now.Ticks, // Giả lập mã giao dịch hệ thống merchant gửi sang VNPAY
+                    Amount = 100000, // Giả lập số tiền thanh toán
+                    Status = "0", // Trạng thái thanh toán
+                    CreatedDate = DateTime.Now
+                };
+
+                // Save order to db (Giả lập lưu đơn hàng vào DB)
+
+                // Build URL for VNPAY
+                var vnpay = new VnPayLibrary();
+
+                vnpay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
+                vnpay.AddRequestData("vnp_Command", "pay");
+                vnpay.AddRequestData("vnp_TmnCode", vnp_TmnCode);
+                vnpay.AddRequestData("vnp_Amount", (order.Amount * 100).ToString()); // Số tiền thanh toán
+                vnpay.AddRequestData("vnp_CreateDate", order.CreatedDate.ToString("yyyyMMddHHmmss"));
+                vnpay.AddRequestData("vnp_CurrCode", "VND");
+                vnpay.AddRequestData("vnp_IpAddr", "127.0.0.1");
+                vnpay.AddRequestData("vnp_Locale", "vn");
+                vnpay.AddRequestData("vnp_OrderInfo", bookingg.BookingId.ToString());
+                vnpay.AddRequestData("vnp_OrderType", "other");
+                vnpay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
+                vnpay.AddRequestData("vnp_TxnRef", order.OrderId.ToString());
+
+                // Add Params of 2.1.0 Version
+                string paymentUrl = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
+
+                return Redirect(paymentUrl);
+            }
+            return View(booking);
         }
     }
 }
