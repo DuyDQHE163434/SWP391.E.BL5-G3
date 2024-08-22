@@ -9,7 +9,7 @@
 <div class="container mt-4">
     <h1 class="text-center mb-4">@ViewData["Title"]</h1>
 
-    <form asp-action="BookingTour" method="post" class="needs-validation" novalidate>
+    <form asp-action="Pay" method="post" class="needs-validation" novalidate>
         <input type="hidden" asp-for="TourId" />
         <input type="hidden" asp-for="UserId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
 

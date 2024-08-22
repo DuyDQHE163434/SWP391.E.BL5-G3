@@ -35,6 +35,22 @@
                                    asp-action="Index">Home</a>
                             </li>
 
+                            
+                            <li class="nav-item">
+                                @{
+                                    var role = ViewData["Role"]?.ToString();
+                                    if (role == "Admin" || role == "Travel_Agent")
+                                    {
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Tours"
+                                           asp-action="ListTour">Tours</a>
+
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants"
+                                           asp-action="ListRestaurants">Restaurants</a>
+
+                                        if (role == "Admin")
+                                        {
+
+
                             @{
                                 var role = ViewData["Role"]?.ToString();
                                 if (role == "Admin" || role == "Travel_Agent")
@@ -55,6 +71,7 @@
                                     if (role == "Admin")
                                     {
                                         <li class="nav-item">
+
                                             <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Admin"
                                                asp-action="ListRegisterTravelAgent">ListRegisterTravelAgent</a>
                                         </li>
@@ -69,6 +86,12 @@
                                     <li class="nav-item">
                                         <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Tours"
                                            asp-action="ListTourForGuests">Tours</a>
+
+
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants"
+                                           asp-action="ViewRestaurantList">Restaurants</a>
+                                    }
+
                                     </li>
                                     <li class="nav-item">
                                         <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants"
@@ -78,6 +101,7 @@
                                         <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Vehicles"
                                            asp-action="ViewVehicleList">Vehicles</a>
                                     </li>
+
                                 }
                             }
 
