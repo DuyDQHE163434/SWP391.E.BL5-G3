@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWP391.E.BL5.G3.Authorization;
+using SWP391.E.BL5.G3.DTOs;
 using SWP391.E.BL5.G3.Enum;
 using SWP391.E.BL5.G3.Models;
 using System.Security.Claims;
@@ -115,7 +116,18 @@ namespace SWP391.E.BL5.G3.Controllers
 
             int userRole = Convert.ToInt32(User.FindFirstValue(ClaimTypes.Role));
 
-            var restaurants = new List<Restaurant>();
+            var restaurants = _context.Restaurants
+                    .Include(item => item.BusinessType)
+                    .Include(item => item.CuisineType)
+                    .Include(item => item.Province)
+                    .ToList();
+
+            if (userRole == 2)
+            {
+                restaurants = _context.Restaurants
+                    .Where(item => item.UserId.ToString() == userId)
+                    .ToList();
+            }
 
             if (searchString != null)
             {
@@ -131,17 +143,6 @@ namespace SWP391.E.BL5.G3.Controllers
                 restaurants = _context.Restaurants.Where(item =>
                     item.RestaurantName
                     .Contains(searchString))
-                    .Include(item => item.BusinessType)
-                    .Include(item => item.CuisineType)
-                    .Include(item => item.Province)
-                    .ToList();
-            }
-            else
-            {
-                restaurants = _context.Restaurants
-                    .Include(item => item.BusinessType)
-                    .Include(item => item.CuisineType)
-                    .Include(item => item.Province)
                     .ToList();
             }
 
@@ -209,6 +210,8 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             if (ModelState.IsValid)
             {
+                restaurant.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
                 restaurant.CreatedAt = DateTime.Now;
                 restaurant.UpdatedAt = restaurant.CreatedAt;
                 _context.Add(restaurant);
@@ -299,6 +302,43 @@ namespace SWP391.E.BL5.G3.Controllers
             }
 
             return RedirectToAction(nameof(ListRestaurants));
+        }
+
+        // Book a restaurant
+        [Authorize(RoleEnum.Customer)]
+        public IActionResult BookRestaurant(int id)
+        {
+            var restaurant = _context.Restaurants.Find(id);
+
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+
+            var booking = new Booking
+            {
+                RestaurantId = id
+            };
+
+            return View(booking);
+        }
+
+        [HttpPost]
+        [Authorize(RoleEnum.Customer)]
+        public IActionResult BookRestaurant(Booking booking)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (ModelState.IsValid)
+            {
+                booking.UserId = Convert.ToInt32(userId);
+                booking.Status = (int)BookingStatusEnum.Pending;
+                
+                _context.Bookings.Add(booking);
+                return RedirectToAction(nameof(ViewRestaurantList));
+            }
+
+            return View(booking);
         }
 
         // Check if the restaurant is existed or not
