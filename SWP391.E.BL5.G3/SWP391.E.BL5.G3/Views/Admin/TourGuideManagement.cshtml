@@ -21,7 +21,15 @@
                                 <input type="text" name="searchQuery" class="form-control" placeholder="Search by email, name, or phone number" value="@searchQuery" />
                             </div>
                         </form>
-                        <a href="@Url.Action("CreateTourGuide", "Admin")" class="btn btn-primary ms-3">Create Tour Guide</a>
+                        <div>
+                            <a href="@Url.Action("CreateTourGuide", "Admin")" class="btn btn-primary ms-3">Create Tour Guide</a>
+                            <form asp-action="ImportTourGuide" method="post" enctype="multipart/form-data" style="display: inline;">
+                                <label class="btn btn-success ms-3">
+                                    Import Tour Guide
+                                    <input type="file" name="file" style="display: none;" onchange="this.form.submit();" />
+                                </label>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">

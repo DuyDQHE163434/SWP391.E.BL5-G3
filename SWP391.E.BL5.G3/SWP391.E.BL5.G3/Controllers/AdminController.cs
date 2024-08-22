@@ -1,11 +1,13 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using CsvHelper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.DAO_Context;
 using SWP391.E.BL5.G3.Models;
+using System.Globalization;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
@@ -171,6 +173,7 @@ namespace SWP391.E.BL5.G3.Controllers
             ViewBag.ListUserTravelAgent = listuserregistertravelagent;
             return View();
         }
+
         public IActionResult ListAccount()
         {
             DAO dal = new DAO();
@@ -180,6 +183,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
 
         }
+
         [AllowAnonymous]
         public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 3)
         {
@@ -288,7 +292,7 @@ namespace SWP391.E.BL5.G3.Controllers
             // If the model state is invalid, return the view with the existing data to show validation errors
             return View(replyFeedback);
         }
-
+        
         public IActionResult RequestUnaccept(int id, string email)
         {
             DAO dal = new DAO();
@@ -315,11 +319,13 @@ namespace SWP391.E.BL5.G3.Controllers
             dal.ResetPass(id, email);
             return RedirectToAction("ListAccount", "Admin");
         }
+
         public IActionResult AddAccount(int mess)
         {
             ViewBag.mess = mess;
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> AddAccountAccess()
         {
@@ -404,6 +410,71 @@ namespace SWP391.E.BL5.G3.Controllers
                 return RedirectToAction("AddAccount", "Admin", new { mess = 1 });
             }
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult ImportTourGuide(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return RedirectToAction("TourGuideManagement"); // Return to the main page if no file was uploaded
+            }
+
+            // Process the Excel file and extract data into a list of TourGuideDTO objects
+            TourGuidePreviewViewModel model = ExtractTourGuidesFromExcel(file);
+
+            return View("PreviewTourGuide", model);
+        }
+
+        private TourGuidePreviewViewModel ExtractTourGuidesFromExcel(IFormFile file)
+        {
+            try
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    using (var reader = new StreamReader(stream))
+                    {
+                        var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+                        var records = csv.GetRecords<TourGuideDTO>().ToList();
+
+                        var listTourGuide = _traveltestContext.TourGuides.ToList();
+
+                        var nonDuplicateList = new List<TourGuideDTO>();
+                        var duplicateList = new List<TourGuideDTO>();
+
+                        foreach (var r in records)
+                        {
+                            var existingTourGuide = listTourGuide.FirstOrDefault(x =>
+                                x.FirstName.ToLower() == r.FirstName.ToLower() &&
+                                x.LastName.ToLower() == r.LastName.ToLower() &&
+                                x.PhoneNumber.ToLower() == r.PhoneNumber.ToLower() &&
+                                x.Email.ToLower() == r.Email.ToLower());
+
+                            if (existingTourGuide == null)
+                            {
+                                nonDuplicateList.Add(r);
+                            }
+                            else
+                            {
+                                duplicateList.Add(r);
+                            }
+                        }
+
+                        // Return as a tuple
+                        return new TourGuidePreviewViewModel
+                        {
+                            NonDuplicates = nonDuplicateList,
+                            Duplicates = duplicateList
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while processing the Excel file: " + ex.Message);
+            }
+        }
+
     }
 
     public class CloudinarySettings
@@ -430,6 +501,21 @@ namespace SWP391.E.BL5.G3.Controllers
         public string UserLastName { get; set; }
         public string ReplyContent { get; set; }
         public string Rating { get; set; }  
+    }
+
+    public class TourGuideDTO
+    {
+        public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
+        public string PhoneNumber { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string Description { get; set; }
+    }
+
+    public class TourGuidePreviewViewModel
+    {
+        public List<TourGuideDTO> NonDuplicates { get; set; }
+        public List<TourGuideDTO> Duplicates { get; set; }
     }
 }
 
