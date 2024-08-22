@@ -165,5 +165,24 @@ namespace SWP391.E.BL5.G3.DAO_Context
                 context.SaveChanges();
             }
         }
+        public void ResetPass(int id, string email)
+        {
+            User a = context.Users.Where(x => x.UserId == id).FirstOrDefault();
+            a.Password = "Ab@123456";
+            context.SaveChanges();
+        }
+        public List<User> GetListAccount()
+        {
+            List<User> listaccount = new List<User>();
+            try
+            {
+                listaccount = context.Users.Where(x=>x.RoleId != 1 && x.RoleId !=4).ToList();
+                return listaccount;
+            }
+            catch
+            {
+                return listaccount;
+            }
+        }
     }
 }

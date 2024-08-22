@@ -106,7 +106,7 @@ namespace SWP391.E.BL5.G3.Controllers
             if (ModelState.IsValid)
             {
                 tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
+                
                 // Xử lý upload ảnh
                 if (image != null && image.Length > 0)
                 {
@@ -281,7 +281,7 @@ namespace SWP391.E.BL5.G3.Controllers
                 toursQuery = toursQuery.Where(t => t.Name.Contains(searchString));
             }
 
-            int pageSize = 5; // Số lượng tour trên mỗi trang
+            int pageSize = 6; // Số lượng tour trên mỗi trang
             var totalTours = await toursQuery.CountAsync(); // Tính tổng số tour
 
             var tours = await toursQuery

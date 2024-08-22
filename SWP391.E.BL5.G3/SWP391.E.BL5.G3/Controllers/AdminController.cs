@@ -171,40 +171,62 @@ namespace SWP391.E.BL5.G3.Controllers
             ViewBag.ListUserTravelAgent = listuserregistertravelagent;
             return View();
         }
+        public IActionResult ListAccount()
+        {
+            DAO dal = new DAO();
+            List<User> ListAccount = dal.GetListAccount();
+            ViewBag.ListAccount = ListAccount;
+            return View();
 
+
+        }
         [AllowAnonymous]
-        public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 3)
         {
             var query = _traveltestContext.Feedbacks
-            .Include(f => f.User) // Include the User information
-            .Where(f => !f.ParentId.HasValue); // Filter out feedbacks with a ParentId
+                .Include(f => f.User); // Include the User information
 
+            // Fetch all feedbacks first
+            var allFeedbacks = await query.ToListAsync();
+
+            // Create a list of replied feedback IDs
+            var repliedFeedbackIds = allFeedbacks
+                .Where(f => allFeedbacks.Any(r => r.ParentId == f.FeedbackId))
+                .Select(f => f.FeedbackId)
+                .ToList();
+
+            // Apply the search filter
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                query = query.Where(f => f.Content.Contains(searchQuery) ||
-                                          f.User.FirstName.Contains(searchQuery) ||
-                                          f.User.LastName.Contains(searchQuery)); // Apply search filter
+                allFeedbacks = allFeedbacks.Where(f => f.Content.Contains(searchQuery) ||
+                                                       f.User.FirstName.ToLower().Contains(searchQuery.ToLower()) ||
+                                                       f.User.LastName.ToLower().Contains(searchQuery.ToLower()) ||
+                                                       (f.User.FirstName.ToLower() + " " + f.User.LastName.ToLower()).Contains(searchQuery.ToLower())).ToList();
             }
 
-            var totalItems = await query.CountAsync(); // Total items before pagination
-
-            var feedbacks = await query
+            // Filter out feedbacks with EntityId = 6 for display
+            var feedbacksToDisplay = allFeedbacks
+                .Where(f => f.EntityId != 6)
                 .OrderByDescending(f => f.CreatedDate) // Order by creation date
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .ToListAsync(); // Apply pagination
+                .ToList(); // Apply pagination
+
+            var totalItems = allFeedbacks.Count; // Total items before pagination
 
             var pagedResult = new PagedResult<Feedback>
             {
-                Items = feedbacks,
+                Items = feedbacksToDisplay,
                 TotalItems = totalItems,
                 PageNumber = page,
                 PageSize = pageSize
             };
 
+            ViewData["RepliedFeedbackIds"] = repliedFeedbackIds;
             ViewData["SearchQuery"] = searchQuery;
 
             return View(pagedResult);
+
         }
 
         [HttpGet]
@@ -235,6 +257,153 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View(viewModel);
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ReplyFeedback(ReplyFeedbackViewModel model)
+        {
+            var u = (User)HttpContext.Items["User"];
+
+            var replyFeedback = new Feedback();
+
+            if (!ModelState.IsValid)
+            {
+                // Set the ParentId to the FeedbackId of the feedback being replied to
+                replyFeedback.ParentId = model.Feedback.FeedbackId;
+                replyFeedback.UserId = u.UserId;
+                replyFeedback.EntityId = 6;
+                replyFeedback.Content = model.ReplyContent;
+                replyFeedback.Rating = double.Parse(model.Rating);
+                replyFeedback.CreatedDate = DateTime.UtcNow;
+                replyFeedback.ModifiedDate = null; // or set the modified date if needed
+
+                // Add the new feedback to the database
+                _traveltestContext.Feedbacks.Add(replyFeedback);
+                await _traveltestContext.SaveChangesAsync();
+
+                // Redirect to the feedback management page or another appropriate page
+                return RedirectToAction("FeedbackManagement", new { page = 1 });
+            }
+
+            // If the model state is invalid, return the view with the existing data to show validation errors
+            return View(replyFeedback);
+        }
+
+        public IActionResult RequestUnaccept(int id, string email)
+        {
+            DAO dal = new DAO();
+            string fromEmail = "duydqhe163434@fpt.edu.vn";
+            string toEmail = email;
+            string subject = "Hello " + email;
+
+            string body = "Vì Một Số Lý Do Nào Đó Từ Phía Của Chúng Tôi Không Thể Cung Cấp Dịch Vụ Travelagent Cho Bạn Được Nữa Mọi Chi Tiết Xin Vui Lòng Liên Hệ Admin ";
+            string smtpServer = "smtp.gmail.com";
+            int smtpPort = 587;
+            string smtpUsername = "duydqhe163434@fpt.edu.vn";
+            string smtpPassword = "htay mxgi flsx dxde";
+            bool result = SendEmail.theSendEmailRegisterTravelAgent(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword);
+            string stt = "Unaccept";
+            dal.AccessRegisterTravelAgent(id, stt);
+            return RedirectToAction("ListRegisterTravelAgent", "Admin");
+        }
+
+        public IActionResult ResetPass(int id, string email)
+        {
+            DAO dal = new DAO();
+            
+          
+            dal.ResetPass(id, email);
+            return RedirectToAction("ListAccount", "Admin");
+        }
+        public IActionResult AddAccount(int mess)
+        {
+            ViewBag.mess = mess;
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddAccountAccess()
+        {
+            traveltestContext context = new traveltestContext();
+            DAO dal = new DAO();
+            String Username = "";
+            Username = HttpContext.Request.Form["username"];
+            String Pass = "";
+            Pass = HttpContext.Request.Form["pass"];
+            String Cf_Pass = "";
+            Cf_Pass = HttpContext.Request.Form["Confirm-Password"];
+
+            String FirstName = "";
+            FirstName = HttpContext.Request.Form["FirstName"];
+            String LastName = "";
+            LastName = HttpContext.Request.Form["LastName"];
+            String PhoneNumber = "";
+            PhoneNumber = HttpContext.Request.Form["PhoneNumber"];
+            String Gender = "";
+            Gender = HttpContext.Request.Form["Gender"];
+            String SelectAccount = "";
+            SelectAccount = HttpContext.Request.Form["SelectAccount"];
+            IFormFile imageFile = HttpContext.Request.Form.Files["imageFile"];
+         
+
+
+
+            //Check Email
+            if (dal.IsEmailValid(Username) == true && Pass == Cf_Pass && dal.IsPhoneNumberValidVietnam(PhoneNumber) == true && dal.IsValidFirstnameorLastname(FirstName) == true && dal.IsValidFirstnameorLastname(LastName) == true)
+            {
+
+                User usercheck = context.Users.Where(x => x.Email == Username).FirstOrDefault();
+
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        await imageFile.CopyToAsync(stream);
+                        stream.Position = 0;
+
+                        var uploadParams = new ImageUploadParams()
+                        {
+                            File = new FileDescription(imageFile.FileName, stream)
+                        };
+
+                        var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+                        User user = new User()
+                        {
+
+                            Email = HttpContext.Request.Form["username"],
+                            Password = HttpContext.Request.Form["pass"],
+                            FirstName = HttpContext.Request.Form["FirstName"],
+                            LastName = HttpContext.Request.Form["LastName"],
+                            PhoneNumber = HttpContext.Request.Form["PhoneNumber"],
+                            RoleId = Convert.ToInt32(HttpContext.Request.Form["SelectAccount"]),
+                            Action = true,
+                            Image = uploadResult.SecureUrl.ToString(),
+                            Gender = Convert.ToBoolean(Convert.ToInt32(HttpContext.Request.Form["Gender"]))
+                        };
+                        
+                        if (usercheck == null)
+                        {
+                            context.Add(user);
+                            context.SaveChanges();
+                            return RedirectToAction("ListAccount", "Admin");
+                        }
+                        else
+                        {                           
+                            return RedirectToAction("AddAccount", "Admin", new { mess = 1 });
+                        }
+
+                    }
+
+
+                }
+
+                return RedirectToAction("ListAccount", "Admin");
+
+            }
+            else
+            {
+                return RedirectToAction("AddAccount", "Admin", new { mess = 1 });
+            }
+        }
     }
 
     public class CloudinarySettings
@@ -260,5 +429,7 @@ namespace SWP391.E.BL5.G3.Controllers
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public string ReplyContent { get; set; }
+        public string Rating { get; set; }  
     }
 }
+
