@@ -25,5 +25,6 @@ namespace SWP391.E.BL5.G3.Models
         public virtual Tour? Tour { get; set; }
         public virtual User? User { get; set; }
         public virtual Vehicle? Vehicle { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
     }
 }
