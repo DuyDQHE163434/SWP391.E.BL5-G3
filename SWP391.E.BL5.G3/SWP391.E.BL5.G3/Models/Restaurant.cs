@@ -13,7 +13,7 @@ namespace SWP391.E.BL5.G3.Models
         }
 
         public int RestaurantId { get; set; }
-        public string? RestaurantName { get; set; }
+        public string RestaurantName { get; set; } = null!;
         public string? Image { get; set; }
         public string? Location { get; set; }
         public int? ProvinceId { get; set; }

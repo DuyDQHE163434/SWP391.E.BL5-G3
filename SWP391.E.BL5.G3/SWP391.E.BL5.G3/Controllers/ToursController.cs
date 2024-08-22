@@ -30,18 +30,17 @@ namespace SWP391.E.BL5.G3.Controllers
             // Lấy ID của người dùng hiện tại
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            //lay role user
+            // Lấy role user
             int userrole = Convert.ToInt32(User.FindFirstValue(ClaimTypes.Role));
 
             var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
-            
+
             // Kiểm tra vai trò người dùng
-            if (userrole==2)
+            if (userrole == 2)
             {
                 // Chỉ lấy các tour mà Travel_Agent đã tạo
                 toursQuery = toursQuery.Where(t => t.UserId.ToString() == userId);
             }
-          
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -107,12 +106,8 @@ namespace SWP391.E.BL5.G3.Controllers
             if (ModelState.IsValid)
             {
                 tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-
-
                 
                 // Xử lý upload ảnh
-
                 if (image != null && image.Length > 0)
                 {
                     var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
@@ -146,7 +141,6 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View(tour);
         }
-
 
         // Edit Tour
         [HttpGet]
@@ -231,8 +225,6 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(tour);
         }
 
-
-
         // Delete Tour
         [HttpGet]
         [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
@@ -307,7 +299,6 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View(model);
         }
-
 
         [HttpGet]
         [AllowAnonymous]
@@ -407,24 +398,5 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View("MyBookingTours", bookings); // Đảm bảo trả về view mới
         }
-
-
-        [HttpGet]
-        [Authorize] // Bảo vệ action này, chỉ cho phép người dùng đã xác thực
-        public async Task<IActionResult> ListHistoryBookingTours()
-        {
-            // Lấy ID của người dùng hiện tại
-            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            // Truy vấn các booking của người dùng
-            var bookings = await _context.Bookings
-                //.Where(b => b.UserId.ToString() == userId) // Hoặc điều chỉnh theo cách bạn lưu userId
-                .Where(b => b.Status == (int)BookingStatusEnum.Confirmed)
-                .Include(b => b.Tour) // Bao gồm thông tin tour
-                .ToListAsync();
-
-            return View("ListHistoryBookingTours", bookings); // Đảm bảo trả về view mới
-        }
-
     }
 }
