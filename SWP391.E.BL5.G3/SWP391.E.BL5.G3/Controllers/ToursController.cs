@@ -312,8 +312,14 @@ namespace SWP391.E.BL5.G3.Controllers
 
             var bookingModel = new Booking
             {
-                TourId = tourId
+                TourId = tourId,
+                NumPeople = 1
             };
+
+            ViewBag.MaxPeople = tour.GroupSize;
+            ViewBag.Duration = tour.Duration; // Truyền Duration xuống View
+            ViewBag.Price = tour.Price; // Truyền giá tour xuống View
+            ViewBag.TotalPrice = tour.Price; // Tổng tiền cho 1 người
 
             return View(bookingModel); // Chuyển thông tin tour cho view
         }
@@ -354,6 +360,7 @@ namespace SWP391.E.BL5.G3.Controllers
             // Nếu model không hợp lệ, trả lại tương ứng với thông tin đã nhập
             return View(booking);
         }
+
 
         [HttpGet]
         [AllowAnonymous]
