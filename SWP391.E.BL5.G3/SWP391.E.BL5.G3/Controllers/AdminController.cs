@@ -292,7 +292,7 @@ namespace SWP391.E.BL5.G3.Controllers
             // If the model state is invalid, return the view with the existing data to show validation errors
             return View(replyFeedback);
         }
-        
+
         public IActionResult RequestUnaccept(int id, string email)
         {
             DAO dal = new DAO();
@@ -314,8 +314,8 @@ namespace SWP391.E.BL5.G3.Controllers
         public IActionResult ResetPass(int id, string email)
         {
             DAO dal = new DAO();
-            
-          
+
+
             dal.ResetPass(id, email);
             return RedirectToAction("ListAccount", "Admin");
         }
@@ -349,7 +349,7 @@ namespace SWP391.E.BL5.G3.Controllers
             String SelectAccount = "";
             SelectAccount = HttpContext.Request.Form["SelectAccount"];
             IFormFile imageFile = HttpContext.Request.Form.Files["imageFile"];
-         
+
 
 
 
@@ -385,7 +385,7 @@ namespace SWP391.E.BL5.G3.Controllers
                             Image = uploadResult.SecureUrl.ToString(),
                             Gender = Convert.ToBoolean(Convert.ToInt32(HttpContext.Request.Form["Gender"]))
                         };
-                        
+
                         if (usercheck == null)
                         {
                             context.Add(user);
@@ -393,7 +393,7 @@ namespace SWP391.E.BL5.G3.Controllers
                             return RedirectToAction("ListAccount", "Admin");
                         }
                         else
-                        {                           
+                        {
                             return RedirectToAction("AddAccount", "Admin", new { mess = 1 });
                         }
 
@@ -500,7 +500,7 @@ namespace SWP391.E.BL5.G3.Controllers
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public string ReplyContent { get; set; }
-        public string Rating { get; set; }  
+        public string Rating { get; set; }
     }
 
     public class TourGuideDTO

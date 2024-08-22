@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="~/css/hotels.css" />
-
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="icon" href="~/images/LogoSystem.png">
@@ -27,10 +26,17 @@
                         <a class="nav-link text-dark btn btn-info mx-2" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
                     </li>
                     <li class="nav-item">
+
+                        <a class="nav-link text-dark btn btn-info mx-2" asp-area="" asp-controller="Restaurants" asp-action="ViewRestaurantList">Restaurants</a>
+
+                        <a class="nav-link text-dark btn btn-info mx-2" asp-area="" asp-controller="Tours" asp-action="ListTourForGuests">Tours</a>
+
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-dark btn btn-info mx-2" asp-area="" asp-controller="Restaurants" asp-action="ViewRestaurantList">Restaurants</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark btn btn-info mx-2" asp-area="" asp-controller="Tours" asp-action="ListTourForGuests">Tours</a>
+                        <a class="nav-link text-dark btn btn-info mx-2" asp-area="" asp-controller="Vehicles" asp-action="ViewVehicleList">Vehicles</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark btn btn-info mx-2" asp-area="" asp-controller="Hotels" asp-action="Index">Hotels</a>
