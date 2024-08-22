@@ -13,7 +13,14 @@
         <div class="row no-gutters">
 
             <div class="col-md-4 text-center p-4">
-                <!--Image here-->
+                @if (Model.Image == null)
+                {
+                    <img src="https://cdn.otstatic.com/legacy-cw/default2-original.png" class="img-thumbnail" alt="@Model.RestaurantName" style="width: 100px; height: 100px;" />
+                }
+                else
+                {
+                    <img src="" class="img-thumbnail" alt="@Model.RestaurantName" />
+                }
             </div>
 
             <div class="col-md-8">
@@ -182,7 +189,7 @@
     </div>
 
     <div class="text-center mt-4 d-flex flex-column">
-        <a asp-action="" asp-route-id="@Model?.RestaurantId" class="btn btn-primary btn-lg">Book</a>
+        <a asp-action="BookRestaurant" asp-route-id="@Model?.RestaurantId" class="btn btn-primary btn-lg">Book</a>
     </div>
     <div class="text-center mt-4 d-flex flex-column">
         <a asp-action="ViewRestaurantList" class="btn btn-primary btn-lg">Back to List</a>

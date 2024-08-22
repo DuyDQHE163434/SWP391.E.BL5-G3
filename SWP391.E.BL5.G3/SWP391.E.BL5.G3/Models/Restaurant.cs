@@ -34,6 +34,7 @@ namespace SWP391.E.BL5.G3.Models
         public DateTime? CreatedAt { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}")]
         public DateTime? UpdatedAt { get; set; }
+        public int? UserId { get; set; }
 
         public virtual BusinessType? BusinessType { get; set; }
         public virtual CuisineType? CuisineType { get; set; }

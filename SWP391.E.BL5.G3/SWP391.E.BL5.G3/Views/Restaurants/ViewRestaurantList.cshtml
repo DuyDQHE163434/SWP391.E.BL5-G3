@@ -161,7 +161,18 @@
                             }
                         </a>
                         <div class="item-booking">
-                            <a asp-action="" asp-route-id="@item.RestaurantId" class="btn btn-primary btn-lg">Book now</a>
+                            @{
+                                var role = ViewData["Role"]?.ToString();
+                                if (role == "Customer")
+                                {
+                                    <a asp-action="BookRestaurant" asp-route-id="@item.RestaurantId" class="btn btn-primary btn-lg">Book now</a>
+                                }
+                                else
+                                {
+                                    <a asp-action="Login" asp-controller="Login" class="btn btn-primary btn-lg">Book now</a>
+                                }
+                            }
+                            
                         </div>
                     </div>
                 </div>
