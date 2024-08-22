@@ -36,6 +36,7 @@ namespace SWP391.E.BL5.G3.Models
         public DateTime? UpdatedAt { get; set; }
         public int? UserId { get; set; }
 
+        public virtual User? User { get; set; }
         public virtual BusinessType? BusinessType { get; set; }
         public virtual CuisineType? CuisineType { get; set; }
         public virtual Province? Province { get; set; }

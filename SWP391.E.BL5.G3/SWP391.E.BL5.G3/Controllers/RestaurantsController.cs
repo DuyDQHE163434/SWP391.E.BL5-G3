@@ -33,7 +33,11 @@ namespace SWP391.E.BL5.G3.Controllers
         [AllowAnonymous]
         public IActionResult ViewRestaurantList(string currentSearchString, string searchString, int? page)
         {
-            var restaurants = new List<Restaurant>();
+            var restaurants = _context.Restaurants
+                    .Include(item => item.BusinessType)
+                    .Include(item => item.CuisineType)
+                    .Include(item => item.Province)
+                    .ToList();
 
             if (searchString != null)
             {
@@ -46,21 +50,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                restaurants = _context.Restaurants.Where(item =>
-                    item.RestaurantName
-                    .Contains(searchString))
-                    .Include(item => item.BusinessType)
-                    .Include(item => item.CuisineType)
-                    .Include(item => item.Province)
-                    .ToList();
-            }
-            else
-            {
-                restaurants = _context.Restaurants
-                    .Include(item => item.BusinessType)
-                    .Include(item => item.CuisineType)
-                    .Include(item => item.Province)
-                    .ToList();
+                restaurants = _context.Restaurants.Where(item => item.RestaurantName.Contains(searchString)).ToList();
             }
 
             ViewBag.currentSearchString = searchString;
@@ -333,7 +323,7 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 booking.UserId = Convert.ToInt32(userId);
                 booking.Status = (int)BookingStatusEnum.Pending;
-                
+
                 _context.Bookings.Add(booking);
                 return RedirectToAction(nameof(ViewRestaurantList));
             }

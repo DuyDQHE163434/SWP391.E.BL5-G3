@@ -18,7 +18,7 @@ namespace SWP391.E.BL5.G3.Extensions
                 {
                     var roleEnum = (RoleEnum)roleValue;
                     var roleName = roleEnum.ToString();
-                    if( context.Controller is Controller controller)
+                    if (context.Controller is Controller controller)
                     {
                         controller.ViewData["Role"] = roleName;
                     }
