@@ -176,7 +176,7 @@ namespace SWP391.E.BL5.G3.DAO_Context
             List<User> listaccount = new List<User>();
             try
             {
-                listaccount = context.Users.Where(x=>x.RoleId != 1 && x.RoleId !=4).ToList();
+                listaccount = context.Users.Where(x => x.RoleId != 1 && x.RoleId != 4).ToList();
                 return listaccount;
             }
             catch

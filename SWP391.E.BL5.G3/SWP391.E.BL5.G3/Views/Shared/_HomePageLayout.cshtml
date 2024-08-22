@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />   
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/SWP391.E.BL5.G3.styles.css" asp-append-version="true" />
     <title>Travel System</title>
     <meta charset="utf-8">
@@ -13,7 +13,6 @@
     <link rel="shortcut icon" href="~/images/LogoSystem.png">
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/slider.css">
-
 
 </head>
 <body>
@@ -30,37 +29,58 @@
                     </button>
                     <div class="navbar-collapse collapse d-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
+
                             <li class="nav-item">
                                 <a class="btn btn-primary mx-2 rounded-5 px-3 " asp-area="" asp-controller="Home"
                                    asp-action="Index">Home</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants"
-                                   asp-action="ListRestaurants">Restaurants</a>
-                            </li>
-                            <li class="nav-item">
-                                @{
-                                    var role = ViewData["Role"]?.ToString();
-                                    if (role == "Admin" || role == "Travel_Agent")
-                                    {
+
+                            @{
+                                var role = ViewData["Role"]?.ToString();
+                                if (role == "Admin" || role == "Travel_Agent")
+                                {
+                                    <li class="nav-item">
                                         <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Tours"
                                            asp-action="ListTour">Tours</a>
-                                        if (role == "Admin")
-                                        {
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants"
+                                           asp-action="ListRestaurants">Restaurants</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Vehicles"
+                                           asp-action="ListVehicles">Vehicles</a>
+                                    </li>
+
+                                    if (role == "Admin")
+                                    {
+                                        <li class="nav-item">
                                             <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Admin"
                                                asp-action="ListRegisterTravelAgent">ListRegisterTravelAgent</a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Admin"
                                                asp-action="ListAccount">ListAccount</a>
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Tours"
-                                           asp-action="ListTourForGuests">Tours</a>
+                                        </li>
                                     }
                                 }
-                            </li>
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Tours"
+                                           asp-action="ListTourForGuests">Tours</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants"
+                                           asp-action="ViewRestaurantList">Restaurants</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Vehicles"
+                                           asp-action="ViewVehicleList">Vehicles</a>
+                                    </li>
+                                }
+                            }
+
                             <li class="nav-item">
                                 <a class=" btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Hotels"
                                    asp-action="Index">Hotels</a>
@@ -111,9 +131,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
-
-
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
