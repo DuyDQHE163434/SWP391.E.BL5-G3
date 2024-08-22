@@ -1,11 +1,13 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using CsvHelper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.DAO_Context;
 using SWP391.E.BL5.G3.Models;
+using System.Globalization;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
@@ -170,9 +172,8 @@ namespace SWP391.E.BL5.G3.Controllers
             List<User> listuserregistertravelagent = dal.GetListUserRegisterTravelAgent();
             ViewBag.ListUserTravelAgent = listuserregistertravelagent;
             return View();
-
-
         }
+
         public IActionResult ListAccount()
         {
             DAO dal = new DAO();
@@ -182,39 +183,54 @@ namespace SWP391.E.BL5.G3.Controllers
 
 
         }
+
         [AllowAnonymous]
-        public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 3)
         {
             var query = _traveltestContext.Feedbacks
-            .Include(f => f.User) // Include the User information
-            .Where(f => !f.ParentId.HasValue); // Filter out feedbacks with a ParentId
+                .Include(f => f.User); // Include the User information
 
+            // Fetch all feedbacks first
+            var allFeedbacks = await query.ToListAsync();
+
+            // Create a list of replied feedback IDs
+            var repliedFeedbackIds = allFeedbacks
+                .Where(f => allFeedbacks.Any(r => r.ParentId == f.FeedbackId))
+                .Select(f => f.FeedbackId)
+                .ToList();
+
+            // Apply the search filter
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                query = query.Where(f => f.Content.Contains(searchQuery) ||
-                                          f.User.FirstName.Contains(searchQuery) ||
-                                          f.User.LastName.Contains(searchQuery)); // Apply search filter
+                allFeedbacks = allFeedbacks.Where(f => f.Content.Contains(searchQuery) ||
+                                                       f.User.FirstName.ToLower().Contains(searchQuery.ToLower()) ||
+                                                       f.User.LastName.ToLower().Contains(searchQuery.ToLower()) ||
+                                                       (f.User.FirstName.ToLower() + " " + f.User.LastName.ToLower()).Contains(searchQuery.ToLower())).ToList();
             }
 
-            var totalItems = await query.CountAsync(); // Total items before pagination
-
-            var feedbacks = await query
+            // Filter out feedbacks with EntityId = 6 for display
+            var feedbacksToDisplay = allFeedbacks
+                .Where(f => f.EntityId != 6)
                 .OrderByDescending(f => f.CreatedDate) // Order by creation date
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .ToListAsync(); // Apply pagination
+                .ToList(); // Apply pagination
+
+            var totalItems = allFeedbacks.Count; // Total items before pagination
 
             var pagedResult = new PagedResult<Feedback>
             {
-                Items = feedbacks,
+                Items = feedbacksToDisplay,
                 TotalItems = totalItems,
                 PageNumber = page,
                 PageSize = pageSize
             };
 
+            ViewData["RepliedFeedbackIds"] = repliedFeedbackIds;
             ViewData["SearchQuery"] = searchQuery;
 
             return View(pagedResult);
+
         }
 
         [HttpGet]
@@ -245,23 +261,38 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View(viewModel);
         }
-        public IActionResult RequestAccept(int id, string email)
-        {
-            DAO dal = new DAO();
-            string fromEmail = "duydqhe163434@fpt.edu.vn";
-            string toEmail = email;
-            string subject = "Hello " + email;
 
-            string body = "Tài Khoản Của Bạn Đã Đăng Ký TravelAgent Thành Công";
-            string smtpServer = "smtp.gmail.com";
-            int smtpPort = 587;
-            string smtpUsername = "duydqhe163434@fpt.edu.vn";
-            string smtpPassword = "htay mxgi flsx dxde";
-            bool result = SendEmail.theSendEmailRegisterTravelAgent(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword);
-            string stt = "Accept";
-            dal.AccessRegisterTravelAgent(id, stt);
-            return RedirectToAction("ListRegisterTravelAgent", "Admin");
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ReplyFeedback(ReplyFeedbackViewModel model)
+        {
+            var u = (User)HttpContext.Items["User"];
+
+            var replyFeedback = new Feedback();
+
+            if (!ModelState.IsValid)
+            {
+                // Set the ParentId to the FeedbackId of the feedback being replied to
+                replyFeedback.ParentId = model.Feedback.FeedbackId;
+                replyFeedback.UserId = u.UserId;
+                replyFeedback.EntityId = 6;
+                replyFeedback.Content = model.ReplyContent;
+                replyFeedback.Rating = double.Parse(model.Rating);
+                replyFeedback.CreatedDate = DateTime.UtcNow;
+                replyFeedback.ModifiedDate = null; // or set the modified date if needed
+
+                // Add the new feedback to the database
+                _traveltestContext.Feedbacks.Add(replyFeedback);
+                await _traveltestContext.SaveChangesAsync();
+
+                // Redirect to the feedback management page or another appropriate page
+                return RedirectToAction("FeedbackManagement", new { page = 1 });
+            }
+
+            // If the model state is invalid, return the view with the existing data to show validation errors
+            return View(replyFeedback);
         }
+        
         public IActionResult RequestUnaccept(int id, string email)
         {
             DAO dal = new DAO();
@@ -279,6 +310,7 @@ namespace SWP391.E.BL5.G3.Controllers
             dal.AccessRegisterTravelAgent(id, stt);
             return RedirectToAction("ListRegisterTravelAgent", "Admin");
         }
+
         public IActionResult ResetPass(int id, string email)
         {
             DAO dal = new DAO();
@@ -287,11 +319,13 @@ namespace SWP391.E.BL5.G3.Controllers
             dal.ResetPass(id, email);
             return RedirectToAction("ListAccount", "Admin");
         }
+
         public IActionResult AddAccount(int mess)
         {
             ViewBag.mess = mess;
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> AddAccountAccess()
         {
@@ -376,6 +410,71 @@ namespace SWP391.E.BL5.G3.Controllers
                 return RedirectToAction("AddAccount", "Admin", new { mess = 1 });
             }
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult ImportTourGuide(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return RedirectToAction("TourGuideManagement"); // Return to the main page if no file was uploaded
+            }
+
+            // Process the Excel file and extract data into a list of TourGuideDTO objects
+            TourGuidePreviewViewModel model = ExtractTourGuidesFromExcel(file);
+
+            return View("PreviewTourGuide", model);
+        }
+
+        private TourGuidePreviewViewModel ExtractTourGuidesFromExcel(IFormFile file)
+        {
+            try
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    using (var reader = new StreamReader(stream))
+                    {
+                        var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+                        var records = csv.GetRecords<TourGuideDTO>().ToList();
+
+                        var listTourGuide = _traveltestContext.TourGuides.ToList();
+
+                        var nonDuplicateList = new List<TourGuideDTO>();
+                        var duplicateList = new List<TourGuideDTO>();
+
+                        foreach (var r in records)
+                        {
+                            var existingTourGuide = listTourGuide.FirstOrDefault(x =>
+                                x.FirstName.ToLower() == r.FirstName.ToLower() &&
+                                x.LastName.ToLower() == r.LastName.ToLower() &&
+                                x.PhoneNumber.ToLower() == r.PhoneNumber.ToLower() &&
+                                x.Email.ToLower() == r.Email.ToLower());
+
+                            if (existingTourGuide == null)
+                            {
+                                nonDuplicateList.Add(r);
+                            }
+                            else
+                            {
+                                duplicateList.Add(r);
+                            }
+                        }
+
+                        // Return as a tuple
+                        return new TourGuidePreviewViewModel
+                        {
+                            NonDuplicates = nonDuplicateList,
+                            Duplicates = duplicateList
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while processing the Excel file: " + ex.Message);
+            }
+        }
+
     }
 
     public class CloudinarySettings
@@ -401,6 +500,22 @@ namespace SWP391.E.BL5.G3.Controllers
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public string ReplyContent { get; set; }
+        public string Rating { get; set; }  
     }
 
+    public class TourGuideDTO
+    {
+        public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
+        public string PhoneNumber { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string Description { get; set; }
+    }
+
+    public class TourGuidePreviewViewModel
+    {
+        public List<TourGuideDTO> NonDuplicates { get; set; }
+        public List<TourGuideDTO> Duplicates { get; set; }
+    }
 }
+

@@ -1,0 +1,125 @@
+﻿@using SWP391.E.BL5.G3.Controllers
+@model TourGuidePreviewViewModel;
+
+@{
+    Layout = "/Views/Shared/Layouts/_AdminLayout.cshtml";
+    ViewData["Title"] = "Preview Imported Tour Guides";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">  
+                <div class="card-header pb-0">
+                    <h6>Preview Non-Duplicate Tour Guides</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <form asp-action="AddTourGuide" method="post">
+                        @if (Model.NonDuplicates == null || !Model.NonDuplicates.Any())
+                        {
+                            <p class="text-center py-4">No non-duplicate tour guides available to preview.</p>
+                        }
+                        else
+                        {
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">FirstName</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">LastName</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Phone Number</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var guide in Model.NonDuplicates)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <h6 class="mb-0 text-sm">@guide.FirstName</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="mb-0 text-sm">@guide.LastName</h6>
+                                                </td>
+                                                <td>
+                                                    <p class="text-xs text-secondary mb-0">@guide.Email</p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-xs text-secondary mb-0">@guide.PhoneNumber</p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-xs text-secondary mb-0">@guide.Description</p>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        <div class="mt-4">
+                            <a href="@Url.Action("TourGuideManagement", "Admin")" class="btn btn-secondary">Cancel</a>
+                            <input type="submit" class="btn btn-primary" value="Add Non-Duplicate Tour Guides" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Preview Duplicate Tour Guides</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    @if (Model.Duplicates == null || !Model.Duplicates.Any())
+                    {
+                        <p class="text-center py-4">No duplicate tour guides found.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">FirstName</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">LastName</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Phone Number</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var guide in Model.Duplicates)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <h6 class="mb-0 text-sm">@guide.FirstName</h6>
+                                            </td>
+                                            <td>
+                                                <h6 class="mb-0 text-sm">@guide.LastName</h6>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs text-secondary mb-0">@guide.Email</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs text-secondary mb-0">@guide.PhoneNumber</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs text-secondary mb-0">@guide.Description</p>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    <div class="mt-4">
+                        <a href="@Url.Action("TourGuideManagement", "Admin")" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

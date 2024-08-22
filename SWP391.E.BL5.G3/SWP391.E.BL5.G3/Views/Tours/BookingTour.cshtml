@@ -25,22 +25,47 @@
             <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
+@*         <div class="form-group">
             <label asp-for="StartDate" class="control-label">Start Date</label>
             <input asp-for="StartDate" class="form-control" type="date" required />
             <span asp-validation-for="StartDate" class="text-danger"></span>
         </div>
+ *@
+        <div class="form-group">
+            <label asp-for="StartDate" class="control-label">Start Date</label>
+@*             <input asp-for="StartDate" class="form-control" type="date" id="startDate" required min="@DateTime.Now.ToString("dd-MM-yyyy")" />
+ *@            <input asp-for="StartDate" class="form-control" type="date" id="startDate" required min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+
+@*         <div class="form-group">
+            <label asp-for="EndDate" class="control-label">End Date</label>
+            <input asp-for="EndDate" class="form-control" type="date" required />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div> *@
 
         <div class="form-group">
             <label asp-for="EndDate" class="control-label">End Date</label>
-            <input asp-for="EndDate" class="form-control" type="date" required />
+            <input asp-for="EndDate" class="form-control" type="date" id="endDate" required readonly />
             <span asp-validation-for="EndDate" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="NumPeople" class="control-label">Number</label>
-            <input asp-for="NumPeople" class="form-control" type="number" min="1" required />
+            <label asp-for="NumPeople" class="control-label">Number of People</label>
+            <select asp-for="NumPeople" class="form-control" required>
+                @for (int i = 1; i <= ViewBag.MaxPeople; i++)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
             <span asp-validation-for="NumPeople" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Total Price:</label>
+            <p id="totalPrice">@String.Format("{0:C}", ViewBag.TotalPrice)</p>
+            <p>Deposit 50%: <span id="depositAmount">@String.Format("{0:C}", ViewBag.TotalPrice * 0.5)</span></p>
         </div>
 
         <div class="form-group">
@@ -57,6 +82,38 @@
 
 @section Scripts {
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial"); // Bảo đảm các script kiểm tra tính hợp lệ hoạt động tốt
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        var durationDays = parseInt('@ViewBag.Duration' || 0); // Lưu số ngày duration
+        var pricePerPerson = parseFloat('@ViewBag.Price'); // Lưu giá mỗi người
+
+        // Cập nhật End Date khi Start Date thay đổi
+        document.getElementById("startDate").addEventListener("change", function () {
+            var startDate = new Date(this.value);
+            var endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + durationDays); // Tính toán EndDate
+
+            // Đặt value cho EndDate
+            document.getElementById("endDate").value = endDate.toISOString().split('T')[0]; // Định dạng lại cho input date
+        });
+
+        // Cập nhật Total Price và Deposit
+        function updateTotalPrice() {
+            var numPeople = document.getElementById('NumPeople').value;
+            var totalPrice = pricePerPerson * numPeople;
+            var depositAmount = totalPrice * 0.5;
+
+            // Cập nhật nội dung HTML
+            document.getElementById('totalPrice').textContent = totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+            document.getElementById('depositAmount').textContent = depositAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }
+
+        // Gọi hàm cập nhật tổng giá trị ban đầu và khi người dùng thay đổi số người
+        document.getElementById('NumPeople').addEventListener('change', updateTotalPrice);
+
+        // Gọi hàm cập nhật ngay khi load trang
+        updateTotalPrice();
+    </script>
 }
+

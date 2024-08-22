@@ -31,10 +31,13 @@ namespace SWP391.E.BL5.G3.Controllers
             // Lấy ID của người dùng hiện tại
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            // Lấy role user
+            int userrole = Convert.ToInt32(User.FindFirstValue(ClaimTypes.Role));
+
             var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
 
             // Kiểm tra vai trò người dùng
-            if (User.IsInRole(RoleEnum.Travel_Agent.ToString()))
+            if (userrole == 2)
             {
                 // Chỉ lấy các tour mà Travel_Agent đã tạo
                 toursQuery = toursQuery.Where(t => t.UserId.ToString() == userId);
@@ -99,23 +102,26 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price,ProvinceId")] Tour tour, IFormFile image)
+        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price,ProvinceId,UserId")] Tour tour, IFormFile image)
         {
             if (ModelState.IsValid)
             {
+                tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                
+                // Xử lý upload ảnh
                 if (image != null && image.Length > 0)
                 {
                     var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
                     var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
                     var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                    Directory.CreateDirectory(uploadsFolder);
+                    Directory.CreateDirectory(uploadsFolder); // Tạo thư mục nếu không tồn tại
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await image.CopyToAsync(stream);
                     }
-                    tour.Image = uniqueFileName;
+                    tour.Image = uniqueFileName; // Gán tên hình ảnh cho tour
                 }
 
                 tour.CreateDate = DateTime.Now;
@@ -128,8 +134,11 @@ namespace SWP391.E.BL5.G3.Controllers
             }
 
             // Nếu model không hợp lệ, sẽ lấy lại danh sách tỉnh
-            var provinces = _context.Provinces.ToList();
-            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "Name");
+            var provinces = await _context.Provinces.ToListAsync();
+            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "ProvinceName");
+
+            //Console.WriteLine("=====================");
+            //Console.WriteLine(tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
             return View(tour);
         }
@@ -159,7 +168,7 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTour(int id, [Bind("TourId,Name,Image,Description,Price,Duration,AirPlane,Rating,Itinerary,Inclusions,Exclusions,GroupSize,Guide,ProvinceId")] Tour tour, IFormFile image)
+        public async Task<IActionResult> EditTour(int id, [Bind("TourId,Name,Image,Description,Price,Duration,AirPlane,Rating,Itinerary,Inclusions,Exclusions,GroupSize,Guide,ProvinceId,UserId")] Tour tour, IFormFile image)
         {
             if (id != tour.TourId)
             {
@@ -170,6 +179,8 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 try
                 {
+                    tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
                     if (image != null && image.Length > 0)
                     {
                         var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
@@ -214,8 +225,6 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View(tour);
         }
-
-
 
         // Delete Tour
         [HttpGet]
@@ -273,7 +282,7 @@ namespace SWP391.E.BL5.G3.Controllers
                 toursQuery = toursQuery.Where(t => t.Name.Contains(searchString));
             }
 
-            int pageSize = 5; // Số lượng tour trên mỗi trang
+            int pageSize = 6; // Số lượng tour trên mỗi trang
             var totalTours = await toursQuery.CountAsync(); // Tính tổng số tour
 
             var tours = await toursQuery
@@ -292,7 +301,6 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(model);
         }
 
-
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> BookingTour(int tourId)
@@ -305,8 +313,14 @@ namespace SWP391.E.BL5.G3.Controllers
 
             var bookingModel = new Booking
             {
-                TourId = tourId
+                TourId = tourId,
+                NumPeople = 1
             };
+
+            ViewBag.MaxPeople = tour.GroupSize;
+            ViewBag.Duration = tour.Duration; // Truyền Duration xuống View
+            ViewBag.Price = tour.Price; // Truyền giá tour xuống View
+            ViewBag.TotalPrice = tour.Price; // Tổng tiền cho 1 người
 
             return View(bookingModel); // Chuyển thông tin tour cho view
         }
@@ -347,6 +361,7 @@ namespace SWP391.E.BL5.G3.Controllers
             // Nếu model không hợp lệ, trả lại tương ứng với thông tin đã nhập
             return View(booking);
         }
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -391,6 +406,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View("MyBookingTours", bookings); // Đảm bảo trả về view mới
         }
+
         [HttpGet]
         [Authorize(RoleEnum.Travel_Agent)]
         //[AllowAnonymous]
@@ -436,6 +452,7 @@ namespace SWP391.E.BL5.G3.Controllers
             dal.AccessBookingTravel(id, stt);
             return RedirectToAction("BookingTourInTravelAgent", "Tours");
         }
+
 
     }
 }

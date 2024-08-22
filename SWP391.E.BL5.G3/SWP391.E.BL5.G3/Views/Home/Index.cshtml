@@ -44,7 +44,7 @@
 @* <div class="text-center">
     @if (ViewData["Role"] != null)
     {
-        var role = ViewData["Role"].ToString();
+        var role = ViewData["Role"]?.ToString();
         if (role == "Admin")
         {
             <h1 class="display-4">Welcome Admin!</h1>
@@ -61,6 +61,10 @@
     else
     {
         <h1 class="display-4">Welcome Guest!</h1>
+
+    }
+</div>
+
     } *@
 
 <!DOCTYPE html>
@@ -240,3 +244,4 @@
     </footer>
 </body>
 </html>
+
