@@ -2,6 +2,7 @@
 using CloudinaryDotNet.Actions;
 using CsvHelper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWP391.E.BL5.G3.Authorization;
@@ -36,8 +37,9 @@ namespace SWP391.E.BL5.G3.Controllers
             return View();
         }
 
-        [Authorize(Enum.RoleEnum.Admin)]
+        //[Authorize(Enum.RoleEnum.Admin)]
         // GET: TourGuide/CreateTourGuide
+        [AllowAnonymous]
         public IActionResult CreateTourGuide()
         {
             return View();
@@ -45,7 +47,8 @@ namespace SWP391.E.BL5.G3.Controllers
 
         // POST: TourGuide/CreateTourGuide
         [HttpPost]
-        [Authorize(Enum.RoleEnum.Admin)]
+        //[Authorize(Enum.RoleEnum.Admin)]
+        [AllowAnonymous]
         public async Task<IActionResult> CreateTourGuide([Bind("FirstName,LastName,PhoneNumber,Email,Description")] TourGuide tourGuide, IFormFile imageFile)
         {
             if (ModelState.IsValid)
@@ -146,7 +149,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> TourGuideManagement(string searchQuery)
+        public async Task<IActionResult> TourGuideManagement(string searchQuery, int page = 1, int pageSize = 1)
         {
             var query = _traveltestContext.TourGuides.AsQueryable();
 
@@ -162,8 +165,23 @@ namespace SWP391.E.BL5.G3.Controllers
 
             var tourGuides = await query.ToListAsync();
 
+            var tourGuidesToDisplay = query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList(); // Apply pagination
+
+            var totalItems = tourGuides.Count; // Total items before pagination
+
+            var pagedResult = new PagedResult<TourGuide>
+            {
+                Items = tourGuidesToDisplay,
+                TotalItems = totalItems,
+                PageNumber = page,
+                PageSize = pageSize
+            };
+
             ViewData["SearchQuery"] = searchQuery;
-            return View(tourGuides);
+            return View(pagedResult);
         }
 
         public IActionResult ListRegisterTravelAgent()
@@ -292,7 +310,7 @@ namespace SWP391.E.BL5.G3.Controllers
             // If the model state is invalid, return the view with the existing data to show validation errors
             return View(replyFeedback);
         }
-
+        
         public IActionResult RequestUnaccept(int id, string email)
         {
             DAO dal = new DAO();
@@ -314,8 +332,8 @@ namespace SWP391.E.BL5.G3.Controllers
         public IActionResult ResetPass(int id, string email)
         {
             DAO dal = new DAO();
-
-
+            
+          
             dal.ResetPass(id, email);
             return RedirectToAction("ListAccount", "Admin");
         }
@@ -349,7 +367,7 @@ namespace SWP391.E.BL5.G3.Controllers
             String SelectAccount = "";
             SelectAccount = HttpContext.Request.Form["SelectAccount"];
             IFormFile imageFile = HttpContext.Request.Form.Files["imageFile"];
-
+         
 
 
 
@@ -385,7 +403,7 @@ namespace SWP391.E.BL5.G3.Controllers
                             Image = uploadResult.SecureUrl.ToString(),
                             Gender = Convert.ToBoolean(Convert.ToInt32(HttpContext.Request.Form["Gender"]))
                         };
-
+                        
                         if (usercheck == null)
                         {
                             context.Add(user);
@@ -393,7 +411,7 @@ namespace SWP391.E.BL5.G3.Controllers
                             return RedirectToAction("ListAccount", "Admin");
                         }
                         else
-                        {
+                        {                           
                             return RedirectToAction("AddAccount", "Admin", new { mess = 1 });
                         }
 
@@ -500,7 +518,7 @@ namespace SWP391.E.BL5.G3.Controllers
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public string ReplyContent { get; set; }
-        public string Rating { get; set; }
+        public string Rating { get; set; }  
     }
 
     public class TourGuideDTO
