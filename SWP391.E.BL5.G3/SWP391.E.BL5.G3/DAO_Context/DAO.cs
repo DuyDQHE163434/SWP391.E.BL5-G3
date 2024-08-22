@@ -165,6 +165,20 @@ namespace SWP391.E.BL5.G3.DAO_Context
                 context.SaveChanges();
             }
         }
+        public void AccessBookingTravel(int id, string stt)
+        {
+            Booking b = context.Bookings.Where(x => x.BookingId == id).FirstOrDefault();
+            if (stt == "Accept")
+            {
+                b.Status = 4;
+                context.SaveChanges();
+            }
+            else
+            {
+                b.Status = 3;
+                context.SaveChanges();
+            }
+        }
         public void ResetPass(int id, string email)
         {
             User a = context.Users.Where(x => x.UserId == id).FirstOrDefault();

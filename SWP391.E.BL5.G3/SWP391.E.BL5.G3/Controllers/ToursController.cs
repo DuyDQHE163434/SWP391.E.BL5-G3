@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SWP391.E.BL5.G3.Authorization;
+using SWP391.E.BL5.G3.DAO_Context;
 using SWP391.E.BL5.G3.DTOs;
 using SWP391.E.BL5.G3.Enum;
 using SWP391.E.BL5.G3.Models;
@@ -405,5 +406,53 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View("MyBookingTours", bookings); // Đảm bảo trả về view mới
         }
+
+        [HttpGet]
+        [Authorize(RoleEnum.Travel_Agent)]
+        //[AllowAnonymous]
+        public async Task<IActionResult> BookingTourInTravelAgent()
+        {
+            
+            List<Booking> booking = _context.Bookings.Include(b=>b.Tour).Include(b=>b.User).Where(x=>x.Status==2||x.Status==3||x.Status==4).ToList();
+            ViewBag.Booking = booking;
+
+            return View(); 
+        }
+        public IActionResult RequestAccept(int id, string email)
+        {
+            DAO dal = new DAO();
+            string fromEmail = "duydqhe163434@fpt.edu.vn";
+            string toEmail = email;
+            string subject = "Hello " + email;
+
+            string body = "Chuyen di cua ban da duoc dat thanh cong vui long kiem tra lich trinh chuyen di";
+            string smtpServer = "smtp.gmail.com";
+            int smtpPort = 587;
+            string smtpUsername = "duydqhe163434@fpt.edu.vn";
+            string smtpPassword = "htay mxgi flsx dxde";
+            bool result = SendEmail.theSendEmailRegisterTravelAgent(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword);
+            string stt = "Accept";
+            dal.AccessBookingTravel(id, stt);
+            return RedirectToAction("BookingTourInTravelAgent", "Tours");
+        }
+        public IActionResult RequestUnaccept(int id, string email)
+        {
+            DAO dal = new DAO();
+            string fromEmail = "duydqhe163434@fpt.edu.vn";
+            string toEmail = email;
+            string subject = "Hello " + email;
+
+            string body = "Vì Một Số Lý Do Nào Đó Từ Phía Của Chúng Tôi Không Thể Nhan Tour Cua Ban ";
+            string smtpServer = "smtp.gmail.com";
+            int smtpPort = 587;
+            string smtpUsername = "duydqhe163434@fpt.edu.vn";
+            string smtpPassword = "htay mxgi flsx dxde";
+            bool result = SendEmail.theSendEmailRegisterTravelAgent(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword);
+            string stt = "Unaccept";
+            dal.AccessBookingTravel(id, stt);
+            return RedirectToAction("BookingTourInTravelAgent", "Tours");
+        }
+
+
     }
 }
