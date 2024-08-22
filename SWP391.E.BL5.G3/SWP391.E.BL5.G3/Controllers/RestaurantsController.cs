@@ -1,4 +1,5 @@
 ﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -196,14 +197,32 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         //[AllowAnonymous]
         [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
-        public IActionResult AddRestaurant(Restaurant restaurant)
+        public IActionResult AddRestaurant(Restaurant restaurant, IFormFile imageFile)
         {
             if (ModelState.IsValid)
             {
                 restaurant.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        imageFile.CopyTo(stream);
+                        stream.Position = 0;
+
+                        var imageUpload = new ImageUploadParams()
+                        {
+                            File = new FileDescription(imageFile.FileName, stream)
+                        };
+
+                        var uploadResult = _cloudinary.Upload(imageUpload);
+                        restaurant.Image = uploadResult.SecureUrl.ToString();
+                    }
+                }
+
                 restaurant.CreatedAt = DateTime.Now;
                 restaurant.UpdatedAt = restaurant.CreatedAt;
+
                 _context.Add(restaurant);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(ListRestaurants));
@@ -233,13 +252,17 @@ namespace SWP391.E.BL5.G3.Controllers
                 return NotFound();
             }
 
+            ViewData["BusinessType"] = new SelectList(_context.BusinessTypes.ToList(), "BusinessTypeId", "BusinessTypeName");
+            ViewData["CuisineType"] = new SelectList(_context.CuisineTypes.ToList(), "CuisineTypeId", "CuisineTypeName");
+            ViewData["Province"] = new SelectList(_context.Provinces.ToList(), "ProvinceId", "ProvinceName");
+
             return View(restaurant);
         }
 
         [HttpPost]
         //[AllowAnonymous]
         [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
-        public IActionResult EditRestaurant(int id, Restaurant restaurant)
+        public IActionResult EditRestaurant(int id, Restaurant restaurant, IFormFile? imageFile)
         {
             if (id != restaurant.RestaurantId)
             {
@@ -250,8 +273,28 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 try
                 {
+                    restaurant.UserId = restaurant.UserId;
+
+                    if (imageFile != null && imageFile.Length > 0)
+                    {
+                        using (var stream = new MemoryStream())
+                        {
+                            imageFile.CopyTo(stream);
+                            stream.Position = 0;
+
+                            var imageUpload = new ImageUploadParams()
+                            {
+                                File = new FileDescription(imageFile.FileName, stream)
+                            };
+
+                            var uploadResult = _cloudinary.Upload(imageUpload);
+                            restaurant.Image = uploadResult.SecureUrl.ToString();
+                        }
+                    }
+
                     restaurant.CreatedAt = restaurant.CreatedAt;
                     restaurant.UpdatedAt = DateTime.Now;
+
                     _context.Update(restaurant);
                     _context.SaveChanges();
                 }
@@ -268,6 +311,10 @@ namespace SWP391.E.BL5.G3.Controllers
                 }
                 return RedirectToAction(nameof(ListRestaurants));
             }
+
+            ViewData["BusinessType"] = new SelectList(_context.BusinessTypes.ToList(), "BusinessTypeId", "BusinessTypeName");
+            ViewData["CuisineType"] = new SelectList(_context.CuisineTypes.ToList(), "CuisineTypeId", "CuisineTypeName");
+            ViewData["Province"] = new SelectList(_context.Provinces.ToList(), "ProvinceId", "ProvinceName");
 
             return View(restaurant);
         }
@@ -294,6 +341,13 @@ namespace SWP391.E.BL5.G3.Controllers
             return RedirectToAction(nameof(ListRestaurants));
         }
 
+        // Check if the restaurant is existed or not
+        public bool CheckRestaurantExisted(int id)
+        {
+            return (_context.Restaurants?.Any(item => item.RestaurantId == id)).GetValueOrDefault();
+        }
+
+        // Being fixed
         // Book a restaurant
         [Authorize(RoleEnum.Customer)]
         public IActionResult BookRestaurant(int id)
@@ -329,12 +383,6 @@ namespace SWP391.E.BL5.G3.Controllers
             }
 
             return View(booking);
-        }
-
-        // Check if the restaurant is existed or not
-        public bool CheckRestaurantExisted(int id)
-        {
-            return (_context.Restaurants?.Any(item => item.RestaurantId == id)).GetValueOrDefault();
         }
     }
 }
