@@ -118,19 +118,19 @@
                             @Html.DisplayNameFor(model => model.BusinessType)
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.BusinessType.BusinessTypeName)
+                            @(Model.BusinessType != null ? Html.DisplayFor(model => model.BusinessType.BusinessTypeName) : "N/A")
                         </dd>
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.CuisineType)
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.CuisineType.CuisineTypeName)
+                            @(Model.CuisineType != null ? Html.DisplayFor(model => model.CuisineType.CuisineTypeName) : "N/A")
                         </dd>
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.Province)
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Province.ProvinceName)
+                            @(Model.Province != null ? Html.DisplayFor(model => model.Province.ProvinceName) : "N/A")
                         </dd>
                     </dl>
                 </div>
