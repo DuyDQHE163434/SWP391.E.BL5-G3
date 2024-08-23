@@ -431,15 +431,26 @@ namespace SWP391.E.BL5.G3.Controllers
                 // Thêm booking vào cơ sở dữ liệu
                 _context.Bookings.Add(bookingg);
                 await _context.SaveChangesAsync();
+
+                // Lấy thông tin tour từ cơ sở dữ liệu
+                var tour = await _context.Tours.FindAsync(booking.TourId);
+                if (tour == null)
+                {
+                    return NotFound(); // Nếu tour không tồn tại
+                }
+
                 string vnp_Returnurl = "https://localhost:7295/VnPay/ReturnUrl";
                 string vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"; // URL thanh toán của VNPAY
                 string vnp_TmnCode = "CA6G65VO"; // Mã định danh merchant kết nối (Terminal Id)
                 string vnp_HashSecret = "NTJ0PDLNZOM2W7ZPSCFKWI85HPCDDD7R"; // Secret key cần được cung cấp
 
+                long totalAmount = (long)(tour.Price * booking.NumPeople * 0.5); // Số tiền phải thanh toán
+
+
                 var order = new OrderInfo
                 {
                     OrderId = DateTime.Now.Ticks, // Giả lập mã giao dịch hệ thống merchant gửi sang VNPAY
-                    Amount = 100000, // Giả lập số tiền thanh toán
+                    Amount = totalAmount, // Giả lập số tiền thanh toán
                     Status = "0", // Trạng thái thanh toán
                     CreatedDate = DateTime.Now
                 };
@@ -464,6 +475,20 @@ namespace SWP391.E.BL5.G3.Controllers
 
                 // Add Params of 2.1.0 Version
                 string paymentUrl = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
+
+                var payment = new Payment
+                {
+                    BookingId = bookingg.BookingId, // Khóa ngoại liên kết với bản ghi booking
+                    Amount = totalAmount, // Số tiền thanh toán
+                    PaymentDate = DateTime.Now, // Ngày thanh toán
+                    TransactionId = order.OrderId.ToString(), // Mã giao dịch tạm thời
+                    Status = (int)BookingStatusEnum.Pending, // Trạng thái thanh toán ban đầu
+                    ResponseCode = null, // Chưa có thông tin phản hồi
+                    Message = null // Hoặc có thể là thông điệp mặc định
+                };
+
+                _context.Payments.Add(payment);
+                await _context.SaveChangesAsync(); // Lưu vào cơ sở dữ liệu
 
                 return Redirect(paymentUrl);
             }
