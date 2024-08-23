@@ -22,9 +22,11 @@
     }
 
     <form asp-action="BookRestaurant">
+
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
         <input type="hidden" asp-for="RestaurantId" />
-        <input type="hidden" asp-for="UserId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+        <input type="hidden" asp-for="UserId" />
 
         <div class="form-group">
             <label asp-for="Name" class="control-label">Name:</label>
