@@ -1,121 +1,183 @@
-﻿@model SWP391.E.BL5.G3.Models.Booking
-
-@{
-    ViewData["Title"] = "Feedback Form";
+﻿@{
     Layout = "/Views/Shared/_HomeLayout.cshtml";
+    ViewData["Title"] = "Tour Feedback";
 }
 
-<h2>Feedback Form</h2>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Tour Feedback</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <form id="tourFeedbackForm" asp-action="SubmitTourFeedback" method="post">
 
-<form method="post" action="/Feedback/Submit">
-    <div>
-        <label for="content">Content:</label>
-        <textarea id="content" name="Content" required></textarea>
-    </div>
+                        <!-- Hotel Feedback -->
+                        <div class="form-group mb-4">
+                            <label class="form-label">Hotel Rating</label>
+                            <div class="star-rating" data-field="HotelRating">
+                                <span data-value="1" class="star">★</span>
+                                <span data-value="2" class="star">★</span>
+                                <span data-value="3" class="star">★</span>
+                                <span data-value="4" class="star">★</span>
+                                <span data-value="5" class="star">★</span>
+                            </div>
+                            <input type="hidden" name="HotelRating" id="HotelRating" />
+                            <textarea name="HotelFeedbackContent" class="form-control" placeholder="Your feedback about the hotel"></textarea>
+                        </div>
 
-    <div>
-        <label for="rating">Rating:</label>
-        <div id="star-rating">
-            @for (int i = 1; i <= 5; i++)
-            {
-                <input type="radio" id="star-@i" name="Rating" value="@i">
-                <label for="star-@i">@i Star</label>
-            }
+                        <!-- Vehicle Feedback -->
+                        <div class="form-group mb-4">
+                            <label class="form-label">Vehicle Rating</label>
+                            <div class="star-rating" data-field="VehicleRating">
+                                <span data-value="1" class="star">★</span>
+                                <span data-value="2" class="star">★</span>
+                                <span data-value="3" class="star">★</span>
+                                <span data-value="4" class="star">★</span>
+                                <span data-value="5" class="star">★</span>
+                            </div>
+                            <input type="hidden" name="VehicleRating" id="VehicleRating" />
+                            <textarea name="VehicleFeedbackContent" class="form-control" placeholder="Your feedback about the vehicle"></textarea>
+                        </div>
+
+                        <!-- Tour Guide Feedback -->
+                        <div class="form-group mb-4">
+                            <label class="form-label">Tour Guide Rating</label>
+                            <div class="star-rating" data-field="GuideRating">
+                                <span data-value="1" class="star">★</span>
+                                <span data-value="2" class="star">★</span>
+                                <span data-value="3" class="star">★</span>
+                                <span data-value="4" class="star">★</span>
+                                <span data-value="5" class="star">★</span>
+                            </div>
+                            <input type="hidden" name="GuideRating" id="GuideRating" />
+                            <textarea name="GuideFeedbackContent" class="form-control" placeholder="Your feedback about the tour guide"></textarea>
+                        </div>
+
+                        <!-- Restaurant Feedback -->
+                        <div class="form-group mb-4">
+                            <label class="form-label">Restaurant Rating</label>
+                            <div class="star-rating" data-field="RestaurantRating">
+                                <span data-value="1" class="star">★</span>
+                                <span data-value="2" class="star">★</span>
+                                <span data-value="3" class="star">★</span>
+                                <span data-value="4" class="star">★</span>
+                                <span data-value="5" class="star">★</span>
+                            </div>
+                            <input type="hidden" name="RestaurantRating" id="RestaurantRating" />
+                            <textarea name="RestaurantFeedbackContent" class="form-control" placeholder="Your feedback about the restaurant"></textarea>
+                        </div>
+
+                        <!-- Tour Feedback (Average Rating) -->
+                        <div class="form-group mb-4">
+                            <label class="form-label">Overall Tour Rating</label>
+                            <input type="text" name="TourRating" id="TourRating" class="form-control" readonly />
+                            <textarea name="TourFeedbackContent" class="form-control" placeholder="Your feedback about the tour"></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
-    @if (Model.TourId != null)
-    {
-        <h3>Related Ratings</h3>
+<script>
+    const starGroups = document.querySelectorAll('.star-rating');
 
-        @if (Model.HotelId != null)
-        {
-            <div>
-                <label for="hotel-rating">Hotel Rating:</label>
-                <div id="hotel-rating">
-                    @for (int i = 1; i <= 5; i++)
-                    {
-                        <input type="radio" id="hotel-star-@i" name="HotelRating" value="@i">
-                        <label for="hotel-star-@i">@i Star</label>
-                    }
-                </div>
-            </div>
-        }
+    starGroups.forEach(group => {
+        const stars = group.querySelectorAll('.star');
+        const ratingInput = document.getElementById(group.dataset.field);
+        let currentRating = 0;
 
-        @if (Model.RestaurantId != null)
-        {
-            <div>
-                <label for="restaurant-rating">Restaurant Rating:</label>
-                <div id="restaurant-rating">
-                    @for (int i = 1; i <= 5; i++)
-                    {
-                        <input type="radio" id="restaurant-star-@i" name="RestaurantRating" value="@i">
-                        <label for="restaurant-star-@i">@i Star</label>
-                    }
-                </div>
-            </div>
-        }
+        stars.forEach(star => {
+            star.addEventListener('mouseover', () => {
+                const ratingValue = star.getAttribute('data-value');
+                highlightStars(stars, ratingValue);
+            });
 
-        @if (Model.VehicleId != null)
-        {
-            <div>
-                <label for="vehicle-rating">Vehicle Rating:</label>
-                <div id="vehicle-rating">
-                    @for (int i = 1; i <= 5; i++)
-                    {
-                        <input type="radio" id="vehicle-star-@i" name="VehicleRating" value="@i">
-                        <label for="vehicle-star-@i">@i Star</label>
-                    }
-                </div>
-            </div>
-        }
-    }
-    else
-    {
-        @if (Model.HotelId != null)
-        {
-            <div>
-                <label for="hotel-rating">Hotel Rating:</label>
-                <div id="hotel-rating">
-                    @for (int i = 1; i <= 5; i++)
-                    {
-                        <input type="radio" id="hotel-star-@i" name="HotelRating" value="@i">
-                        <label for="hotel-star-@i">@i Star</label>
-                    }
-                </div>
-            </div>
-        }
+            star.addEventListener('mouseleave', () => {
+                clearHighlight(stars);
+                if (currentRating > 0) {
+                    highlightStars(stars, currentRating);
+                }
+            });
 
-        @if (Model.RestaurantId != null)
-        {
-            <div>
-                <label for="restaurant-rating">Restaurant Rating:</label>
-                <div id="restaurant-rating">
-                    @for (int i = 1; i <= 5; i++)
-                    {
-                        <input type="radio" id="restaurant-star-@i" name="RestaurantRating" value="@i">
-                        <label for="restaurant-star-@i">@i Star</label>
-                    }
-                </div>
-            </div>
-        }
+            star.addEventListener('click', (event) => {
+                const ratingValue = getStarRating(event);
+                currentRating = ratingValue;
+                ratingInput.value = ratingValue; // Bind the selected rating to the hidden input
+                highlightStars(stars, ratingValue);
+                updateOverallRating();
+            });
+        });
+    });
 
-        @if (Model.VehicleId != null)
-        {
-            <div>
-                <label for="vehicle-rating">Vehicle Rating:</label>
-                <div id="vehicle-rating">
-                    @for (int i = 1; i <= 5; i++)
-                    {
-                        <input type="radio" id="vehicle-star-@i" name="VehicleRating" value="@i">
-                        <label for="vehicle-star-@i">@i Star</label>
-                    }
-                </div>
-            </div>
-        }
+    function highlightStars(stars, rating) {
+        stars.forEach(star => {
+            star.classList.remove('full');
+            const starValue = parseFloat(star.getAttribute('data-value'));
+            if (starValue <= Math.floor(rating)) {
+                star.classList.add('full');
+            } else if (starValue === Math.ceil(rating) && !Number.isInteger(rating)) {
+                star.classList.add('half'); // Add class for half-star
+            }
+        });
     }
 
-    <div>
-        <button type="submit">Submit Feedback</button>
-    </div>
-</form>
+    function clearHighlight(stars) {
+        stars.forEach(star => {
+            star.classList.remove('full');
+            star.classList.remove('half'); // Clear half-star class
+        });
+    }
+
+    function getStarRating(event) {
+        const star = event.target;
+        const starValue = parseFloat(star.getAttribute('data-value'));
+
+        const starWidth = star.offsetWidth;
+        const clickX = event.clientX - star.getBoundingClientRect().left;
+
+        // Check for half-star selection
+        if (clickX < starWidth / 2) {
+            return starValue - 0.5; // Half-star rating
+        }
+        return starValue; // Full-star rating
+    }
+
+    function updateOverallRating() {
+        const hotelRating = parseFloat(document.getElementById('HotelRating').value) || 0;
+        const vehicleRating = parseFloat(document.getElementById('VehicleRating').value) || 0;
+        const guideRating = parseFloat(document.getElementById('GuideRating').value) || 0;
+        const restaurantRating = parseFloat(document.getElementById('RestaurantRating').value) || 0;
+
+        const averageRating = (hotelRating + vehicleRating + guideRating + restaurantRating) / 4;
+        document.getElementById('TourRating').value = averageRating.toFixed(1);
+    }
+</script>
+
+<style>
+    .star {
+        font-size: 30px;
+        cursor: pointer;
+        color: lightgray;
+    }
+
+        .star.full {
+            color: gold;
+        }
+
+        .star.half {
+            color: gold;
+            background: linear-gradient(90deg, gold 50%, lightgray 50%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+</style>
