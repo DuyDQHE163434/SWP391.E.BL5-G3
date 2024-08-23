@@ -2,6 +2,14 @@
     Layout = "/Views/Shared/Layouts/_AdminLayout.cshtml";
     ViewData["Title"] = "Dashboard";
 }
+<!-- Include SheetJS for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
+<!-- Include jsPDF for PDF export (optional) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<button onclick="exportData()">Export Dashboard Data</button>
+
 <div class="container-fluid py-4">
     <div class="row">
         <!-- Today's Sales -->
@@ -152,7 +160,7 @@
 <script>
     var ctx = document.getElementById("chart-line").getContext("2d");
 
-    // Create gradient stroke for the line chart
+    
     var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
     gradientStroke.addColorStop(1, 'rgba(94, 114, 228, 0.2)');
     gradientStroke.addColorStop(0.2, 'rgba(94, 114, 228, 0.0)');
@@ -172,7 +180,7 @@
                 borderColor: "#5e72e4",
                 backgroundColor: gradientStroke,
                 fill: true,
-                data: monthlySalesData, // Use data from ViewData
+                data: monthlySalesData,
             }],
         },
         options: {
@@ -233,7 +241,6 @@
     });
 
     $(document).ready(function() {
-        // Initialize chart with the data already set in monthlySalesData
         console.log("Monthly Sales Data:", monthlySalesData);
     });
 </script>
@@ -252,18 +259,18 @@
     var options = {
         series: feedbackCounts,
         chart: {
-            type: 'pie', // Thay đổi loại biểu đồ thành pie
+            type: 'pie', 
             height: 350
         },
         title: {
             text: 'Feedback Ratings Overview',
             align: 'center'
         },
-        labels: ['< 1 Star', '1-2 Stars', '2-3 Stars', '3-4 Stars', '4-5 Stars'], // Nhãn cho các phần của biểu đồ
+        labels: ['< 1 Star', '1-2 Stars', '2-3 Stars', '3-4 Stars', '4-5 Stars'], 
         dataLabels: {
             enabled: true
         },
-        colors: ['#ff4560', '#008ffb', '#00e396', '#feb019', '#775dd0'], // Màu sắc cho từng phần
+        colors: ['#ff4560', '#008ffb', '#00e396', '#feb019', '#775dd0'], 
         fill: {
             opacity: 1
         },
@@ -271,5 +278,40 @@
 
     var chart = new ApexCharts(document.querySelector("#bsb-chart-4"), options);
     chart.render();
+</script>
+
+<script>
+    function exportData() {
+        // Get data from ViewData
+        const todaysSales = @Html.Raw(Json.Serialize(ViewData["TodaysSales"]));
+        const totalTours = @Html.Raw(Json.Serialize(ViewData["TotalTours"]));
+        const totalTourGuides = @Html.Raw(Json.Serialize(ViewData["TotalTourGuides"]));
+        const monthlySales = @Html.Raw(Json.Serialize(ViewData["MonthlySales"]));
+        const monthlyComparison = @Html.Raw(Json.Serialize(ViewData["MonthlyComparison"]));
+
+        // Get chart data
+        const monthlySalesData = @Html.Raw(Json.Serialize(ViewData["MonthlySalesData"]));
+        const feedbackCounts = @Html.Raw(Json.Serialize(ViewData["FeedbackCounts"]));
+
+        // Prepare data for Excel
+        const data = [
+            ["Metric", "Value"],
+            ["Today's Sales", todaysSales],
+            ["Total Tours", totalTours],
+            ["Total Tour Guides", totalTourGuides],
+            ["Monthly Sales", monthlySales],
+            ["Monthly Comparison (%)", monthlyComparison],
+            ["Monthly Sales Data", ...monthlySalesData],
+            ["Feedback Ratings (Counts)", ...feedbackCounts],
+        ];
+
+        // Convert data to a worksheet
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Dashboard Data");
+
+        // Export as Excel
+        XLSX.writeFile(wb, "Dashboard_Data.xlsx");
+    }
 </script>
 
