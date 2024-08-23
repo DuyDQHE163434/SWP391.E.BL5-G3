@@ -8,6 +8,7 @@ using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.DTOs;
 using SWP391.E.BL5.G3.Enum;
 using SWP391.E.BL5.G3.Models;
+using System.Linq;
 using System.Security.Claims;
 
 namespace SWP391.E.BL5.G3.Controllers
@@ -197,11 +198,33 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         //[AllowAnonymous]
         [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
-        public IActionResult AddRestaurant(Restaurant restaurant, IFormFile imageFile)
+        public IActionResult AddRestaurant(Restaurant restaurant, IFormFile imageFile, List<IFormFile> images)
         {
             if (ModelState.IsValid)
             {
                 restaurant.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+                var uploadedImageURLS = new List<string>();
+
+                foreach (var fileImage in images)
+                {
+                    if (fileImage != null && fileImage.Length > 0)
+                    {
+                        using (var stream = new MemoryStream())
+                        {
+                            fileImage.CopyTo(stream);
+                            stream.Position = 0;
+
+                            var uploadImage = new ImageUploadParams()
+                            {
+                                File = new FileDescription(fileImage.FileName, stream)
+                            };
+
+                            var uploadResult = _cloudinary.Upload(uploadImage);
+                            uploadedImageURLS.Add(uploadResult.SecureUrl.ToString());
+                        }
+                    }
+                }
 
                 if (imageFile != null && imageFile.Length > 0)
                 {
@@ -220,11 +243,16 @@ namespace SWP391.E.BL5.G3.Controllers
                     }
                 }
 
+                restaurant.Rating = null;
+
+                restaurant.PriceList = string.Join(",", uploadedImageURLS);
+
                 restaurant.CreatedAt = DateTime.Now;
                 restaurant.UpdatedAt = restaurant.CreatedAt;
 
                 _context.Add(restaurant);
                 _context.SaveChanges();
+                TempData["SuccessMessage"] = "Add Restaurant successfully!";
                 return RedirectToAction(nameof(ListRestaurants));
             }
 
@@ -297,6 +325,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
                     _context.Update(restaurant);
                     _context.SaveChanges();
+                    TempData["SuccessMessage"] = "Update Restaurant successfully!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -336,6 +365,7 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 _context.Restaurants.Remove(restaurant);
                 _context.SaveChanges();
+                TempData["SuccessMessage"] = "Delete Restaurant successfully!";
             }
 
             return RedirectToAction(nameof(ListRestaurants));
