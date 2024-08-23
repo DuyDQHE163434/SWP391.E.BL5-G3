@@ -243,7 +243,7 @@ namespace SWP391.E.BL5.G3.Controllers
                     }
                 }
 
-                restaurant.Rating = null;
+                restaurant.Rating = 5;
 
                 restaurant.PriceList = string.Join(",", uploadedImageURLS);
 
@@ -290,7 +290,7 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         //[AllowAnonymous]
         [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
-        public IActionResult EditRestaurant(int id, Restaurant restaurant, IFormFile? imageFile)
+        public IActionResult EditRestaurant(int id, Restaurant restaurant, IFormFile imageFile, List<IFormFile> images)
         {
             if (id != restaurant.RestaurantId)
             {
@@ -302,6 +302,35 @@ namespace SWP391.E.BL5.G3.Controllers
                 try
                 {
                     restaurant.UserId = restaurant.UserId;
+
+                    var existedRestaurant = restaurant;
+
+                    var uploadedImageURLS = new List<string>();
+
+                    foreach (var fileImage in images)
+                    {
+                        if (fileImage != null && fileImage.Length > 0)
+                        {
+                            using (var stream = new MemoryStream())
+                            {
+                                fileImage.CopyTo(stream);
+                                stream.Position = 0;
+
+                                var uploadImage = new ImageUploadParams()
+                                {
+                                    File = new FileDescription(fileImage.FileName, stream)
+                                };
+
+                                var uploadResult = _cloudinary.Upload(uploadImage);
+                                uploadedImageURLS.Add(uploadResult.SecureUrl.ToString());
+                                existedRestaurant.PriceList = string.Join(",", uploadedImageURLS);
+                            }
+                        }
+                        else
+                        {
+                            existedRestaurant.PriceList = restaurant.PriceList;
+                        }
+                    }
 
                     if (imageFile != null && imageFile.Length > 0)
                     {
@@ -316,14 +345,20 @@ namespace SWP391.E.BL5.G3.Controllers
                             };
 
                             var uploadResult = _cloudinary.Upload(imageUpload);
-                            restaurant.Image = uploadResult.SecureUrl.ToString();
+                            existedRestaurant.Image = uploadResult.SecureUrl.ToString();
                         }
                     }
+                    else
+                    {
+                        existedRestaurant.Image = restaurant.Image;
+                    }
 
-                    restaurant.CreatedAt = restaurant.CreatedAt;
-                    restaurant.UpdatedAt = DateTime.Now;
+                    existedRestaurant.Rating = restaurant.Rating;
 
-                    _context.Update(restaurant);
+                    existedRestaurant.CreatedAt = restaurant.CreatedAt;
+                    existedRestaurant.UpdatedAt = DateTime.Now;
+
+                    _context.Update(existedRestaurant);
                     _context.SaveChanges();
                     TempData["SuccessMessage"] = "Update Restaurant successfully!";
                 }

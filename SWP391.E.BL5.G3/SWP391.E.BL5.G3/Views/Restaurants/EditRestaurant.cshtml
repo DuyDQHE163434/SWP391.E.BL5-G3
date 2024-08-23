@@ -1,40 +1,151 @@
-﻿@model SWP391.E.BL5.G3.Models.Restaurant
+﻿@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@model SWP391.E.BL5.G3.Models.Restaurant
 
 @{
-    ViewData["Title"] = Model.RestaurantName;
+    ViewData["Title"] = "Edit " + Model.RestaurantName;
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 
-<hr />
-<div class="row">
-    <div class="mt-4 d-flex flex-column">
-        <form asp-action="EditRestaurant">
+<style>
+
+    .control-label {
+        font-weight: bold;
+    }
+
+</style>
+
+<div class="mt-4 d-flex flex-column">
+
+    <h1 class="text-center mb-4">Edit Restaurant</h1>
+
+    <div class="card shadow-lg p-4">
+
+        <form asp-action="EditRestaurant" enctype="multipart/form-data">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <input type="hidden" asp-for="RestaurantId" />
+
             <div class="form-group">
-                <label asp-for="RestaurantName" class="control-label">Restaurant name:</label>
-                <input asp-for="RestaurantName" class="form-control" />
+                <label asp-for="RestaurantName" class="control-label">Restaurant Name:</label>
+                <input asp-for="RestaurantName" class="form-control" placeholder="Enter restaurant name here" required />
                 <span asp-validation-for="RestaurantName" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label for="imageFile" class="control-label">Image:</label>
+                <input type="file" class="form-control" id="imageFile" name="imageFile" required />
+            </div>
+
             <div class="form-group">
                 <label asp-for="Location" class="control-label">Location:</label>
-                <input asp-for="Location" class="form-control" />
+                <input asp-for="Location" class="form-control" required />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="ProvinceId" class="control-label">Province:</label>
+                <select asp-for="ProvinceId" class="form-control" asp-items="ViewBag.Province" required>
+                    <option value="">Select Province</option>
+                </select>
+                <span asp-validation-for="ProvinceId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="BusinessTypeId" class="control-label">Business Type:</label>
+                <select asp-for="BusinessTypeId" class="form-control" asp-items="ViewBag.BusinessType" required>
+                    <option value="">Select Business Type</option>
+                </select>
+                <span asp-validation-for="BusinessTypeId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CuisineTypeId" class="control-label">Cuisine Type:</label>
+                <select asp-for="CuisineTypeId" class="form-control" asp-items="ViewBag.CuisineType" required>
+                    <option value="">Select Cuisine Type</option>
+                </select>
+                <span asp-validation-for="CuisineTypeId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AveragePrice" class="control-label">Average Price:</label>
+                <input asp-for="AveragePrice" class="form-control" required />
+                <span asp-validation-for="AveragePrice" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ContactNumber" class="control-label">Contact Number:</label>
+                <input asp-for="ContactNumber" type="tel" class="form-control" />
+                <span asp-validation-for="ContactNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="images" class="control-label">Price list:</label>
+                <input type="file" id="images" name="images" multiple class="form-control" />
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label asp-for="OpenedTime" class="control-label">Opened Time:</label>
+                    <input asp-for="OpenedTime" type="time" class="form-control" />
+                    <span asp-validation-for="OpenedTime" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ClosedTime" class="control-label">Closed Time:</label>
+                    <input asp-for="ClosedTime" type="time" class="form-control" />
+                    <span asp-validation-for="ClosedTime" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Summary" class="control-label">Summary:</label>
+                <textarea asp-for="Summary" class="form-control" rows="8" placeholder=""></textarea>
+                <span asp-validation-for="Summary" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Regulations" class="control-label">Regulations:</label>
+                <textarea asp-for="Regulations" class="form-control" rows="8" placeholder=""></textarea>
+                <span asp-validation-for="Regulations" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Parking" class="control-label">Parking:</label>
+                <textarea asp-for="Parking" class="form-control" rows="8" placeholder=""></textarea>
+                <span asp-validation-for="Parking" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="Rating" />
+
+            <div class="form-group">
+                <label asp-for="Utilities" class="control-label">Utilities:</label>
+                <textarea asp-for="Utilities" class="form-control" rows="8" placeholder=""></textarea>
+                <span asp-validation-for="Utilities" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="Description" class="control-label">Description:</label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control" rows="8" placeholder=""></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="CreatedAt" />
+
             <div class="text-center mt-4 d-flex flex-column">
                 <input type="submit" value="Update" class="btn btn-primary btn-lg" />
             </div>
+
         </form>
+
     </div>
+
 </div>
 
 <div class="text-center mt-4 d-flex flex-column">
     <a asp-action="ListRestaurants" class="btn btn-primary btn-lg">Back to List</a>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 
