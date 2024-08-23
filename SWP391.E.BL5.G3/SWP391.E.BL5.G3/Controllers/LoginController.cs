@@ -83,6 +83,15 @@ namespace SWP391.E.BL5.G3.Controllers
             }
             return View();
         }
+        public IActionResult Logout()
+        {
+
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("index", "Home");
+
+
+        }
         public IActionResult Register(int mess, string email)
         {
             ViewBag.Email = email;
@@ -203,7 +212,8 @@ namespace SWP391.E.BL5.G3.Controllers
             PhoneNumber = HttpContext.Request.Form["PhoneNumber"];
             String Gender = "";
             Gender = HttpContext.Request.Form["Gender"];
-
+            String SelectAccount = "";
+            SelectAccount = HttpContext.Request.Form["SelectAccount"];
             Random r = new Random();
             string OTP = r.Next(100000, 999999).ToString();
 
@@ -234,7 +244,7 @@ namespace SWP391.E.BL5.G3.Controllers
                     FirstName = HttpContext.Request.Form["FirstName"],
                     LastName = HttpContext.Request.Form["LastName"],
                     PhoneNumber = HttpContext.Request.Form["PhoneNumber"],
-                    RoleId = 1,
+                    RoleId = Convert.ToInt32(HttpContext.Request.Form["SelectAccount"]),
                     Action = true,
                     Gender = Convert.ToBoolean(Convert.ToInt32(HttpContext.Request.Form["Gender"]))
                 };
@@ -246,10 +256,22 @@ namespace SWP391.E.BL5.G3.Controllers
                 }
                 else
                 {
-                    string body = "You Have Successfully Registered an Account at Travel System  !!!";
-                    bool result = SendEmail.theSendEmail(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword, Username, Pass, Cf_Pass, FirstName, LastName, PhoneNumber);
-                    context.Add(user);
-                    context.SaveChanges();
+                    if (SelectAccount == "4")
+                    {
+                        string body = "TravelAgent registration account has been sent successfully, please wait for the administrator to approve. !!!";
+                        bool result = SendEmail.theSendEmail(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword, Username, Pass, Cf_Pass, FirstName, LastName, PhoneNumber);
+                        context.Add(user);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        string body = "You Have Successfully Registered an Account at Travel System  !!!";
+                        bool result = SendEmail.theSendEmail(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword, Username, Pass, Cf_Pass, FirstName, LastName, PhoneNumber);
+                        context.Add(user);
+                        context.SaveChanges();
+                    }
+
+
                     return RedirectToAction("Login", "Login", new { mess = 4 });
                 }
 

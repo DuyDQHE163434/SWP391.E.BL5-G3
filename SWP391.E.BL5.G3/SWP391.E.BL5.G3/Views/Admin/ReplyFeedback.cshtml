@@ -1,0 +1,162 @@
+﻿@using SWP391.E.BL5.G3.Controllers
+@model ReplyFeedbackViewModel
+
+@{
+    Layout = "/Views/Shared/Layouts/_AdminLayout.cshtml";
+    ViewData["Title"] = "Reply to Feedback";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Reply to Feedback</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <form id="replyFeedbackForm" asp-action="ReplyFeedback" method="post">
+                        <input type="hidden" asp-for="Feedback.FeedbackId" />
+                        <input type="hidden" id="StarRating" name="StarRating" />
+
+                        <!-- User Avatar -->
+                        <div class="text-center mb-4">
+                            <div class="avatar avatar-xl rounded-circle">
+                                <img src="@Model.UserAvatar" class="img-fluid" alt="User Avatar" />
+                            </div>
+                        </div>
+
+                        <!-- First Name and Last Name -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label class="form-label">First Name</label>
+                                    <input value="@Model.UserFirstName" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label class="form-label">Last Name</label>
+                                    <input value="@Model.UserLastName" class="form-control" readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Original Feedback Content -->
+                        <div class="form-group mb-3">
+                            <label class="form-label">Original Feedback</label>
+                            <textarea class="form-control" readonly>@Model.Feedback.Content</textarea>
+                        </div>
+
+                        <!-- Reply Content -->
+                        <div class="form-group mb-3">
+                            <label for="ReplyContent" class="form-label">Your Reply</label>
+                            <textarea id="ReplyContent" name="ReplyContent" class="form-control"></textarea>
+                        </div>
+
+                        <!-- Star Rating -->
+                        <div class="form-group mb-3">
+                            <label class="form-label">Rating</label>
+                            <div id="star-rating" class="star-rating">
+                                <span data-value="1" class="star">★</span>
+                                <span data-value="2" class="star">★</span>
+                                <span data-value="3" class="star">★</span>
+                                <span data-value="4" class="star">★</span>
+                                <span data-value="5" class="star">★</span>
+                            </div>
+                            <span id="selected-rating" class="text-secondary">Selected Rating: 0</span>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit Reply</button>
+                            <a href="@Url.Action("FeedbackManagement", "Admin")" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Star rating functionality
+    const stars = document.querySelectorAll('.star');
+    const selectedRatingDisplay = document.getElementById('selected-rating');
+    const starRatingInput = document.getElementById('StarRating');
+    let currentRating = 0; // To store the current rating selected
+
+    stars.forEach(star => {
+        star.addEventListener('mouseover', () => {
+            const ratingValue = star.getAttribute('data-value');
+            highlightStars(ratingValue);
+        });
+
+        star.addEventListener('mouseleave', () => {
+            clearHighlight();
+            if (currentRating > 0) {
+                highlightStars(currentRating); // Maintain the highlight if a rating is selected
+            }
+        });
+
+        star.addEventListener('click', (event) => {
+            const ratingValue = getStarRating(event);
+            currentRating = ratingValue; // Update current rating
+            starRatingInput.value = ratingValue;
+            selectedRatingDisplay.innerText = `Selected Rating: ${ratingValue}`;
+            highlightStars(ratingValue); // Highlight selected rating
+        });
+    });
+
+    function highlightStars(rating) {
+        stars.forEach(star => {
+            star.classList.remove('full');
+            star.classList.remove('half');
+            const starValue = parseFloat(star.getAttribute('data-value'));
+            if (starValue <= Math.floor(rating)) {
+                star.classList.add('full');
+            } else if (starValue === Math.ceil(rating)) {
+                star.classList.add('half');
+            }
+        });
+    }
+
+    function clearHighlight() {
+        stars.forEach(star => {
+            star.classList.remove('full');
+            star.classList.remove('half');
+        });
+    }
+
+    function getStarRating(event) {
+        const star = event.target;
+        const starValue = parseFloat(star.getAttribute('data-value'));
+
+        // Determine if the click is on the left or right half of the star
+        const starWidth = star.offsetWidth;
+        const clickX = event.clientX - star.getBoundingClientRect().left;
+
+        if (clickX < starWidth / 2) {
+            return starValue - 0.5; // Left half of the star
+        }
+        return starValue; // Right half or whole star
+    }
+</script>
+
+<style>
+    .star {
+        font-size: 30px;
+        cursor: pointer;
+        color: lightgray;
+    }
+
+        .star.full {
+            color: gold;
+        }
+
+        .star.half {
+            color: gold;
+            background: linear-gradient(90deg, gold 50%, lightgray 50%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+</style>

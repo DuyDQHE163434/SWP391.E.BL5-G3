@@ -1,0 +1,170 @@
+﻿@using System.Security.Claims
+@using SWP391.E.BL5.G3.Enum
+@model IEnumerable<SWP391.E.BL5.G3.Models.Hotel>
+@using SWP391.E.BL5.G3.ViewModels
+
+
+@{
+    ViewData["Title"] = "List of Hotels";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var currentFilter = ViewData["CurrentFilter"]?.ToString() ?? "None";
+    var currentSearch = ViewData["CurrentSearch"]?.ToString() ?? string.Empty;
+}
+
+<style>
+    .filter-search-container {
+        margin-bottom: 1.5rem;
+    }
+
+    .table {
+        margin-bottom: 1.5rem;
+    }
+
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 0;
+    }
+
+    .page-item {
+        margin: 0;
+    }
+
+    .page-link {
+        padding: 0.5rem 1rem;
+        margin: 0;
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+        text-decoration: none;
+    }
+
+    .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+
+    .img-thumbnail {
+        border-radius: 0.25rem;
+    }
+</style>
+
+
+
+
+
+<h1>List of Hotels</h1>
+
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="filter-search-container mb-4">
+    <form asp-controller="Hotels" asp-action="Index" method="get" class="form-inline">
+        <div class="form-group mb-2">
+            <input type="text" name="searchString" value="@currentSearch" placeholder="Search by hotel name..." class="form-control" />
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            @Html.DropDownList("filter", new SelectList(new[]
+                     {
+            new { Value = "None", Text = "None" },
+            new { Value = "HighestPrice", Text = "Highest Price" },
+            new { Value = "LowestPrice", Text = "Lowest Price" },
+            new { Value = "MostBooked", Text = "Most Booked" }
+            }, "Value", "Text", currentFilter), new { @class = "form-control", onchange = "this.form.submit()" })
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+    </form>
+</div>
+
+<table class="table table-hover table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Id</th>
+            <th>Hotel Name</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.HotelId</td>
+                <td>@(item.HotelName ?? "N/A")</td>
+                <td>@(item.Location ?? "N/A")</td>
+                <td>@(!string.IsNullOrEmpty(item.Description) ? item.Description : "N/A")</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Image))
+                    {
+                        <img src="@item.Image" alt="Hotel Image" class="img-thumbnail" style="max-width: 100px; height: auto;" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
+                </td>
+                <td>@(item.Price.HasValue ? item.Price.Value.ToString("C") : "N/A")</td>
+                <td>@(item.Status ? "Active" : "Inactive")</td>
+                <td>
+                    <div class="btn-group">
+
+                       
+
+                        <a asp-action="Details" asp-route-id="@item.HotelId" class="btn btn-info btn-sm">Details</a>
+
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="pagination-container">
+    <nav>
+        <ul class="pagination">
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1, filter = currentFilter, searchString = currentSearch })">‹</a>
+                </li>
+            }
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = i, filter = currentFilter, searchString = currentSearch })">@i</a>
+                </li>
+            }
+
+            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1, filter = currentFilter, searchString = currentSearch })">›</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

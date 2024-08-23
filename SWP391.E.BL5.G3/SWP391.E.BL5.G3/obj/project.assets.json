@@ -12502,11 +12502,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\swp-bl5\\swp-bl5\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj",
+      "projectUniqueName": "D:\\abc\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj",
       "projectName": "SWP391.E.BL5.G3",
-      "projectPath": "G:\\swp-bl5\\swp-bl5\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj",
+      "projectPath": "D:\\abc\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "G:\\swp-bl5\\swp-bl5\\SWP391.E.BL5-G3\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\obj\\",
+      "outputPath": "D:\\abc\\SWP391.E.BL5.G3\\SWP391.E.BL5.G3\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

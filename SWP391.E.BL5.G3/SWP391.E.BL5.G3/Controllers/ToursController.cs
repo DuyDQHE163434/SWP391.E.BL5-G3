@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SWP391.E.BL5.G3.Authorization;
+using SWP391.E.BL5.G3.DTOs;
 using SWP391.E.BL5.G3.Enum;
 using SWP391.E.BL5.G3.Models;
 using SWP391.E.BL5.G3.ViewModels;
+using System.Security.Claims;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
@@ -25,7 +27,21 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             if (pageNumber < 1) pageNumber = 1;
 
+            // Lấy ID của người dùng hiện tại
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            //lay role user
+            int userrole = Convert.ToInt32(User.FindFirstValue(ClaimTypes.Role));
+
             var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
+
+            // Kiểm tra vai trò người dùng
+            if (userrole == 2)
+            {
+                // Chỉ lấy các tour mà Travel_Agent đã tạo
+                toursQuery = toursQuery.Where(t => t.UserId.ToString() == userId);
+            }
+
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -86,23 +102,30 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price,ProvinceId")] Tour tour, IFormFile image)
+        public async Task<IActionResult> CreateTour([Bind("Name,Description,Price,ProvinceId,UserId")] Tour tour, IFormFile image)
         {
             if (ModelState.IsValid)
             {
+                tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+
+
+
+                // Xử lý upload ảnh
+
                 if (image != null && image.Length > 0)
                 {
                     var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
                     var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
                     var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                    Directory.CreateDirectory(uploadsFolder);
+                    Directory.CreateDirectory(uploadsFolder); // Tạo thư mục nếu không tồn tại
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await image.CopyToAsync(stream);
                     }
-                    tour.Image = uniqueFileName;
+                    tour.Image = uniqueFileName; // Gán tên hình ảnh cho tour
                 }
 
                 tour.CreateDate = DateTime.Now;
@@ -115,11 +138,15 @@ namespace SWP391.E.BL5.G3.Controllers
             }
 
             // Nếu model không hợp lệ, sẽ lấy lại danh sách tỉnh
-            var provinces = _context.Provinces.ToList();
-            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "Name");
+            var provinces = await _context.Provinces.ToListAsync();
+            ViewBag.ProvinceList = new SelectList(provinces, "ProvinceId", "ProvinceName");
+
+            //Console.WriteLine("=====================");
+            //Console.WriteLine(tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
             return View(tour);
         }
+
 
         // Edit Tour
         [HttpGet]
@@ -146,7 +173,7 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTour(int id, [Bind("TourId,Name,Image,Description,Price,Duration,AirPlane,Rating,Itinerary,Inclusions,Exclusions,GroupSize,Guide,ProvinceId")] Tour tour, IFormFile image)
+        public async Task<IActionResult> EditTour(int id, [Bind("TourId,Name,Image,Description,Price,Duration,AirPlane,Rating,Itinerary,Inclusions,Exclusions,GroupSize,Guide,ProvinceId,UserId")] Tour tour, IFormFile image)
         {
             if (id != tour.TourId)
             {
@@ -157,6 +184,8 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 try
                 {
+                    tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
                     if (image != null && image.Length > 0)
                     {
                         var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
@@ -279,39 +308,105 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(model);
         }
 
-        [HttpPost]
+
+        [HttpGet]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BookingConfirm(int tourId, [Bind("Name,Phone,StartDate,EndDate,NumPeople,Message")] Booking booking)
+        public async Task<IActionResult> BookingTour(int tourId)
         {
-            // Tìm tour dựa trên tourId
             var tour = await _context.Tours.FindAsync(tourId);
             if (tour == null)
             {
                 return NotFound(); // Nếu không tìm thấy tour
             }
 
-            // Kiểm tra dữ liệu đầu vào
-            if (ModelState.IsValid)
+            var bookingModel = new Booking
             {
-                // Gán thông tin tour vào booking
-                booking.TourId = tour.TourId;
+                TourId = tourId
+            };
 
-                // Nếu có thêm thông tin về người dùng, ví dụ từ session, bạn có thể gán UserId ở đây
-                // booking.UserId = currentUserId; // Gán ID người dùng hiện tại nếu có
+            return View(bookingModel); // Chuyển thông tin tour cho view
+        }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BookingTour([Bind("Name,Phone,StartDate,EndDate,NumPeople,Message,TourId,UserId")] Booking booking)
+        {
+            // Gán UserId từ Claim và chuyển đổi nó sang int
+            //var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //booking.UserId = Convert.ToInt32(userIdString); // Chuyển đổi từ string sang int, có thể dùng int.Parse(userIdString) nếu bạn chắc chắn về kiểu
+
+            // Kiểm tra tính hợp lệ cho model
+            if (!ModelState.IsValid)
+            {
+                var bookingg = new Booking
+                {
+                    Name = booking?.Name,
+                    Phone = booking?.Phone,
+                    StartDate = booking?.StartDate,
+                    EndDate = booking?.EndDate,
+                    UserId = booking?.UserId,
+                    NumPeople = booking?.NumPeople,
+                    Message = booking?.Message,
+                    TourId = booking?.TourId,
+                    Status = (int)BookingStatusEnum.Pending
+                };
                 // Thêm booking vào cơ sở dữ liệu
-                _context.Bookings.Add(booking);
+                _context.Bookings.Add(bookingg);
                 await _context.SaveChangesAsync();
 
-                // Chuyển hướng đến trang danh sách tour cho khách
+                // Chuyển hướng về danh sách tour sau khi đặt
                 return RedirectToAction(nameof(ListTourForGuests));
             }
 
-            // Nếu model không hợp lệ, trở lại view đặt tour với thông tin tour
-            ViewBag.Tour = tour; // Truyền thông tin tour để hiển thị lại
-            return View(tour); // Hoặc bạn có thể trả về một view chứa thông tin đặt chỗ nhận từ booking
+
+            // Nếu model không hợp lệ, trả lại tương ứng với thông tin đã nhập
+            return View(booking);
         }
 
-    }
+        [HttpGet]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BookingConfirm([Bind("Name,Phone,StartDate,EndDate,NumPeople,Message,TourId,UserId")] Booking booking)
+        {
+            if (!ModelState.IsValid)
+            {
+                var bookingg = new Booking
+                {
+                    Name = booking?.Name,
+                    Phone = booking?.Phone,
+                    StartDate = booking?.StartDate,
+                    EndDate = booking?.EndDate,
+                    UserId = booking?.UserId,
+                    NumPeople = booking?.NumPeople,
+                    Message = booking?.Message,
+                    TourId = booking?.TourId,
+                };
+                _context.Bookings.Add(bookingg);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(ListTourForGuests));
+            }
+
+            return View(booking);
+        }
+
+
+        [HttpGet]
+        [Authorize] // Bảo vệ action này, chỉ cho phép người dùng đã xác thực
+        public async Task<IActionResult> MyBookingTours()
+        {
+            // Lấy ID của người dùng hiện tại
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Truy vấn các booking của người dùng
+            var bookings = await _context.Bookings
+                .Where(b => b.UserId.ToString() == userId) // Hoặc điều chỉnh theo cách bạn lưu userId
+                .Include(b => b.Tour) // Bao gồm thông tin tour
+                .ToListAsync();
+
+            return View("MyBookingTours", bookings); // Đảm bảo trả về view mới
+        }
+
+    }   
 }

@@ -1,0 +1,121 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SWP391.E.BL5.G3.Models;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Travel System | Tours</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="~/images/LogoSystem.png">
+    <link rel="shortcut icon" href="~/images/LogoSystem.png">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet prefetch" href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            background-color: #f3f0ff; 
+        }
+
+        .card-header {
+            background-color: #e0dbff; 
+            color: #4b0082;
+            border-bottom: 1px solid #ddd;
+        }
+
+        h6 {
+            color: #4b0082;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        thead tr {
+            background-color: #d8cff7; 
+        }
+
+        th {
+            color: #4b0082;
+            font-weight: bold;
+        }
+
+        td, th {
+            padding: 0.75rem;
+            vertical-align: middle;
+            border-top: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        tbody tr:hover {
+            background-color: #f0e7ff; /* Lighter purple for hover effect */
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h6>View List Register TravelAgent</h6>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Email</th>
+                                        <th>Image</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Role ID</th>
+                                        <th>Gender</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var b in ViewBag.ListUserTravelAgent)
+                                    {
+                                        <tr>
+                                            <td>@b.UserId</td>
+                                            <td>@b.Email</td>
+                                            <td>
+                                                <img src="@b.Image" class="avatar avatar-sm" alt="User Image">
+                                            </td>
+                                            <td>@b.FirstName</td>
+                                            <td>@b.LastName</td>
+                                            <td>@b.PhoneNumber</td>
+                                            <td>@b.RoleId</td>
+                                            <td>@b.Gender</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

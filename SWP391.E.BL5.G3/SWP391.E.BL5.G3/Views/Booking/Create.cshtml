@@ -1,0 +1,64 @@
+﻿@model SWP391.E.BL5.G3.Models.Booking
+
+@{
+    ViewData["Title"] = "Book Room";
+    Layout = "/Views/Shared/_HomeLayout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+@if (!ViewData.ModelState.IsValid)
+{
+    <ul>
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(item => item.Errors))
+        {
+            <li>@error.ErrorMessage</li>
+        }
+    </ul>
+}
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Phone" class="control-label"></label>
+        <input asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartDate" class="control-label"></label>
+        <input asp-for="StartDate" class="form-control" type="date" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndDate" class="control-label"></label>
+        <input asp-for="EndDate" class="form-control" type="date" />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NumPeople" class="control-label"></label>
+        <input asp-for="NumPeople" class="form-control" />
+        <span asp-validation-for="NumPeople" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Message" class="control-label"></label>
+        <textarea asp-for="Message" class="form-control"></textarea>
+        <span asp-validation-for="Message" class="text-danger"></span>
+    </div>
+
+    <input type="hidden" asp-for="RoomId" />
+    <input type="hidden" asp-for="UserId" />
+    <input type="hidden" asp-for="HotelId" />
+
+    <button type="submit" class="btn btn-primary">Book Room</button>
+</form>

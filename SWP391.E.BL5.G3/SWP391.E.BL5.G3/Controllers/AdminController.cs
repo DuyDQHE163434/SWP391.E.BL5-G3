@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWP391.E.BL5.G3.Authorization;
+
+using SWP391.E.BL5.G3.DAO_Context;
+
 using SWP391.E.BL5.G3.Models;
 
 namespace SWP391.E.BL5.G3.Controllers
@@ -162,6 +165,80 @@ namespace SWP391.E.BL5.G3.Controllers
             ViewData["SearchQuery"] = searchQuery;
             return View(tourGuides);
         }
+       
+        public IActionResult ListRegisterTravelAgent()
+        {
+            DAO dal = new DAO();
+            List<User> listuserregistertravelagent = dal.GetListUserRegisterTravelAgent();
+            ViewBag.ListUserTravelAgent = listuserregistertravelagent;
+            return View();
+
+
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 10)
+        {
+            var query = _traveltestContext.Feedbacks
+            .Include(f => f.User) // Include the User information
+            .Where(f => !f.ParentId.HasValue); // Filter out feedbacks with a ParentId
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                query = query.Where(f => f.Content.Contains(searchQuery) ||
+                                          f.User.FirstName.Contains(searchQuery) ||
+                                          f.User.LastName.Contains(searchQuery)); // Apply search filter
+            }
+
+            var totalItems = await query.CountAsync(); // Total items before pagination
+
+            var feedbacks = await query
+                .OrderByDescending(f => f.CreatedDate) // Order by creation date
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(); // Apply pagination
+
+            var pagedResult = new PagedResult<Feedback>
+            {
+                Items = feedbacks,
+                TotalItems = totalItems,
+                PageNumber = page,
+                PageSize = pageSize
+            };
+
+            ViewData["SearchQuery"] = searchQuery;
+
+            return View(pagedResult);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ReplyFeedback(int id)
+        {
+            var feedback = _traveltestContext.Feedbacks.FirstOrDefault(f => f.FeedbackId == id);
+
+            if (feedback == null)
+            {
+                return NotFound();
+            }
+
+            var user = _traveltestContext.Users.FirstOrDefault(u => u.UserId == feedback.UserId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new ReplyFeedbackViewModel
+            {
+                Feedback = feedback,
+                UserAvatar = user.Image,
+                UserFirstName = user.FirstName,
+                UserLastName = user.LastName
+            };
+
+            return View(viewModel);
+        }
     }
 
     public class CloudinarySettings
@@ -170,4 +247,23 @@ namespace SWP391.E.BL5.G3.Controllers
         public string ApiKey { get; set; }
         public string ApiSecret { get; set; }
     }
+
+    public class PagedResult<T>
+    {
+        public List<T> Items { get; set; }
+        public int TotalItems { get; set; }
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages => (int)Math.Ceiling((decimal)TotalItems / PageSize);
+    }
+
+    public class ReplyFeedbackViewModel
+    {
+        public Feedback Feedback { get; set; }
+        public string UserAvatar { get; set; }
+        public string UserFirstName { get; set; }
+        public string UserLastName { get; set; }
+        public string ReplyContent { get; set; }
+    }
+
 }
