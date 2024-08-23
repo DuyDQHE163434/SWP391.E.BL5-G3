@@ -120,6 +120,12 @@ namespace SWP391.E.BL5.G3.Controllers
                     .Where(item => item.UserId.ToString() == userId)
                     .ToList();
             }
+            else if (userRole == 1)
+            {
+                restaurants = _context.Restaurants
+                    .ToList();
+            }
+
 
             if (searchString != null)
             {

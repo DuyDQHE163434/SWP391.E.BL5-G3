@@ -133,7 +133,7 @@
                         </div>
                     </div>
                     <div class="item-child-details">
-                        <a asp-action="ViewRestaurantDetails" asp-route-id="@item.VehicleId" class="item-link-desc">
+                        <a asp-action="ViewVehicleDetails" asp-route-id="@item.VehicleId" class="item-link-desc">
                             <h3 class="item-child-headline overflow-ellipsis-two">
                                 @item.VehicleName
                             </h3>
@@ -161,7 +161,7 @@
                                 var role = ViewData["Role"]?.ToString();
                                 if (role == "Customer")
                                 {
-                                    <a asp-action="" asp-route-id="@item.VehicleId" class="btn btn-primary btn-lg">Book now</a>
+                                    <a asp-action="ViewVehicleList" asp-route-id="@item.VehicleId" class="btn btn-primary btn-lg">Book now</a>
                                 }
                                 else
                                 {
