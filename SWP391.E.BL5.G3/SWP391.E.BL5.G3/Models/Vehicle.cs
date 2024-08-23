@@ -42,17 +42,17 @@ namespace SWP391.E.BL5.G3.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}")]
         public DateTime? UpdatedAt { get; set; }
 
-        public int? ProvinceId { get; set; }
+        
 
 
     
 
-        public virtual Province Province { get; set; } = null!;
+        
 
 
         public int? UserId { get; set; }
 
-        public virtual Province? Province { get; set; } = null!;
+        public virtual Province? Province { get; set; }
 
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<Tour> Tours { get; set; }
