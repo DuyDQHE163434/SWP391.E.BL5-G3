@@ -32,7 +32,6 @@ namespace SWP391.E.BL5.G3.Controllers
             // Lấy ID của người dùng hiện tại
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-n
             int userrole = Convert.ToInt32(User.FindFirstValue(ClaimTypes.Role));
 
             var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
@@ -491,9 +490,6 @@ n
             return View(booking); // Nếu có lỗi, trở về view để người dùng chỉnh sửa lại
         }
 
-    }   
-}
-
         [HttpPost]
         public async Task<IActionResult> Pay([Bind("Name,Phone,StartDate,EndDate,NumPeople,Message,TourId,UserId")] Booking booking)
         {
@@ -579,18 +575,18 @@ n
             return View(booking);
         }
 
-
         [HttpGet]
         [Authorize(RoleEnum.Travel_Agent)]
         //[AllowAnonymous]
         public async Task<IActionResult> BookingTourInTravelAgent()
         {
-            
-            List<Booking> booking = _context.Bookings.Include(b=>b.Tour).Include(b=>b.User).Where(x=>x.Status==2||x.Status==3||x.Status==4).ToList();
+
+            List<Booking> booking = _context.Bookings.Include(b => b.Tour).Include(b => b.User).Where(x => x.Status == 2 || x.Status == 3 || x.Status == 4).ToList();
             ViewBag.Booking = booking;
 
-            return View(); 
+            return View();
         }
+
         public IActionResult RequestAccept(int id, string email)
         {
             DAO dal = new DAO();
@@ -608,6 +604,7 @@ n
             dal.AccessBookingTravel(id, stt);
             return RedirectToAction("BookingTourInTravelAgent", "Tours");
         }
+
         public IActionResult RequestUnaccept(int id, string email)
         {
             DAO dal = new DAO();
@@ -625,7 +622,16 @@ n
             dal.AccessBookingTravel(id, stt);
             return RedirectToAction("BookingTourInTravelAgent", "Tours");
         }
-
     }
 }
+
+
+
+
+
+
+
+
+
+
 

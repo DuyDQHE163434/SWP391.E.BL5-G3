@@ -48,7 +48,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                            if (!string.IsNullOrEmpty(token))
                            {
 
-                               context.Token = token; 
+                               context.Token = token;
 
                                context.Token = token;
 
