@@ -1,0 +1,38 @@
+﻿@using System.Globalization
+@model SWP391.E.BL5.G3.Models.Room
+
+@{
+    ViewData["Title"] = "Room Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Room ID</dt>
+        <dd class="col-sm-10">@Model.RoomId</dd>
+
+        <dt class="col-sm-2">Hotel ID</dt>
+        <dd class="col-sm-10">@Model.HotelId</dd>
+
+        <dt class="col-sm-2">Price</dt>
+        <dd class="col-sm-10">@Model.Price?.ToString("C0", new CultureInfo("vi-VN"))</dd>
+
+        <dt class="col-sm-2">Status</dt>
+        <dd class="col-sm-10">@(@Model.Status == true ? "Booked" : "Available")</dd>
+
+        <dt class="col-sm-2">Image</dt>
+        <dd class="col-sm-10">
+            <img src="@Model.Image" alt="Hotel Image" class="img-thumbnail" style="max-width: 100px; height: auto;" />
+        </dd>
+
+        <dt class="col-sm-2">Description</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+    </dl>
+</div>
+
+<p>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a> |
+    <a asp-controller="Booking" asp-action="Create" asp-route-hotelId="@Model.HotelId" asp-route-roomId="@Model.RoomId" class="btn btn-success">Book Now</a>
+</p>

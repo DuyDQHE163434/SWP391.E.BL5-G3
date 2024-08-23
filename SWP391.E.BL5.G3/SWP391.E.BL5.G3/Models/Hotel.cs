@@ -12,6 +12,7 @@ namespace SWP391.E.BL5.G3.Models
         {
             Bookings = new HashSet<Booking>();
             Tours = new HashSet<Tour>();
+            Rooms = new HashSet<Room>(); // Khởi tạo danh sách phòng
         }
 
         public int HotelId { get; set; }
@@ -38,17 +39,22 @@ namespace SWP391.E.BL5.G3.Models
 
         [Required(ErrorMessage = "Price is required.")]
         [Range(0, double.MaxValue, ErrorMessage = "Price must be a positive number.")]
-        public decimal? Price { get; set; } 
+        public decimal? Price { get; set; }
 
-        public int? BookingCount { get; set; } 
+        public int? BookingCount { get; set; }
 
         public int? ProvinceId { get; set; }
 
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
+
         public virtual Province? Province { get; set; }
+
 
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<Tour> Tours { get; set; }
+        public virtual ICollection<Room> Rooms { get; set; } // Thêm danh sách phòng
+
+        
     }
 }

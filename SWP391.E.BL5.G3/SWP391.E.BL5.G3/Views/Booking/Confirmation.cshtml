@@ -1,0 +1,27 @@
+﻿@model SWP391.E.BL5.G3.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking Confirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <div class="alert alert-success">
+        <strong>Success!</strong> Your booking has been created successfully.
+    </div>
+
+    <div>
+        <h3>Booking Details</h3>
+        <p><strong>Booking ID:</strong> @Model.BookingId</p>
+        <p><strong>Hotel ID:</strong> @Model.HotelId</p>
+        <p><strong>Room ID:</strong> @Model.RoomId</p>
+        <p><strong>Name:</strong> @Model.Name</p>
+        <p><strong>Phone:</strong> @Model.Phone</p>
+        <p><strong>Start Date:</strong> @(Model.StartDate.HasValue ? Model.StartDate.Value.ToShortDateString() : "N/A")</p>
+        <p><strong>End Date:</strong> @(Model.EndDate.HasValue ? Model.EndDate.Value.ToShortDateString() : "N/A")</p>
+        <p><strong>Number of People:</strong> @Model.NumPeople</p>
+        <p><strong>Message:</strong> @Model.Message</p>
+    </div>
+</div>
