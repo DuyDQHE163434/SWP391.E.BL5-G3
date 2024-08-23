@@ -66,13 +66,13 @@ namespace SWP391.E.BL5.G3.Authorization
             {
                 userDTO.Roles = RoleEnum.Admin;
             }
-            else if(user.RoleId == 2)
+            else if (user.RoleId == 2)
             {
                 userDTO.Roles = RoleEnum.Travel_Agent;
             }
             else if (user.RoleId == 3)
             {
-                 userDTO.Roles = RoleEnum.Customer;
+                userDTO.Roles = RoleEnum.Customer;
             }
 
             return userDTO;

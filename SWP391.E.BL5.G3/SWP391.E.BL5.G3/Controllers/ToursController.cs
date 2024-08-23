@@ -32,7 +32,7 @@ namespace SWP391.E.BL5.G3.Controllers
             // Lấy ID của người dùng hiện tại
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // Lấy role user
+n
             int userrole = Convert.ToInt32(User.FindFirstValue(ClaimTypes.Role));
 
             var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
@@ -43,6 +43,7 @@ namespace SWP391.E.BL5.G3.Controllers
                 // Chỉ lấy các tour mà Travel_Agent đã tạo
                 toursQuery = toursQuery.Where(t => t.UserId.ToString() == userId);
             }
+
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -108,8 +109,7 @@ namespace SWP391.E.BL5.G3.Controllers
             if (ModelState.IsValid)
             {
                 tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                
-                // Xử lý upload ảnh
+
                 if (image != null && image.Length > 0)
                 {
                     var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
@@ -143,6 +143,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View(tour);
         }
+
 
         // Edit Tour
         [HttpGet]
@@ -490,7 +491,8 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(booking); // Nếu có lỗi, trở về view để người dùng chỉnh sửa lại
         }
 
-
+    }   
+}
 
         [HttpPost]
         public async Task<IActionResult> Pay([Bind("Name,Phone,StartDate,EndDate,NumPeople,Message,TourId,UserId")] Booking booking)
@@ -626,3 +628,4 @@ namespace SWP391.E.BL5.G3.Controllers
 
     }
 }
+

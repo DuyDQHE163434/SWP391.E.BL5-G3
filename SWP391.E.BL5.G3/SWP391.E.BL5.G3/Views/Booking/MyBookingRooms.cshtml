@@ -1,0 +1,71 @@
+﻿@using SWP391.E.BL5.G3.DTOs
+@model IEnumerable<SWP391.E.BL5.G3.Models.Booking>
+
+@{
+    ViewData["Title"] = "My Rooms Booking";
+    Layout = "/Views/Shared/_HomeLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Number</th>
+                <th>Room</th>
+                <th>Note</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.Name</td>
+                    <td>@booking.Phone</td>
+                    <td>@booking.StartDate.GetValueOrDefault().ToString("dd/MM/yyyy")</td>
+                    <td>@booking.EndDate.GetValueOrDefault().ToString("dd/MM/yyyy")</td>
+                    <td>@booking.NumPeople</td>
+                    <td>@booking.Room?.Description</td>
+                    <td>@booking.Message</td>
+                    <td>
+                        @{
+                            string statusClass;
+                            string statusText;
+
+                            switch (booking.Status)
+                            {
+                                case (int)BookingStatusEnum.Pending:
+                                    statusClass = "btn btn-secondary";
+                                    statusText = "Pending";
+                                    break;
+                                case (int)BookingStatusEnum.Confirmed:
+                                    statusClass = "btn btn-primary";
+                                    statusText = "Confirmed";
+                                    break;
+                                case (int)BookingStatusEnum.Canceled:
+                                    statusClass = "btn btn-danger";
+                                    statusText = "Canceled";
+                                    break;
+                                case (int)BookingStatusEnum.Done:
+                                    statusClass = "btn btn-success";
+                                    statusText = "Done";
+                                    break;
+                                default:
+                                    statusClass = "btn btn-warning";
+                                    statusText = "Unknown";
+                                    break;
+                            }
+                        }
+                        <span class="@statusClass">@statusText</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

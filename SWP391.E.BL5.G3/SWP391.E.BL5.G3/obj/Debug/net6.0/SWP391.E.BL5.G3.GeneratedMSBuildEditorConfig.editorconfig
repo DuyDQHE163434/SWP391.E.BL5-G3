@@ -1,0 +1,255 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = SWP391.E.BL5.G3
+build_property.RootNamespace = SWP391.E.BL5.G3
+build_property.ProjectDir = D:\abc\SWP391.E.BL5.G3\SWP391.E.BL5.G3\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\abc\SWP391.E.BL5.G3\SWP391.E.BL5.G3
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Admin/CreateTourGuide.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlVG91ckd1aWRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Admin/EditTourGuide.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFRvdXJHdWlkZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Admin/FeedbackManagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRmVlZGJhY2tNYW5hZ2VtZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Admin/ListRegisterTravelAgent.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdFJlZ2lzdGVyVHJhdmVsQWdlbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Admin/ReplyFeedback.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUmVwbHlGZWVkYmFjay5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Admin/TourGuideManagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVG91ckd1aWRlTWFuYWdlbWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Booking/Confirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xDb25maXJtYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Booking/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Booking/MyBookingRooms.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xNeUJvb2tpbmdSb29tcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Error/Error401.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXJyb3JcRXJyb3I0MDEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Error/Error404.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXJyb3JcRXJyb3I0MDQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Home/GuestHome.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxHdWVzdEhvbWUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Hotels/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG90ZWxzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Hotels/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG90ZWxzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Hotels/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG90ZWxzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Hotels/DetailsForGuestCustomer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG90ZWxzXERldGFpbHNGb3JHdWVzdEN1c3RvbWVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Hotels/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG90ZWxzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Hotels/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG90ZWxzXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Hotels/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG90ZWxzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Hotels/ListHotelForGuestCustomer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG90ZWxzXExpc3RIb3RlbEZvckd1ZXN0Q3VzdG9tZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Login/ChangePassWord.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cQ2hhbmdlUGFzc1dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Login/CheckEmailRegister.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cQ2hlY2tFbWFpbFJlZ2lzdGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Login/ConfilmOTP.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cQ29uZmlsbU9UUC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Login/ConfilmOTPregister.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cQ29uZmlsbU9UUHJlZ2lzdGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Login/ForgotPassWord.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cRm9yZ290UGFzc1dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Login/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Login/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cUmVnaXN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Restaurants/AddRestaurant.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudHNcQWRkUmVzdGF1cmFudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Restaurants/EditRestaurant.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudHNcRWRpdFJlc3RhdXJhbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Restaurants/ListRestaurants.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudHNcTGlzdFJlc3RhdXJhbnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Restaurants/RestaurantDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudHNcUmVzdGF1cmFudERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Room/CreateRoom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVxDcmVhdGVSb29tLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Room/DetailsRoom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVxEZXRhaWxzUm9vbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Room/EditRoom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVxFZGl0Um9vbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Shared/Layouts/_AdminLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXExheW91dHNcX0FkbWluTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Shared/Layouts/_TourLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXExheW91dHNcX1RvdXJMYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Shared/Partials/AsideBar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFBhcnRpYWxzXEFzaWRlQmFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Shared/Partials/Footer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFBhcnRpYWxzXEZvb3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Shared/Partials/Navbar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFBhcnRpYWxzXE5hdmJhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Shared/_HomeLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ib21lTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Tours/BookingConfirm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cnNcQm9va2luZ0NvbmZpcm0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Tours/BookingTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cnNcQm9va2luZ1RvdXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Tours/CreateTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cnNcQ3JlYXRlVG91ci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Tours/DeleteTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cnNcRGVsZXRlVG91ci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Tours/EditTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cnNcRWRpdFRvdXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Tours/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cnNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Tours/ListTour.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cnNcTGlzdFRvdXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Tours/ListTourForGuests.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cnNcTGlzdFRvdXJGb3JHdWVzdHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Tours/MyBookingTours.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cnNcTXlCb29raW5nVG91cnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Tours/TourDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG91cnNcVG91ckRldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/User/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/abc/SWP391.E.BL5.G3/SWP391.E.BL5.G3/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-gq8ybbiqn0
