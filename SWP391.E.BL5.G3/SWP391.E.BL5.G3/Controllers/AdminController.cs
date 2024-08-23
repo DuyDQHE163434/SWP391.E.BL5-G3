@@ -2,10 +2,13 @@
 using CloudinaryDotNet.Actions;
 using CsvHelper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWP391.E.BL5.G3.Authorization;
+
 using SWP391.E.BL5.G3.DAO_Context;
+
 using SWP391.E.BL5.G3.Models;
 using System.Globalization;
 
@@ -31,13 +34,139 @@ namespace SWP391.E.BL5.G3.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Index()
+        public IActionResult Dashboard()
         {
+            var today = DateTime.Today;
+
+            // Today's Sales
+            var todaysSales = _traveltestContext.Payments
+                .Where(p => p.PaymentDate.Date == today)
+                .Sum(p => p.Amount);
+
+            // Total Tours
+            var totalTours = _traveltestContext.Tours.Count(); // Assuming you have a Bookings DbSet
+
+            // Total Tour Guides
+            var totalTourGuides = _traveltestContext.TourGuides.Count(); // Assuming you have a TourGuides DbSet
+
+            // Monthly Sales
+            var startOfMonth = new DateTime(today.Year, today.Month, 1);
+            var monthlySales = _traveltestContext.Payments
+                .Where(p => p.PaymentDate >= startOfMonth)
+                .Sum(p => p.Amount);
+
+            // Prepare comparison values
+            var salesComparison = CalculateSalesComparison(today); // Implement this method based on your logic
+            var monthlyComparison = CalculateMonthlyComparison(today); // Implement this method based on your logic
+
+            var distinctYears = _traveltestContext.Payments
+                .Select(p => p.PaymentDate.Year)
+                .Distinct()
+                .OrderByDescending(y => y)
+                .ToList();
+
+            // Fetch feedback ratings
+            var feedbackData = _traveltestContext.Feedbacks
+                .GroupBy(f => f.Rating)
+                .Select(g => new
+                {
+                    Rating = g.Key,
+                    Count = g.Count()
+                })
+                .OrderBy(f => f.Rating)
+                .ToList();
+
+            // Prepare data for feedback ratings
+            var feedbackCounts = new int[6]; // Adjusting to account for <1 star and 5 star ratings
+
+            foreach (var item in feedbackData)
+            {
+                if (item.Rating < 1)
+                {
+                    feedbackCounts[0] += item.Count; // Count for <1 star
+                }
+                else if (item.Rating <= 2)
+                {
+                    feedbackCounts[1] += item.Count; // Count for 1-2 stars
+                }
+                else if (item.Rating <= 3)
+                {
+                    feedbackCounts[2] += item.Count; // Count for 2-3 stars
+                }
+                else if (item.Rating <= 4)
+                {
+                    feedbackCounts[3] += item.Count; // Count for 3-4 stars
+                }
+                else if (item.Rating <= 5)
+                {
+                    feedbackCounts[4] += item.Count; // Count for 4-5 stars
+                }
+            }
+
+            // Pass data to ViewData
+            ViewData["TodaysSales"] = todaysSales.ToString("N2"); // Format as decimal with 2 decimal places
+            ViewData["SalesComparison"] = salesComparison.ToString("F2"); // Format as decimal with 2 decimal places
+            ViewData["TotalTours"] = totalTours;
+            ViewData["TotalTourGuides"] = totalTourGuides;
+            ViewData["MonthlySales"] = monthlySales.ToString("N2"); // Format as decimal with 2 decimal places
+            ViewData["MonthlyComparison"] = monthlyComparison.ToString("F2"); // Format as decimal with 2 decimal places
+            ViewData["DistinctYears"] = distinctYears;
+            ViewData["FeedbackCounts"] = feedbackCounts;
+
+            // Prepare monthly sales data for the chart
+            var monthlySalesData = GetMonthlySalesData(today.Year); // Get sales data for the current year
+            ViewData["MonthlySalesData"] = monthlySalesData;
+
             return View();
         }
 
-        [Authorize(Enum.RoleEnum.Admin)]
+        private decimal CalculateSalesComparison(DateTime today)
+        {
+            var yesterdaySales = _traveltestContext.Payments
+                .Where(p => p.PaymentDate.Date == today.AddDays(-1))
+                .Sum(p => p.Amount);
+
+            if (yesterdaySales == 0) return 0; // Avoid division by zero
+
+            var todaysSales = _traveltestContext.Payments
+                .Where(p => p.PaymentDate.Date == today)
+                .Sum(p => p.Amount);
+
+            return ((todaysSales - yesterdaySales) / yesterdaySales) * 100; // Percentage change
+        }
+
+        private decimal CalculateMonthlyComparison(DateTime today)
+        {
+            var lastMonthSales = _traveltestContext.Payments
+                .Where(p => p.PaymentDate.Month == today.AddMonths(-1).Month && p.PaymentDate.Year == today.Year)
+                .Sum(p => p.Amount);
+
+            if (lastMonthSales == 0) return 0; // Avoid division by zero
+
+            var currentMonthSales = _traveltestContext.Payments
+                .Where(p => p.PaymentDate.Month == today.Month && p.PaymentDate.Year == today.Year)
+                .Sum(p => p.Amount);
+
+            return ((currentMonthSales - lastMonthSales) / lastMonthSales) * 100; // Percentage change
+        }
+
+        private decimal[] GetMonthlySalesData(int year)
+        {
+            decimal[] monthlySalesData = new decimal[12];
+
+            for (int month = 1; month <= 12; month++)
+            {
+                monthlySalesData[month - 1] = _traveltestContext.Payments
+                    .Where(p => p.PaymentDate.Year == year && p.PaymentDate.Month == month)
+                    .Sum(p => p.Amount);
+            }
+
+            return monthlySalesData;
+        }
+
+        //[Authorize(Enum.RoleEnum.Admin)]
         // GET: TourGuide/CreateTourGuide
+        [AllowAnonymous]
         public IActionResult CreateTourGuide()
         {
             return View();
@@ -45,7 +174,8 @@ namespace SWP391.E.BL5.G3.Controllers
 
         // POST: TourGuide/CreateTourGuide
         [HttpPost]
-        [Authorize(Enum.RoleEnum.Admin)]
+        //[Authorize(Enum.RoleEnum.Admin)]
+        [AllowAnonymous]
         public async Task<IActionResult> CreateTourGuide([Bind("FirstName,LastName,PhoneNumber,Email,Description")] TourGuide tourGuide, IFormFile imageFile)
         {
             if (ModelState.IsValid)
@@ -146,7 +276,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> TourGuideManagement(string searchQuery)
+        public async Task<IActionResult> TourGuideManagement(string searchQuery, int page = 1, int pageSize = 1)
         {
             var query = _traveltestContext.TourGuides.AsQueryable();
 
@@ -162,8 +292,23 @@ namespace SWP391.E.BL5.G3.Controllers
 
             var tourGuides = await query.ToListAsync();
 
+            var tourGuidesToDisplay = query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList(); // Apply pagination
+
+            var totalItems = tourGuides.Count; // Total items before pagination
+
+            var pagedResult = new PagedResult<TourGuide>
+            {
+                Items = tourGuidesToDisplay,
+                TotalItems = totalItems,
+                PageNumber = page,
+                PageSize = pageSize
+            };
+
             ViewData["SearchQuery"] = searchQuery;
-            return View(tourGuides);
+            return View(pagedResult);
         }
 
         public IActionResult ListRegisterTravelAgent()
@@ -292,7 +437,7 @@ namespace SWP391.E.BL5.G3.Controllers
             // If the model state is invalid, return the view with the existing data to show validation errors
             return View(replyFeedback);
         }
-
+        
         public IActionResult RequestUnaccept(int id, string email)
         {
             DAO dal = new DAO();
@@ -314,8 +459,8 @@ namespace SWP391.E.BL5.G3.Controllers
         public IActionResult ResetPass(int id, string email)
         {
             DAO dal = new DAO();
-
-
+            
+          
             dal.ResetPass(id, email);
             return RedirectToAction("ListAccount", "Admin");
         }
@@ -349,7 +494,7 @@ namespace SWP391.E.BL5.G3.Controllers
             String SelectAccount = "";
             SelectAccount = HttpContext.Request.Form["SelectAccount"];
             IFormFile imageFile = HttpContext.Request.Form.Files["imageFile"];
-
+         
 
 
 
@@ -385,7 +530,7 @@ namespace SWP391.E.BL5.G3.Controllers
                             Image = uploadResult.SecureUrl.ToString(),
                             Gender = Convert.ToBoolean(Convert.ToInt32(HttpContext.Request.Form["Gender"]))
                         };
-
+                        
                         if (usercheck == null)
                         {
                             context.Add(user);
@@ -393,7 +538,7 @@ namespace SWP391.E.BL5.G3.Controllers
                             return RedirectToAction("ListAccount", "Admin");
                         }
                         else
-                        {
+                        {                           
                             return RedirectToAction("AddAccount", "Admin", new { mess = 1 });
                         }
 
@@ -500,7 +645,7 @@ namespace SWP391.E.BL5.G3.Controllers
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public string ReplyContent { get; set; }
-        public string Rating { get; set; }
+        public string Rating { get; set; }  
     }
 
     public class TourGuideDTO

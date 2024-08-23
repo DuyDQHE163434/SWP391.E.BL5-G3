@@ -21,6 +21,7 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<RoleFilter>();
 });
 builder.Services.AddScoped<UserService>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<JwtUtils>();
 builder.Services.AddDbContext<traveltestContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("MyDatabase")));
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
@@ -46,7 +47,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
                            if (!string.IsNullOrEmpty(token))
                            {
+
+                               context.Token = token; 
+
                                context.Token = token;
+
                            }
 
                            return Task.CompletedTask;

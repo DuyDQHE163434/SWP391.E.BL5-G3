@@ -1,0 +1,121 @@
+﻿@model SWP391.E.BL5.G3.Models.Booking
+
+@{
+    ViewData["Title"] = "Feedback Form";
+    Layout = "/Views/Shared/_HomeLayout.cshtml";
+}
+
+<h2>Feedback Form</h2>
+
+<form method="post" action="/Feedback/Submit">
+    <div>
+        <label for="content">Content:</label>
+        <textarea id="content" name="Content" required></textarea>
+    </div>
+
+    <div>
+        <label for="rating">Rating:</label>
+        <div id="star-rating">
+            @for (int i = 1; i <= 5; i++)
+            {
+                <input type="radio" id="star-@i" name="Rating" value="@i">
+                <label for="star-@i">@i Star</label>
+            }
+        </div>
+    </div>
+
+    @if (Model.TourId != null)
+    {
+        <h3>Related Ratings</h3>
+
+        @if (Model.HotelId != null)
+        {
+            <div>
+                <label for="hotel-rating">Hotel Rating:</label>
+                <div id="hotel-rating">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <input type="radio" id="hotel-star-@i" name="HotelRating" value="@i">
+                        <label for="hotel-star-@i">@i Star</label>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (Model.RestaurantId != null)
+        {
+            <div>
+                <label for="restaurant-rating">Restaurant Rating:</label>
+                <div id="restaurant-rating">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <input type="radio" id="restaurant-star-@i" name="RestaurantRating" value="@i">
+                        <label for="restaurant-star-@i">@i Star</label>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (Model.VehicleId != null)
+        {
+            <div>
+                <label for="vehicle-rating">Vehicle Rating:</label>
+                <div id="vehicle-rating">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <input type="radio" id="vehicle-star-@i" name="VehicleRating" value="@i">
+                        <label for="vehicle-star-@i">@i Star</label>
+                    }
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        @if (Model.HotelId != null)
+        {
+            <div>
+                <label for="hotel-rating">Hotel Rating:</label>
+                <div id="hotel-rating">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <input type="radio" id="hotel-star-@i" name="HotelRating" value="@i">
+                        <label for="hotel-star-@i">@i Star</label>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (Model.RestaurantId != null)
+        {
+            <div>
+                <label for="restaurant-rating">Restaurant Rating:</label>
+                <div id="restaurant-rating">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <input type="radio" id="restaurant-star-@i" name="RestaurantRating" value="@i">
+                        <label for="restaurant-star-@i">@i Star</label>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (Model.VehicleId != null)
+        {
+            <div>
+                <label for="vehicle-rating">Vehicle Rating:</label>
+                <div id="vehicle-rating">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <input type="radio" id="vehicle-star-@i" name="VehicleRating" value="@i">
+                        <label for="vehicle-star-@i">@i Star</label>
+                    }
+                </div>
+            </div>
+        }
+    }
+
+    <div>
+        <button type="submit">Submit Feedback</button>
+    </div>
+</form>

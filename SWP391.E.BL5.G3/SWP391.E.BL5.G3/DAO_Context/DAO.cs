@@ -122,7 +122,9 @@ namespace SWP391.E.BL5.G3.DAO_Context
                 return null;
             }
 
+
         }
+        
         public Boolean ChangePass(User account, string newPass)
         {
             try
@@ -150,6 +152,7 @@ namespace SWP391.E.BL5.G3.DAO_Context
             {
                 return listuserregistertravelagent;
             }
+
         }
         public void AccessRegisterTravelAgent(int id, string stt)
         {

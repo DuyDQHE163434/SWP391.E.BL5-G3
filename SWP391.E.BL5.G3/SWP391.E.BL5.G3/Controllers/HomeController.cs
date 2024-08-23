@@ -28,7 +28,8 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
-                var roleName = ((RoleEnum)int.Parse(role)).ToString();
+                var roleName =  ((RoleEnum)int.Parse(role)).ToString();
+
                 // Truyền vai trò tới view thông qua ViewData
                 ViewData["Role"] = roleName;
 

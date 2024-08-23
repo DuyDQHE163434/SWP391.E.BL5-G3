@@ -28,6 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+
+    <Folder Include="wwwroot\images\avatar\" />
+
     <None Include="wwwroot\js\bootstrap.min.js" />
     <None Include="wwwroot\js\forms.js" />
     <None Include="wwwroot\js\html5shiv.js" />
@@ -49,6 +52,7 @@
     <None Include="wwwroot\js\superfish.js" />
     <None Include="wwwroot\js\tms-0.4.1.js" />
     <None Include="wwwroot\js\touchTouch.jquery.js" />
+
   </ItemGroup>
 
 </Project>

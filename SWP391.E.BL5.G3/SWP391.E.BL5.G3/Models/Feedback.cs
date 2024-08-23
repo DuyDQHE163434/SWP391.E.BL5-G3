@@ -15,7 +15,11 @@ namespace SWP391.E.BL5.G3.Models
         public int UserId { get; set; }
         public int EntityId { get; set; }
         public string Content { get; set; }
+
+       
+
         public double Rating { get; set; }
+
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
 

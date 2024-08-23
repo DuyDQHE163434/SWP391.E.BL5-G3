@@ -5,6 +5,7 @@ using SWP391.E.BL5.G3.Authorization;
 using SWP391.E.BL5.G3.DAO_Context;
 using SWP391.E.BL5.G3.DTOs;
 using SWP391.E.BL5.G3.Enum;
+using SWP391.E.BL5.G3.Extensions;
 using SWP391.E.BL5.G3.Models;
 using SWP391.E.BL5.G3.ViewModels;
 using System.Security.Claims;
@@ -31,7 +32,7 @@ namespace SWP391.E.BL5.G3.Controllers
             // Lấy ID của người dùng hiện tại
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // Lấy role user
+n
             int userrole = Convert.ToInt32(User.FindFirstValue(ClaimTypes.Role));
 
             var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
@@ -42,6 +43,7 @@ namespace SWP391.E.BL5.G3.Controllers
                 // Chỉ lấy các tour mà Travel_Agent đã tạo
                 toursQuery = toursQuery.Where(t => t.UserId.ToString() == userId);
             }
+
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -107,8 +109,7 @@ namespace SWP391.E.BL5.G3.Controllers
             if (ModelState.IsValid)
             {
                 tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                
-                // Xử lý upload ảnh
+
                 if (image != null && image.Length > 0)
                 {
                     var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
@@ -142,6 +143,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View(tour);
         }
+
 
         // Edit Tour
         [HttpGet]
@@ -392,20 +394,191 @@ namespace SWP391.E.BL5.G3.Controllers
 
 
         [HttpGet]
-        [Authorize] // Bảo vệ action này, chỉ cho phép người dùng đã xác thực
+        [Authorize] // Bảo vệ action này
         public async Task<IActionResult> MyBookingTours()
         {
             // Lấy ID của người dùng hiện tại
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // Truy vấn các booking của người dùng
+            // Truy vấn các booking có trạng thái Pending hoặc Confirmed của người dùng
             var bookings = await _context.Bookings
-                .Where(b => b.UserId.ToString() == userId) // Hoặc điều chỉnh theo cách bạn lưu userId
+                .Where(b => b.UserId.ToString() == userId && (b.Status == (int)BookingStatusEnum.Pending || b.Status == (int)BookingStatusEnum.Confirmed))
                 .Include(b => b.Tour) // Bao gồm thông tin tour
                 .ToListAsync();
 
-            return View("MyBookingTours", bookings); // Đảm bảo trả về view mới
+            return View("MyBookingTours", bookings); // Trả về view với danh sách bookings
         }
+
+
+        [HttpGet]
+        [Authorize] // Bảo vệ action này
+        public async Task<IActionResult> HistoryBookingTours()
+        {
+            // Lấy ID của người dùng hiện tại
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Truy vấn các booking có trạng thái Done hoặc Canceled của người dùng
+            var historyBookings = await _context.Bookings
+                .Where(b => b.UserId.ToString() == userId && (b.Status == (int)BookingStatusEnum.Done || b.Status == (int)BookingStatusEnum.Canceled))
+                .Include(b => b.Tour) // Bao gồm thông tin tour
+                .ToListAsync();
+
+            return View("HistoryBookingTours", historyBookings); // Trả về view với danh sách bookings lịch sử
+        }
+
+        [HttpPost]
+        [Authorize] // Bảo vệ action này
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CancelTour(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking == null)
+            {
+                return NotFound(); // Nếu không tìm thấy booking theo ID
+            }
+
+            // Cập nhật trạng thái của booking thành Canceled
+            booking.Status = (int)BookingStatusEnum.Canceled;
+
+            // Lưu vào cơ sở dữ liệu
+            _context.Update(booking);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(MyBookingTours)); // Quay lại danh sách tour của người dùng
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> ViewDetailBookingTour(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking == null)
+            {
+                return NotFound(); // Nếu không tìm thấy booking
+            }
+
+            // Chuyển thông tin booking đến view để xem chi tiết
+            return View(booking);
+        }
+
+
+        [HttpGet]
+        [Authorize] // Bảo vệ action này
+        public async Task<IActionResult> EditBookingTour(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking == null)
+            {
+                return NotFound(); // Nếu không tìm thấy booking
+            }
+
+            // Chuyển thông tin booking đến view để chỉnh sửa
+            return View(booking);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditBookingTour([Bind("BookingId,Name,Phone,StartDate,EndDate,NumPeople,Message,TourId,UserId")] Booking booking)
+        {
+            if (ModelState.IsValid)
+            {
+                // Cập nhật thông tin booking trong cơ sở dữ liệu
+                _context.Update(booking);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(MyBookingTours)); // Quay về danh sách tours đã đặt
+            }
+            return View(booking); // Nếu có lỗi, trở về view để người dùng chỉnh sửa lại
+        }
+
+    }   
+}
+
+        [HttpPost]
+        public async Task<IActionResult> Pay([Bind("Name,Phone,StartDate,EndDate,NumPeople,Message,TourId,UserId")] Booking booking)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                var bookingg = new Booking
+                {
+                    Name = booking?.Name,
+                    Phone = booking?.Phone,
+                    StartDate = booking?.StartDate,
+                    EndDate = booking?.EndDate,
+                    UserId = booking?.UserId,
+                    NumPeople = booking?.NumPeople,
+                    Message = booking?.Message,
+                    TourId = booking?.TourId,
+                    Status = (int)BookingStatusEnum.Pending
+                };
+                // Thêm booking vào cơ sở dữ liệu
+                _context.Bookings.Add(bookingg);
+                await _context.SaveChangesAsync();
+
+                // Lấy thông tin tour từ cơ sở dữ liệu
+                var tour = await _context.Tours.FindAsync(booking.TourId);
+                if (tour == null)
+                {
+                    return NotFound(); // Nếu tour không tồn tại
+                }
+
+                string vnp_Returnurl = "https://localhost:7295/VnPay/ReturnUrl";
+                string vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"; // URL thanh toán của VNPAY
+                string vnp_TmnCode = "CA6G65VO"; // Mã định danh merchant kết nối (Terminal Id)
+                string vnp_HashSecret = "NTJ0PDLNZOM2W7ZPSCFKWI85HPCDDD7R"; // Secret key cần được cung cấp
+
+                long totalAmount = (long)(tour.Price * booking.NumPeople * 0.5); // Số tiền phải thanh toán
+
+
+                var order = new OrderInfo
+                {
+                    OrderId = DateTime.Now.Ticks, // Giả lập mã giao dịch hệ thống merchant gửi sang VNPAY
+                    Amount = totalAmount, // Giả lập số tiền thanh toán
+                    Status = "0", // Trạng thái thanh toán
+                    CreatedDate = DateTime.Now
+                };
+
+                // Save order to db (Giả lập lưu đơn hàng vào DB)
+
+                // Build URL for VNPAY
+                var vnpay = new VnPayLibrary();
+
+                vnpay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
+                vnpay.AddRequestData("vnp_Command", "pay");
+                vnpay.AddRequestData("vnp_TmnCode", vnp_TmnCode);
+                vnpay.AddRequestData("vnp_Amount", (order.Amount * 100).ToString()); // Số tiền thanh toán
+                vnpay.AddRequestData("vnp_CreateDate", order.CreatedDate.ToString("yyyyMMddHHmmss"));
+                vnpay.AddRequestData("vnp_CurrCode", "VND");
+                vnpay.AddRequestData("vnp_IpAddr", "127.0.0.1");
+                vnpay.AddRequestData("vnp_Locale", "vn");
+                vnpay.AddRequestData("vnp_OrderInfo", bookingg.BookingId.ToString());
+                vnpay.AddRequestData("vnp_OrderType", "other");
+                vnpay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
+                vnpay.AddRequestData("vnp_TxnRef", order.OrderId.ToString());
+
+                // Add Params of 2.1.0 Version
+                string paymentUrl = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
+
+                var payment = new Payment
+                {
+                    BookingId = bookingg.BookingId, // Khóa ngoại liên kết với bản ghi booking
+                    Amount = totalAmount, // Số tiền thanh toán
+                    PaymentDate = DateTime.Now, // Ngày thanh toán
+                    TransactionId = order.OrderId.ToString(), // Mã giao dịch tạm thời
+                    Status = (int)BookingStatusEnum.Pending, // Trạng thái thanh toán ban đầu
+                    ResponseCode = null, // Chưa có thông tin phản hồi
+                    Message = null // Hoặc có thể là thông điệp mặc định
+                };
+
+                _context.Payments.Add(payment);
+                await _context.SaveChangesAsync(); // Lưu vào cơ sở dữ liệu
+
+                return Redirect(paymentUrl);
+            }
+            return View(booking);
+        }
+
 
         [HttpGet]
         [Authorize(RoleEnum.Travel_Agent)]
@@ -453,6 +626,6 @@ namespace SWP391.E.BL5.G3.Controllers
             return RedirectToAction("BookingTourInTravelAgent", "Tours");
         }
 
-
     }
 }
+

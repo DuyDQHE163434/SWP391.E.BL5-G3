@@ -17,11 +17,16 @@ namespace SWP391.E.BL5.G3.Models
         }
 
         public virtual DbSet<Booking> Bookings { get; set; }
+
+
         public virtual DbSet<BusinessType> BusinessTypes { get; set; }
         public virtual DbSet<CuisineType> CuisineTypes { get; set; }
         public virtual DbSet<District> Districts { get; set; }
+        public virtual DbSet<Room> Rooms { get; set; }
+
         public virtual DbSet<Feedback> Feedbacks { get; set; }
         public virtual DbSet<Hotel> Hotels { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; } = null!;
         public virtual DbSet<Province> Provinces { get; set; }
         public virtual DbSet<Restaurant> Restaurants { get; set; }
         public virtual DbSet<Tour> Tours { get; set; }
@@ -46,11 +51,16 @@ namespace SWP391.E.BL5.G3.Models
             {
                 entity.Property(e => e.EndDate).HasColumnType("date");
 
-                entity.Property(e => e.Message).HasMaxLength(200);
+                entity.Property(e => e.Message)
+                    .IsRequired()
+                    .HasMaxLength(200);
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Phone)
+                    .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .IsFixedLength();
@@ -144,7 +154,13 @@ namespace SWP391.E.BL5.G3.Models
                     .IsRequired()
                     .HasMaxLength(100);
 
+
                 entity.Property(e => e.Image).IsUnicode(false);
+
+
+
+                entity.Property(e => e.Image).IsUnicode(false);
+
 
                 entity.Property(e => e.Location)
                     .IsRequired()
@@ -160,9 +176,33 @@ namespace SWP391.E.BL5.G3.Models
                     .HasConstraintName("FK_Hotels_Provinces");
             });
 
+            modelBuilder.Entity<Payment>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Message).HasMaxLength(500);
+
+                entity.Property(e => e.PaymentDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ResponseCode).HasMaxLength(50);
+
+                entity.Property(e => e.TransactionId).HasMaxLength(100);
+
+                entity.HasOne(d => d.Booking)
+                    .WithMany(p => p.Payments)
+                    .HasForeignKey(d => d.BookingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Payments__Bookin__6A30C649");
+            });
+
             modelBuilder.Entity<Province>(entity =>
             {
+
+                entity.Property(e => e.ProvinceName)
+                    .IsRequired()
+                    .HasMaxLength(100);
                 entity.Property(e => e.ProvinceName).HasMaxLength(100);
+
             });
 
             modelBuilder.Entity<Restaurant>(entity =>
@@ -181,9 +221,19 @@ namespace SWP391.E.BL5.G3.Models
 
                 entity.Property(e => e.OpenedTime).HasColumnType("time(0)");
 
+
+                entity.Property(e => e.Location)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.RestaurantName)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
                 entity.Property(e => e.PriceList).IsUnicode(false);
 
                 entity.Property(e => e.RestaurantName).HasMaxLength(250);
+
 
                 entity.Property(e => e.UpdatedAt).HasPrecision(0);
 
@@ -317,14 +367,69 @@ namespace SWP391.E.BL5.G3.Models
 
                 entity.Property(e => e.VehicleName).HasMaxLength(250);
 
+
+                entity.Property(e => e.VehicleName)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.VehicleType)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
                 entity.Property(e => e.VehicleSupplier).HasMaxLength(50);
+
 
                 entity.HasOne(d => d.Province)
                     .WithMany(p => p.Vehicles)
                     .HasForeignKey(d => d.ProvinceId)
+
+
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+
+
+
                     .HasConstraintName("FK_Vehicles_Provinces");
             });
+            modelBuilder.Entity<Room>(entity =>
+            {
+                entity.ToTable("Rooms"); 
 
+                
+                entity.HasKey(e => e.RoomId);
+                entity.Property(e => e.RoomId).ValueGeneratedOnAdd();
+
+                
+                entity.Property(e => e.HotelId)
+                    .IsRequired(); 
+
+                entity.Property(e => e.Price)
+                    .HasColumnType("decimal(18, 2)")
+                    .IsRequired(); 
+
+                entity.Property(e => e.Image)
+                    .HasMaxLength(1000) 
+                    .IsUnicode(false); 
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(500) 
+                    .IsRequired(); 
+
+                entity.Property(e => e.Status)
+                    .IsRequired(); 
+
+                entity.Property(e => e.UserId)
+                    .IsRequired(); 
+
+                
+                entity.HasOne(d => d.Hotel) 
+                    .WithMany(p => p.Rooms) 
+                    .HasForeignKey(d => d.HotelId)
+                    .OnDelete(DeleteBehavior.ClientSetNull) 
+                    .HasConstraintName("FK_Rooms_Hotels"); 
+            });
+            modelBuilder.Entity<Room>()
+            .Property(r => r.RoomId)
+            .ValueGeneratedOnAdd();
             OnModelCreatingPartial(modelBuilder);
         }
 

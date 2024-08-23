@@ -1,0 +1,76 @@
+﻿@model SWP391.E.BL5.G3.Models.Booking
+@using System.Security.Claims 
+
+@{
+    ViewData["Title"] = "Edit Booking Tour";
+    Layout = "/Views/Shared/_HomeLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="EditBookingTour" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Name</label>
+        <input asp-for="Name" class="form-control" required />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Phone" class="control-label">Phone</label>
+        <input asp-for="Phone" class="form-control" required />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartDate" class="control-label">Start Date</label>
+        <input asp-for="StartDate" class="form-control" type="date" required min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndDate" class="control-label">End Date</label>
+        <input asp-for="EndDate" class="form-control" type="date" required readonly />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NumPeople" class="control-label">Number of People</label>
+        <input asp-for="NumPeople" class="form-control" type="number" min="1" required />
+        <span asp-validation-for="NumPeople" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Message" class="control-label">Note</label>
+        <textarea asp-for="Message" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Message" class="text-danger"></span>
+    </div>
+
+    <input type="hidden" asp-for="TourId" />
+    <input type="hidden" asp-for="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier)?.Value" />
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="MyBookingTours" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Đặt biến cho duration nếu có
+        var durationDays = parseInt('@ViewBag.Duration' || 0); // Lưu số ngày duration
+
+        // Cập nhật End Date khi Start Date thay đổi
+        document.getElementById("StartDate").addEventListener("change", function () {
+            var startDate = new Date(this.value);
+            var endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + durationDays); // Tính toán EndDate
+
+            // Đặt value cho EndDate
+            document.getElementById("EndDate").value = endDate.toISOString().split('T')[0]; // Định dạng lại cho input date
+        });
+    </script>
+}
+
