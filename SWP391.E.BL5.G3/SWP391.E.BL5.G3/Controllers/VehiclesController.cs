@@ -69,8 +69,8 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         // View details of the selected vehicle (User role: Guest, Customer)
-        //[AllowAnonymous]
-        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
+        [AllowAnonymous]
+
         public IActionResult ViewVehicleDetails(int? id)
         {
             if (id == null || _context.Vehicles == null)

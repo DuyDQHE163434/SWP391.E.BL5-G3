@@ -11,186 +11,174 @@
 
     <div class="card shadow-lg mb-4">
         <div class="row no-gutters">
-
             <div class="col-md-4 text-center p-4">
-                @if (Model.Image == null)
-                {
-                    <img src="https://cdn.otstatic.com/legacy-cw/default2-original.png" class="img-thumbnail" alt="@Model.RestaurantName" style="width: 100px; height: 100px;" />
-                }
-                else
-                {
-                    <img src="" class="img-thumbnail" alt="@Model.RestaurantName" />
-                }
+                <img src="@Model.Image" style="width:200px; height:auto;" />
             </div>
-
             <div class="col-md-8">
                 <div class="card-body">
-
                     <h2 class="card-title">@Html.DisplayFor(model => model.RestaurantName)</h2>
-
                     <dl class="row">
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.RestaurantName)
                         </dt>
-
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.RestaurantName)
                         </dd>
-
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Image)
-                        </dt>
-
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Image)
-                        </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.Location)
                         </dt>
-
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.Location)
                         </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.AveragePrice)
                         </dt>
-
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.AveragePrice, "Currency")
                         </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.PriceList)
                         </dt>
-
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.PriceList)
+                        <dd>
+                            @{
+                                if (Model.PriceList != null)
+                                {
+                                    foreach (var url in @Model.PriceList.Split(","))
+                                    {
+                                        <a href="@url" data-lightbox="gallery">
+                                            <img src="@url" style="width:150px; height:auto; margin:5px;" />
+                                        </a>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>
+                                        N/A
+                                    </p>
+                                }
+                            }
                         </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.OpenedTime)
                         </dt>
-
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.OpenedTime)
                         </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.ClosedTime)
                         </dt>
-
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.ClosedTime)
                         </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.ContactNumber)
                         </dt>
-
                         <dd class="col-sm-10">
                             @Html.DisplayFor(model => model.ContactNumber)
                         </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.Description)
                         </dt>
-
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Description)
+                            @(Model.Description != null ? Html.Raw(Model.Description.Replace("\n", "<br />")) : "Will be added as soon as possible")
                         </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.Summary)
                         </dt>
-
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Summary)
+                            @(Model.Summary != null ? Html.Raw(Model.Summary.Replace("\n", "<br />")) : "Will be added as soon as possible")
                         </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.Parking)
                         </dt>
-
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Parking)
+                            @(Model.Parking != null ? Html.Raw(Model.Parking.Replace("\n", "<br />")) : "Will be added as soon as possible")
                         </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.Rating)
                         </dt>
-
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Rating)
-                        </dd>
+                            @if (Model.Rating != null)
+                            {
+                                <div class="star-rating">
+                                    @{
+                                        int fullStars = Model.Rating != null ? (int)Model.Rating : 0;
+                                        int halfStars = (Model.Rating - fullStars) >= 0.5 ? 1 : 0;
+                                        int emptyStars = 5 - fullStars - halfStars;
+                                    }
 
+                                    @for (int i = 0; i < fullStars; i++)
+                                    {
+                                        <i class="fas fa-star"></i>
+                                    }
+
+                                    @if (halfStars > 0)
+                                    {
+                                        <i class="fas fa-star-half-alt"></i>
+                                    }
+
+                                    @for (int i = 0; i < emptyStars; i++)
+                                    {
+                                        <i class="far fa-star"></i>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <p>N/A</p>
+                            }
+                        </dd>
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.Regulations)
                         </dt>
-
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Regulations)
+                            @(Model.Regulations != null ? Html.Raw(Model.Regulations.Replace("\n", "<br />")) : "Will be added as soon as possible")
                         </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.Utilities)
                         </dt>
-
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Utilities)
+                            @(Model.Utilities != null ? Html.Raw(Model.Utilities.Replace("\n", "<br />")) : "Will be added as soon as possible")
                         </dd>
-
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.CreatedAt)
-                        </dt>
-
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.CreatedAt)
-                        </dd>
-
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.UpdatedAt)
-                        </dt>
-
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.UpdatedAt)
-                        </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.BusinessType)
                         </dt>
-
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.BusinessType.BusinessTypeName)
+                            @(Model.BusinessType != null ? Html.DisplayFor(model => model.BusinessType.BusinessTypeName) : "N/A")
                         </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.CuisineType)
                         </dt>
-
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.CuisineType.CuisineTypeName)
+                            @(Model.CuisineType != null ? Html.DisplayFor(model => model.CuisineType.CuisineTypeName) : "N/A")
                         </dd>
-
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.Province)
                         </dt>
-
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Province.ProvinceName)
+                            @(Model.Province != null ? Html.DisplayFor(model => model.Province.ProvinceName) : "N/A")
                         </dd>
-
                     </dl>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="text-center mt-4 d-flex flex-column">
-        <a asp-action="BookRestaurant" asp-route-id="@Model?.RestaurantId" class="btn btn-primary btn-lg">Book</a>
-    </div>
+    @{
+        var role = ViewData["Role"]?.ToString();
+        if (role == "Customer")
+        {
+            <div class="text-center mt-4 d-flex flex-column">
+                <a asp-action="BookRestaurant" asp-route-id="@Model?.RestaurantId" class="btn btn-primary btn-lg">Book</a>
+            </div>
+        }
+        else
+        {
+            <div class="text-center mt-4 d-flex flex-column">
+                <a asp-action="Login" asp-controller="Login" class="btn btn-primary btn-lg">Book</a>
+            </div>
+        }
+    }
     <div class="text-center mt-4 d-flex flex-column">
         <a asp-action="ViewRestaurantList" class="btn btn-primary btn-lg">Back to List</a>
     </div>
