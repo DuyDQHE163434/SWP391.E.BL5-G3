@@ -3,145 +3,247 @@
 
 @{
     ViewData["Title"] = "List of Restaurant";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+
 <style>
+
+    .star-rating {
+        align-items: center;
+        display: inline-flex;
+    }
+
+        .star-rating .fa-star,
+        .star-rating .fa-star-half-alt,
+        .star-rating .fa-star.far {
+            color: #FFD700;
+            font-size: 12px;
+        }
+
+    .icon-button {
+        align-items: center;
+        background-color: transparent;
+        border-color: transparent;
+        border-radius: 5px;
+        color: #000;
+        display: flex;
+        font-size: 16px;
+        height: 30px;
+        justify-content: center;
+        padding: 0;
+        width: 30px;
+    }
+
+    .icon-buttons-container {
+        display: flex;
+        gap: 2px;
+    }
+
     .pagination {
-        text-align: center;
         padding: 20px 0;
+        text-align: center;
     }
 
         .pagination a {
-            font-size: 12px;
-            width: 30px;
-            height: 30px;
             background-color: transparent;
-            color: #222;
-            border: 1px solid rgba(0,0,0,.05);
-            display: inline-block;
-            vertical-align: middle;
-            line-height: 30px;
-            text-decoration: none;
             border-radius: 50%;
+            border: 1px solid rgba(0,0,0,.05);
+            color: #222;
+            display: inline-block;
+            font-size: 12px;
+            height: 30px;
+            line-height: 30px;
             margin: 2px;
+            text-decoration: none;
             transition: all 0.2s linear;
+            vertical-align: middle;
+            width: 30px;
         }
 
             .pagination a:hover, .pagination a.selected {
-                color: #fff;
                 background-color: #3498db;
+                color: #fff;
             }
+
 </style>
 
-<h1>List of Restaurants:</h1>
+<div class="container mt-4" style="max-width: 1100px;">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="AddRestaurant">Add new Restaurant</a>
-</p>
+    <!--Search-->
+    <div class="row mb-3">
+        <div class="col-md-8 offset-md-2">
+            @using (Html.BeginForm("ListRestaurants", "Restaurants", FormMethod.Get, new { @class = "input-group" }))
+            {
+                @Html.TextBox("searchString",
+                         ViewBag.currentSearchString as string,
+                         new
+                         {
+                             @class = "form-control",
+                             placeholder = "Search restaurant..."
+                         })
 
-@using (Html.BeginForm("ListRestaurants", "Restaurants", FormMethod.Get))
-{
-    <p>
-        @Html.TextBox("searchString", ViewBag.currentSearchString as string)
-        <input type="submit" value="Search" />
-    </p>
-    <p>
-        @* @Html.DropDownListFor("province") *@
-        <input type="submit" value="Submit" />
-    </p>
-}
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary">Search</button>
+                </div>
+            }
+        </div>
+    </div>
 
-<table id="dataTable" class="table">
-    <thead>
-        <tr>
-            <th></th>
-            <th>
-                Restaurant Name
-            </th>
-            <th>
-                Location
-            </th>
-            <th>
-                Action
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            int serialNumber = 1;
-        }
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @serialNumber
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RestaurantName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
-                </td>
-                <td>
-                    <a asp-action="EditRestaurant" asp-route-id="@item.RestaurantId">Edit</a> |
-                    <a asp-action="RestaurantDetails" asp-route-id="@item.RestaurantId">Details</a> |
-                    <a href="javascript:void(0);" onclick="showDeleteModal('@item.RestaurantId')">Delete</a>
-                </td>
+    <div class="mb-3 text-right">
+        <a asp-action="AddRestaurant" class="btn btn-primary">Add new Restaurant</a>
+    </div>
+
+    <table id="dataTable" class="table table-striped table-bordered table-hover" style="max-width: 1100px;">
+
+        <thead class="thead-dark">
+            <tr class="text-center">
+                <th>
+                    Restaurant Name
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    Location
+                </th>
+                <th>
+                    Average Price
+                </th>
+                <th>
+                    Contact Number
+                </th>
+                <th>
+                    Rating
+                </th>
+                <th>
+                    Business Type
+                </th>
+                <th>
+                    Cuisine Type
+                </th>
+                <th>
+                    Action
+                </th>
             </tr>
-            serialNumber++;
-        }
-    </tbody>
-</table>
+        </thead>
 
-<div class="container">
-    <div class="verticals twelve">
-        <div class="pagination m-t-20">
-            @if (ViewBag.CurrentPage > 1)
+        <tbody>
+            @foreach (var item in Model)
             {
-                <a href="@Url.Action("ListRestaurants", new { page = ViewBag.CurrentPage - 1 })">‹</a>
-            }
+                <tr>
 
-            @for (int i = 1; i <= ViewBag.TotalPages; i++)
-            {
-                <a href="@Url.Action("ListRestaurants", new { page = i })">@i</a>
-            }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RestaurantName)
+                    </td>
 
-            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
-            {
-                <a href="@Url.Action("ListRestaurants", new { page = ViewBag.CurrentPage + 1 })">›</a>
+                    <td>
+                        @if (item.Image == null)
+                        {
+                            <img src="https://cdn.otstatic.com/legacy-cw/default2-original.png" class="img-thumbnail" alt="@item.RestaurantName" style="width: 100px; height: 100px;" />
+                        }
+                        else
+                        {
+                            <img src="" class="img-thumbnail" alt="@item.RestaurantName" style="width: 100px; height: 100px;" />
+                        }
+                    </td>
+
+                    <td>
+                        @(item.Location != null ? Html.DisplayFor(modelItem => item.Location) : "N/A")
+                    </td>
+
+                    <td>
+                        @(item.AveragePrice != null ? Html.DisplayFor(modelItem => item.AveragePrice, "Currency") : "N/A")
+                    </td>
+
+                    <td>
+                        @(item.ContactNumber != null ? Html.DisplayFor(modelItem => item.ContactNumber) : "N/A")
+                    </td>
+
+                    <td>
+                        @if (item.Rating != null)
+                        {
+                            <div class="star-rating">
+                                @{
+                                    int fullStars = item.Rating != null ? (int)item.Rating : 0;
+                                    int halfStars = (item.Rating - fullStars) >= 0.5 ? 1 : 0;
+                                    int emptyStars = 5 - fullStars - halfStars;
+                                }
+
+                                @for (int i = 0; i < fullStars; i++)
+                                {
+                                    <i class="fas fa-star"></i>
+                                }
+
+                                @if (halfStars > 0)
+                                {
+                                    <i class="fas fa-star-half-alt"></i>
+                                }
+
+                                @for (int i = 0; i < emptyStars; i++)
+                                {
+                                    <i class="far fa-star"></i>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <p>N/A</p>
+                        }
+                    </td>
+
+                    <td>
+                        @(item.BusinessType != null ? Html.DisplayFor(modelItem => item.BusinessType.BusinessTypeName) : "N/A")
+                    </td>
+
+                    <td>
+                        @(item.CuisineType != null ? Html.DisplayFor(modelItem => item.CuisineType.CuisineTypeName) : "N/A")
+                    </td>
+
+                    <td class="text-center">
+                        <div class="icon-buttons-container">
+
+                            <a asp-action="EditRestaurant" asp-route-id="@item.RestaurantId" class="btn btn-primary icon-button">
+                                <i class="fas fa-edit"></i>
+                            </a>
+
+                            <a asp-action="RestaurantDetails" asp-route-id="@item.RestaurantId" class="btn btn-info icon-button">
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+
+                            <form method="post" asp-action="DeleteRestaurant" asp-route-id="@item.RestaurantId" class="btn btn-danger icon-button"
+                                  onclick="return confirm('Are you sure you want to delete this restaurant?');">
+                                <i class="fas fa-trash-alt"></i>
+                            </form>
+
+                        </div>
+                    </td>
+
+                </tr>
             }
+        </tbody>
+    </table>
+
+    <div class="container">
+        <div class="verticals twelve">
+            <div class="pagination m-t-20">
+                @if (ViewBag.CurrentPage > 1)
+                {
+                    <a href="@Url.Action("ListRestaurants", new { page = ViewBag.CurrentPage - 1 })">‹</a>
+                }
+
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <a href="@Url.Action("ListRestaurants", new { page = i })">@i</a>
+                }
+
+                @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                {
+                    <a href="@Url.Action("ListRestaurants", new { page = ViewBag.CurrentPage + 1 })">›</a>
+                }
+            </div>
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this item?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form id="deleteForm" method="post" action="">
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
-    function showDeleteModal(RestaurantId) {
-        var deleteUrl = '@Url.Action("DeleteRestaurant", "Restaurants")/' + RestaurantId;
-        document.getElementById('deleteForm').action = deleteUrl;
-        $('#deleteModal').modal('show');
-    }
-</script>

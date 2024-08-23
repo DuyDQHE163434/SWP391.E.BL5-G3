@@ -37,6 +37,9 @@ namespace SWP391.E.BL5.G3.Models
 
         public virtual User User { get; set; } // Thêm phần này
 
+
+        public virtual User? User { get; set; } // Thêm phần này
+
         public virtual Hotel? Hotel { get; set; }
         public virtual Province? Province { get; set; }
         public virtual Restaurant? Restaurant { get; set; }

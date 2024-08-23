@@ -1,0 +1,73 @@
+﻿@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Security.Claims
+@model SWP391.E.BL5.G3.Models.Booking
+
+@{
+    ViewData["Title"] = "Book restaurant";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<div class="mt-4 d-flex flex-column">
+
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(item => item.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    }
+
+    <form asp-action="BookRestaurant">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="RestaurantId" />
+        <input type="hidden" asp-for="UserId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Name:</label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Phone" class="control-label">Phone number:</label>
+            <input asp-for="Phone" class="form-control" required />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="StartDate" class="control-label">Arrival date:</label>
+            <input asp-for="StartDate" class="form-control" required />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+
+        <input type="hidden" asp-for="EndDate" value="@Model.StartDate" />
+
+        <div class="form-group">
+            <label asp-for="NumPeople" class="control-label">Number of people:</label>
+            <input asp-for="NumPeople" class="form-control" type="number" min="1" required />
+            <span asp-validation-for="NumPeople" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Message" class="control-label">Note</label>
+            @Html.TextAreaFor(Model => Model.Message, new { @class = "form-control", rows = 5 })
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Book</button>
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

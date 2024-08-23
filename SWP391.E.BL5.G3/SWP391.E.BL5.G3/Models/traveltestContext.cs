@@ -26,6 +26,7 @@ namespace SWP391.E.BL5.G3.Models
 
         public virtual DbSet<Feedback> Feedbacks { get; set; }
         public virtual DbSet<Hotel> Hotels { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; } = null!;
         public virtual DbSet<Province> Provinces { get; set; }
         public virtual DbSet<Restaurant> Restaurants { get; set; }
         public virtual DbSet<Tour> Tours { get; set; }
@@ -175,6 +176,25 @@ namespace SWP391.E.BL5.G3.Models
                     .HasConstraintName("FK_Hotels_Provinces");
             });
 
+            modelBuilder.Entity<Payment>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Message).HasMaxLength(500);
+
+                entity.Property(e => e.PaymentDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ResponseCode).HasMaxLength(50);
+
+                entity.Property(e => e.TransactionId).HasMaxLength(100);
+
+                entity.HasOne(d => d.Booking)
+                    .WithMany(p => p.Payments)
+                    .HasForeignKey(d => d.BookingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Payments__Bookin__6A30C649");
+            });
+
             modelBuilder.Entity<Province>(entity =>
             {
 
@@ -230,7 +250,6 @@ namespace SWP391.E.BL5.G3.Models
                 entity.HasOne(d => d.Province)
                     .WithMany(p => p.Restaurants)
                     .HasForeignKey(d => d.ProvinceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Restaurants_Provinces");
             });
 
@@ -364,7 +383,10 @@ namespace SWP391.E.BL5.G3.Models
                     .WithMany(p => p.Vehicles)
                     .HasForeignKey(d => d.ProvinceId)
 
+
                     .OnDelete(DeleteBehavior.ClientSetNull)
+
+
 
                     .HasConstraintName("FK_Vehicles_Provinces");
             });

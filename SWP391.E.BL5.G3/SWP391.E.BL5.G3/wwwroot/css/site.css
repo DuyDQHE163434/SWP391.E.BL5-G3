@@ -1,24 +1,27 @@
 html {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 @media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
+  html {
+    font-size: 16px;
+  }
 }
 
 html {
-    position: relative;
-    min-height: 100%;
+  position: relative;
+  min-height: 100%;
 }
 
 body {
-<<<<<<< HEAD
+
   margin-bottom: 60px;
 }
 
-=======
+
     margin-bottom: 60px;
 }
->>>>>>> b6efc933a49957150ddf9c4c2acb00a60ea749fd
+
+  margin-bottom: 60px;
+}
+

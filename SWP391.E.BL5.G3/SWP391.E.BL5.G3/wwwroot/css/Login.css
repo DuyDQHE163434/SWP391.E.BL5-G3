@@ -5,7 +5,8 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 body {
-    background-image: url(../images/backgrlogin.jpg)
+    background-image: url(../images/backgrlogin.jpg) ;
+    background-size:cover;
 }
 :root {
     --blue: #007bff;

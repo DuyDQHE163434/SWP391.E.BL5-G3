@@ -63,6 +63,7 @@
                                 <span data-value="4" class="star">★</span>
                                 <span data-value="5" class="star">★</span>
                             </div>
+                            <input type="hidden" asp-for="Rating" id="Rating" />
                             <span id="selected-rating" class="text-secondary">Selected Rating: 0</span>
                         </div>
 
@@ -79,11 +80,10 @@
 </div>
 
 <script>
-    // Star rating functionality
     const stars = document.querySelectorAll('.star');
     const selectedRatingDisplay = document.getElementById('selected-rating');
-    const starRatingInput = document.getElementById('StarRating');
-    let currentRating = 0; // To store the current rating selected
+    const ratingInput = document.getElementById('Rating');
+    let currentRating = 0;
 
     stars.forEach(star => {
         star.addEventListener('mouseover', () => {
@@ -94,16 +94,16 @@
         star.addEventListener('mouseleave', () => {
             clearHighlight();
             if (currentRating > 0) {
-                highlightStars(currentRating); // Maintain the highlight if a rating is selected
+                highlightStars(currentRating);
             }
         });
 
         star.addEventListener('click', (event) => {
             const ratingValue = getStarRating(event);
-            currentRating = ratingValue; // Update current rating
-            starRatingInput.value = ratingValue;
+            currentRating = ratingValue;
+            ratingInput.value = ratingValue; // Bind the selected rating to the hidden input
             selectedRatingDisplay.innerText = `Selected Rating: ${ratingValue}`;
-            highlightStars(ratingValue); // Highlight selected rating
+            highlightStars(ratingValue);
         });
     });
 
@@ -131,14 +131,13 @@
         const star = event.target;
         const starValue = parseFloat(star.getAttribute('data-value'));
 
-        // Determine if the click is on the left or right half of the star
         const starWidth = star.offsetWidth;
         const clickX = event.clientX - star.getBoundingClientRect().left;
 
         if (clickX < starWidth / 2) {
-            return starValue - 0.5; // Left half of the star
+            return starValue - 0.5;
         }
-        return starValue; // Right half or whole star
+        return starValue;
     }
 </script>
 

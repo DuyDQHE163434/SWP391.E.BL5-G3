@@ -145,7 +145,7 @@ namespace SWP391.E.BL5.G3.DAO_Context
             List<User> listuserregistertravelagent = new List<User>();
             try
             {
-                listuserregistertravelagent = context.Users.Where(x => x.RoleId == 4).ToList();
+                listuserregistertravelagent = context.Users.Where(x => x.RoleId == 4 || x.RoleId == 2).ToList();
                 return listuserregistertravelagent;
             }
             catch
@@ -153,6 +153,53 @@ namespace SWP391.E.BL5.G3.DAO_Context
                 return listuserregistertravelagent;
             }
 
+        }
+        public void AccessRegisterTravelAgent(int id, string stt)
+        {
+            User a = context.Users.Where(x => x.UserId == id).FirstOrDefault();
+            if (stt == "Accept")
+            {
+                a.RoleId = 2;
+                context.SaveChanges();
+            }
+            else
+            {
+                a.RoleId = 4;
+                context.SaveChanges();
+            }
+        }
+        public void AccessBookingTravel(int id, string stt)
+        {
+            Booking b = context.Bookings.Where(x => x.BookingId == id).FirstOrDefault();
+            if (stt == "Accept")
+            {
+                b.Status = 4;
+                context.SaveChanges();
+            }
+            else
+            {
+                b.Status = 3;
+                context.SaveChanges();
+            }
+        }
+        public void ResetPass(int id, string email)
+        {
+            User a = context.Users.Where(x => x.UserId == id).FirstOrDefault();
+            a.Password = "Ab@123456";
+            context.SaveChanges();
+        }
+        public List<User> GetListAccount()
+        {
+            List<User> listaccount = new List<User>();
+            try
+            {
+                listaccount = context.Users.Where(x => x.RoleId != 1 && x.RoleId != 4).ToList();
+                return listaccount;
+            }
+            catch
+            {
+                return listaccount;
+            }
         }
     }
 }

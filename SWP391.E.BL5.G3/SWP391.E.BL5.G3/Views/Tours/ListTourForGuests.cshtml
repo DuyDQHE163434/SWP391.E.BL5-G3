@@ -19,12 +19,12 @@
         </div>
     </div>
 
-    <table class="table table-striped table-bordered table-hover">
+@*     <table class="table table-striped table-bordered table-hover">
         <thead class="thead-dark">
             <tr>
                 <th>@Html.DisplayNameFor(model => model.Tours.First().Name)</th>
                 <th>@Html.DisplayNameFor(model => model.Tours.First().Image)</th>
-                <th>@Html.DisplayNameFor(model => model.Tours.First().Price)</th>
+                <th>Price (VND)</th>
                 <th>@Html.DisplayNameFor(model => model.Tours.First().Rating)</th>
                 <th>@Html.DisplayNameFor(model => model.Tours.First().Duration)</th>
                 <th>@Html.DisplayNameFor(model => model.Tours.First().Province.ProvinceName)</th>
@@ -39,7 +39,8 @@
                     <td class="text-center">
                         <img src="@Url.Content("~/images/" + item.Image)" alt="@item.Name" class="img-thumbnail" style="width: 100px; height: 100px;" />
                     </td>
-                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                    <td>@string.Format("{0:N0}", item.Price)</td>
+
                     <td>@Html.DisplayFor(modelItem => item.Rating)</td>
                     <td>@Html.DisplayFor(modelItem => item.Duration)</td>
                     <td>@(item.Province != null ? Html.DisplayFor(modelItem => item.Province.ProvinceName) : "N/A")</td>
@@ -61,8 +62,56 @@
                     </td>
                 </tr>
             }
+            
         </tbody>
-    </table>
+    </table> *@
+    <div class="container pb-5">
+        <div class="row row-cols-3 g-5">
+            @foreach (var item in Model.Tours)
+            {
+                <div class="col d-flex flex-column">
+                    <div class="card h-100">
+                        <div class="ratio ratio-16x9">
+                            <img src="@Url.Content("~/images/" + item.Image)" alt="@item.Name" class="card-img-top" />
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <p class="h6 ">
+                                Giá: <span class="text-warning">@string.Format("{0:N0}", item.Price) VND</span>
+                            </p>
+                            <p class="h6 ">
+                                Địa điểm: @item.Province.ProvinceName
+                            </p>
+                            <p class="h6 ">
+                                Thời gian: @item.Duration
+                            </p>
+                            <p class="h6">
+                                Đánh giá: @item.Rating
+                                <svg class="text-warning" xmlns="http://www.w3.org/2000/svg" width="1.13em" height="1em" viewBox="0 0 576 512"><path fill="currentColor" d="M259.3 17.8L194 150.2L47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103l-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5l105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2L316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0" /></svg>
+                            </p>
+                            <div class="input-group">
+                                <a asp-action="TourDetails" asp-route-id="@item.TourId" class="btn btn-info btn-sm">Details</a>
+
+                                @{
+                                    var role = ViewData["Role"]?.ToString();
+                                    if (role == "Customer")
+                                    {
+                                        <a asp-action="BookingTour" asp-route-tourId="@item.TourId" class="btn btn-success btn-sm">Booking</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-success btn-sm" asp-area="" asp-controller="Login"
+                                           asp-action="Login">Booking</a>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
 
     <!-- Phân trang -->
     <nav aria-label="Tours Pagination">

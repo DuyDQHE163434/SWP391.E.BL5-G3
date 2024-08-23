@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SWP391.E.BL5.G3.Authorization;
+using SWP391.E.BL5.G3.DAO_Context;
 using SWP391.E.BL5.G3.DTOs;
 using SWP391.E.BL5.G3.Enum;
+using SWP391.E.BL5.G3.Extensions;
 using SWP391.E.BL5.G3.Models;
 using SWP391.E.BL5.G3.ViewModels;
 using System.Security.Claims;
@@ -30,7 +32,7 @@ namespace SWP391.E.BL5.G3.Controllers
             // Lấy ID của người dùng hiện tại
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            //lay role user
+n
             int userrole = Convert.ToInt32(User.FindFirstValue(ClaimTypes.Role));
 
             var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
@@ -107,11 +109,6 @@ namespace SWP391.E.BL5.G3.Controllers
             if (ModelState.IsValid)
             {
                 tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-
-
-
-                // Xử lý upload ảnh
 
                 if (image != null && image.Length > 0)
                 {
@@ -231,8 +228,6 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(tour);
         }
 
-
-
         // Delete Tour
         [HttpGet]
         [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
@@ -289,7 +284,7 @@ namespace SWP391.E.BL5.G3.Controllers
                 toursQuery = toursQuery.Where(t => t.Name.Contains(searchString));
             }
 
-            int pageSize = 5; // Số lượng tour trên mỗi trang
+            int pageSize = 6; // Số lượng tour trên mỗi trang
             var totalTours = await toursQuery.CountAsync(); // Tính tổng số tour
 
             var tours = await toursQuery
@@ -308,7 +303,6 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(model);
         }
 
-
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> BookingTour(int tourId)
@@ -321,8 +315,14 @@ namespace SWP391.E.BL5.G3.Controllers
 
             var bookingModel = new Booking
             {
-                TourId = tourId
+                TourId = tourId,
+                NumPeople = 1
             };
+
+            ViewBag.MaxPeople = tour.GroupSize;
+            ViewBag.Duration = tour.Duration; // Truyền Duration xuống View
+            ViewBag.Price = tour.Price; // Truyền giá tour xuống View
+            ViewBag.TotalPrice = tour.Price; // Tổng tiền cho 1 người
 
             return View(bookingModel); // Chuyển thông tin tour cho view
         }
@@ -363,6 +363,7 @@ namespace SWP391.E.BL5.G3.Controllers
             // Nếu model không hợp lệ, trả lại tương ứng với thông tin đã nhập
             return View(booking);
         }
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -408,5 +409,144 @@ namespace SWP391.E.BL5.G3.Controllers
             return View("MyBookingTours", bookings); // Đảm bảo trả về view mới
         }
 
+
     }   
 }
+
+        
+        
+        [HttpPost]
+        public async Task<IActionResult> Pay([Bind("Name,Phone,StartDate,EndDate,NumPeople,Message,TourId,UserId")] Booking booking)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                var bookingg = new Booking
+                {
+                    Name = booking?.Name,
+                    Phone = booking?.Phone,
+                    StartDate = booking?.StartDate,
+                    EndDate = booking?.EndDate,
+                    UserId = booking?.UserId,
+                    NumPeople = booking?.NumPeople,
+                    Message = booking?.Message,
+                    TourId = booking?.TourId,
+                    Status = (int)BookingStatusEnum.Pending
+                };
+                // Thêm booking vào cơ sở dữ liệu
+                _context.Bookings.Add(bookingg);
+                await _context.SaveChangesAsync();
+
+                // Lấy thông tin tour từ cơ sở dữ liệu
+                var tour = await _context.Tours.FindAsync(booking.TourId);
+                if (tour == null)
+                {
+                    return NotFound(); // Nếu tour không tồn tại
+                }
+
+                string vnp_Returnurl = "https://localhost:7295/VnPay/ReturnUrl";
+                string vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"; // URL thanh toán của VNPAY
+                string vnp_TmnCode = "CA6G65VO"; // Mã định danh merchant kết nối (Terminal Id)
+                string vnp_HashSecret = "NTJ0PDLNZOM2W7ZPSCFKWI85HPCDDD7R"; // Secret key cần được cung cấp
+
+                long totalAmount = (long)(tour.Price * booking.NumPeople * 0.5); // Số tiền phải thanh toán
+
+
+                var order = new OrderInfo
+                {
+                    OrderId = DateTime.Now.Ticks, // Giả lập mã giao dịch hệ thống merchant gửi sang VNPAY
+                    Amount = totalAmount, // Giả lập số tiền thanh toán
+                    Status = "0", // Trạng thái thanh toán
+                    CreatedDate = DateTime.Now
+                };
+
+                // Save order to db (Giả lập lưu đơn hàng vào DB)
+
+                // Build URL for VNPAY
+                var vnpay = new VnPayLibrary();
+
+                vnpay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
+                vnpay.AddRequestData("vnp_Command", "pay");
+                vnpay.AddRequestData("vnp_TmnCode", vnp_TmnCode);
+                vnpay.AddRequestData("vnp_Amount", (order.Amount * 100).ToString()); // Số tiền thanh toán
+                vnpay.AddRequestData("vnp_CreateDate", order.CreatedDate.ToString("yyyyMMddHHmmss"));
+                vnpay.AddRequestData("vnp_CurrCode", "VND");
+                vnpay.AddRequestData("vnp_IpAddr", "127.0.0.1");
+                vnpay.AddRequestData("vnp_Locale", "vn");
+                vnpay.AddRequestData("vnp_OrderInfo", bookingg.BookingId.ToString());
+                vnpay.AddRequestData("vnp_OrderType", "other");
+                vnpay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
+                vnpay.AddRequestData("vnp_TxnRef", order.OrderId.ToString());
+
+                // Add Params of 2.1.0 Version
+                string paymentUrl = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
+
+                var payment = new Payment
+                {
+                    BookingId = bookingg.BookingId, // Khóa ngoại liên kết với bản ghi booking
+                    Amount = totalAmount, // Số tiền thanh toán
+                    PaymentDate = DateTime.Now, // Ngày thanh toán
+                    TransactionId = order.OrderId.ToString(), // Mã giao dịch tạm thời
+                    Status = (int)BookingStatusEnum.Pending, // Trạng thái thanh toán ban đầu
+                    ResponseCode = null, // Chưa có thông tin phản hồi
+                    Message = null // Hoặc có thể là thông điệp mặc định
+                };
+
+                _context.Payments.Add(payment);
+                await _context.SaveChangesAsync(); // Lưu vào cơ sở dữ liệu
+
+                return Redirect(paymentUrl);
+            }
+            return View(booking);
+        }
+
+
+        [HttpGet]
+        [Authorize(RoleEnum.Travel_Agent)]
+        //[AllowAnonymous]
+        public async Task<IActionResult> BookingTourInTravelAgent()
+        {
+            
+            List<Booking> booking = _context.Bookings.Include(b=>b.Tour).Include(b=>b.User).Where(x=>x.Status==2||x.Status==3||x.Status==4).ToList();
+            ViewBag.Booking = booking;
+
+            return View(); 
+        }
+        public IActionResult RequestAccept(int id, string email)
+        {
+            DAO dal = new DAO();
+            string fromEmail = "duydqhe163434@fpt.edu.vn";
+            string toEmail = email;
+            string subject = "Hello " + email;
+
+            string body = "Chuyen di cua ban da duoc dat thanh cong vui long kiem tra lich trinh chuyen di";
+            string smtpServer = "smtp.gmail.com";
+            int smtpPort = 587;
+            string smtpUsername = "duydqhe163434@fpt.edu.vn";
+            string smtpPassword = "htay mxgi flsx dxde";
+            bool result = SendEmail.theSendEmailRegisterTravelAgent(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword);
+            string stt = "Accept";
+            dal.AccessBookingTravel(id, stt);
+            return RedirectToAction("BookingTourInTravelAgent", "Tours");
+        }
+        public IActionResult RequestUnaccept(int id, string email)
+        {
+            DAO dal = new DAO();
+            string fromEmail = "duydqhe163434@fpt.edu.vn";
+            string toEmail = email;
+            string subject = "Hello " + email;
+
+            string body = "Vì Một Số Lý Do Nào Đó Từ Phía Của Chúng Tôi Không Thể Nhan Tour Cua Ban ";
+            string smtpServer = "smtp.gmail.com";
+            int smtpPort = 587;
+            string smtpUsername = "duydqhe163434@fpt.edu.vn";
+            string smtpPassword = "htay mxgi flsx dxde";
+            bool result = SendEmail.theSendEmailRegisterTravelAgent(fromEmail, toEmail, subject, body, smtpServer, smtpPort, smtpUsername, smtpPassword);
+            string stt = "Unaccept";
+            dal.AccessBookingTravel(id, stt);
+            return RedirectToAction("BookingTourInTravelAgent", "Tours");
+        }
+
+    }
+}
+
