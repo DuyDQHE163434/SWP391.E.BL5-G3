@@ -50,7 +50,7 @@
                         <!-- Reply Content -->
                         <div class="form-group mb-3">
                             <label for="ReplyContent" class="form-label">Your Reply</label>
-                            <textarea id="ReplyContent" name="ReplyContent" class="form-control"></textarea>
+                            <textarea id="ReplyContent" name="ReplyContent" class="form-control" required></textarea>
                         </div>
 
                         <!-- Star Rating -->
@@ -101,8 +101,8 @@
         star.addEventListener('click', (event) => {
             const ratingValue = getStarRating(event);
             currentRating = ratingValue;
-            ratingInput.value = ratingValue; // Bind the selected rating to the hidden input
-            selectedRatingDisplay.innerText = `Selected Rating: ${ratingValue}`;
+            ratingInput.value = formatRating(ratingValue); // Bind the selected rating to the hidden input
+            selectedRatingDisplay.innerText = `Selected Rating: ${formatRating(ratingValue)}`; // Hiển thị điểm đã chọn với định dạng 4,5
             highlightStars(ratingValue);
         });
     });
@@ -139,7 +139,12 @@
         }
         return starValue;
     }
+
+    function formatRating(rating) {
+        return rating.toFixed(1).replace('.', ','); // Chuyển đổi định dạng từ 4.5 sang 4,5
+    }
 </script>
+
 
 <style>
     .star {

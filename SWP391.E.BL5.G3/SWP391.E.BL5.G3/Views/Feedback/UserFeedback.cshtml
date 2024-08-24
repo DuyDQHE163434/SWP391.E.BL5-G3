@@ -1,4 +1,7 @@
-﻿@{
+﻿@using static SWP391.E.BL5.G3.Controllers.FeedbackController
+@model UserFeedbackViewModel
+
+@{
     Layout = "/Views/Shared/_HomeLayout.cshtml";
     ViewData["Title"] = "Tour Feedback";
 }
@@ -12,75 +15,133 @@
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <form id="tourFeedbackForm" asp-action="SubmitTourFeedback" method="post">
-
-                        <!-- Hotel Feedback -->
-                        <div class="form-group mb-4">
-                            <label class="form-label">Hotel Rating</label>
-                            <div class="star-rating" data-field="HotelRating">
-                                <span data-value="1" class="star">★</span>
-                                <span data-value="2" class="star">★</span>
-                                <span data-value="3" class="star">★</span>
-                                <span data-value="4" class="star">★</span>
-                                <span data-value="5" class="star">★</span>
+                        <input type="hidden" name="TourId" value="@Model.TourId" />
+                        @if (Model.TourId != null)
+                        {
+                            <!-- Hotel Feedback -->
+                            <div class="form-group mb-4">
+                                <label class="form-label">Hotel Rating</label>
+                                <div class="star-rating" data-field="HotelRating">
+                                    <span data-value="1" class="star">★</span>
+                                    <span data-value="2" class="star">★</span>
+                                    <span data-value="3" class="star">★</span>
+                                    <span data-value="4" class="star">★</span>
+                                    <span data-value="5" class="star">★</span>
+                                </div>
+                                <input type="hidden" name="HotelRating" id="HotelRating" />
+                                <textarea name="HotelFeedbackContent" class="form-control" placeholder="Your feedback about the hotel" required></textarea>
                             </div>
-                            <input type="hidden" name="HotelRating" id="HotelRating" />
-                            <textarea name="HotelFeedbackContent" class="form-control" placeholder="Your feedback about the hotel"></textarea>
-                        </div>
 
-                        <!-- Vehicle Feedback -->
-                        <div class="form-group mb-4">
-                            <label class="form-label">Vehicle Rating</label>
-                            <div class="star-rating" data-field="VehicleRating">
-                                <span data-value="1" class="star">★</span>
-                                <span data-value="2" class="star">★</span>
-                                <span data-value="3" class="star">★</span>
-                                <span data-value="4" class="star">★</span>
-                                <span data-value="5" class="star">★</span>
+                            <!-- Vehicle Feedback -->
+                            <div class="form-group mb-4">
+                                <label class="form-label">Vehicle Rating</label>
+                                <div class="star-rating" data-field="VehicleRating">
+                                    <span data-value="1" class="star">★</span>
+                                    <span data-value="2" class="star">★</span>
+                                    <span data-value="3" class="star">★</span>
+                                    <span data-value="4" class="star">★</span>
+                                    <span data-value="5" class="star">★</span>
+                                </div>
+                                <input type="hidden" name="VehicleRating" id="VehicleRating" />
+                                <textarea name="VehicleFeedbackContent" class="form-control" placeholder="Your feedback about the vehicle" required></textarea>
                             </div>
-                            <input type="hidden" name="VehicleRating" id="VehicleRating" />
-                            <textarea name="VehicleFeedbackContent" class="form-control" placeholder="Your feedback about the vehicle"></textarea>
-                        </div>
 
-                        <!-- Tour Guide Feedback -->
-                        <div class="form-group mb-4">
-                            <label class="form-label">Tour Guide Rating</label>
-                            <div class="star-rating" data-field="GuideRating">
-                                <span data-value="1" class="star">★</span>
-                                <span data-value="2" class="star">★</span>
-                                <span data-value="3" class="star">★</span>
-                                <span data-value="4" class="star">★</span>
-                                <span data-value="5" class="star">★</span>
+                            <!-- Tour Guide Feedback -->
+                            <div class="form-group mb-4">
+                                <label class="form-label">Tour Guide Rating</label>
+                                <div class="star-rating" data-field="GuideRating">
+                                    <span data-value="1" class="star">★</span>
+                                    <span data-value="2" class="star">★</span>
+                                    <span data-value="3" class="star">★</span>
+                                    <span data-value="4" class="star">★</span>
+                                    <span data-value="5" class="star">★</span>
+                                </div>
+                                <input type="hidden" name="GuideRating" id="GuideRating" />
+                                <textarea name="GuideFeedbackContent" class="form-control" placeholder="Your feedback about the tour guide" required></textarea>
                             </div>
-                            <input type="hidden" name="GuideRating" id="GuideRating" />
-                            <textarea name="GuideFeedbackContent" class="form-control" placeholder="Your feedback about the tour guide"></textarea>
-                        </div>
 
-                        <!-- Restaurant Feedback -->
-                        <div class="form-group mb-4">
-                            <label class="form-label">Restaurant Rating</label>
-                            <div class="star-rating" data-field="RestaurantRating">
-                                <span data-value="1" class="star">★</span>
-                                <span data-value="2" class="star">★</span>
-                                <span data-value="3" class="star">★</span>
-                                <span data-value="4" class="star">★</span>
-                                <span data-value="5" class="star">★</span>
+                            <!-- Restaurant Feedback -->
+                            <div class="form-group mb-4">
+                                <label class="form-label">Restaurant Rating</label>
+                                <div class="star-rating" data-field="RestaurantRating">
+                                    <span data-value="1" class="star">★</span>
+                                    <span data-value="2" class="star">★</span>
+                                    <span data-value="3" class="star">★</span>
+                                    <span data-value="4" class="star">★</span>
+                                    <span data-value="5" class="star">★</span>
+                                </div>
+                                <input type="hidden" name="RestaurantRating" id="RestaurantRating" />
+                                <textarea name="RestaurantFeedbackContent" class="form-control" placeholder="Your feedback about the restaurant" required></textarea>
                             </div>
-                            <input type="hidden" name="RestaurantRating" id="RestaurantRating" />
-                            <textarea name="RestaurantFeedbackContent" class="form-control" placeholder="Your feedback about the restaurant"></textarea>
-                        </div>
 
-                        <!-- Tour Feedback (Average Rating) -->
-                        <div class="form-group mb-4">
-                            <label class="form-label">Overall Tour Rating</label>
-                            <input type="text" name="TourRating" id="TourRating" class="form-control" readonly />
-                            <textarea name="TourFeedbackContent" class="form-control" placeholder="Your feedback about the tour"></textarea>
-                        </div>
+                            <!-- Tour Feedback (Average Rating) -->
+                            <div class="form-group mb-4">
+                                <label class="form-label">Overall Tour Rating</label>
+                                <input type="hidden" name="TourRating" id="TourRating" class="form-control" readonly />
+                                <textarea name="TourFeedbackContent" class="form-control" placeholder="Your feedback about the tour" required></textarea>
+                            </div>
 
-                        <!-- Submit Button -->
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Submit Feedback</button>
-                            <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
-                        </div>
+                            <!-- Submit Button -->
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                                <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        }
+                        else 
+                        {
+                            if (Model.HotelId != null)
+                            {
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Hotel Rating</label>
+                                    <div class="star-rating" data-field="HotelRating">
+                                        <span data-value="1" class="star">★</span>
+                                        <span data-value="2" class="star">★</span>
+                                        <span data-value="3" class="star">★</span>
+                                        <span data-value="4" class="star">★</span>
+                                        <span data-value="5" class="star">★</span>
+                                    </div>
+                                    <input type="hidden" name="HotelRating" id="HotelRating" />
+                                    <textarea name="HotelFeedbackContent" class="form-control" placeholder="Your feedback about the hotel" required></textarea>
+                                </div>
+                            }
+
+                            if(Model.RestaurantId != null)
+                            {
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Restaurant Rating</label>
+                                    <div class="star-rating" data-field="RestaurantRating">
+                                        <span data-value="1" class="star">★</span>
+                                        <span data-value="2" class="star">★</span>
+                                        <span data-value="3" class="star">★</span>
+                                        <span data-value="4" class="star">★</span>
+                                        <span data-value="5" class="star">★</span>
+                                    </div>
+                                    <input type="hidden" name="RestaurantRating" id="RestaurantRating" />
+                                    <textarea name="RestaurantFeedbackContent" class="form-control" placeholder="Your feedback about the restaurant" required></textarea>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                                    <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
+                                </div>
+                            }
+                            if(Model.VehicleId != null)
+                            {
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Vehicle Rating</label>
+                                    <div class="star-rating" data-field="VehicleRating">
+                                        <span data-value="1" class="star">★</span>
+                                        <span data-value="2" class="star">★</span>
+                                        <span data-value="3" class="star">★</span>
+                                        <span data-value="4" class="star">★</span>
+                                        <span data-value="5" class="star">★</span>
+                                    </div>
+                                    <input type="hidden" name="VehicleRating" id="VehicleRating" />
+                                    <textarea name="VehicleFeedbackContent" class="form-control" placeholder="Your feedback about the vehicle" required></textarea>
+                                </div>
+                            }
+                        }
                     </form>
                 </div>
             </div>
@@ -112,7 +173,7 @@
             star.addEventListener('click', (event) => {
                 const ratingValue = getStarRating(event);
                 currentRating = ratingValue;
-                ratingInput.value = ratingValue; // Bind the selected rating to the hidden input
+                ratingInput.value = formatRating(ratingValue); // Chuyển đổi định dạng khi gán vào input
                 highlightStars(stars, ratingValue);
                 updateOverallRating();
             });
@@ -126,7 +187,7 @@
             if (starValue <= Math.floor(rating)) {
                 star.classList.add('full');
             } else if (starValue === Math.ceil(rating) && !Number.isInteger(rating)) {
-                star.classList.add('half'); // Add class for half-star
+                star.classList.add('half'); // Thêm class cho nửa sao
             }
         });
     }
@@ -134,7 +195,7 @@
     function clearHighlight(stars) {
         stars.forEach(star => {
             star.classList.remove('full');
-            star.classList.remove('half'); // Clear half-star class
+            star.classList.remove('half'); // Xóa class nửa sao
         });
     }
 
@@ -145,23 +206,37 @@
         const starWidth = star.offsetWidth;
         const clickX = event.clientX - star.getBoundingClientRect().left;
 
-        // Check for half-star selection
+        // Kiểm tra lựa chọn nửa sao
         if (clickX < starWidth / 2) {
-            return starValue - 0.5; // Half-star rating
+            return starValue - 0.5; // Đánh giá nửa sao
         }
-        return starValue; // Full-star rating
+        return starValue; // Đánh giá sao đầy đủ
     }
 
     function updateOverallRating() {
-        const hotelRating = parseFloat(document.getElementById('HotelRating').value) || 0;
-        const vehicleRating = parseFloat(document.getElementById('VehicleRating').value) || 0;
-        const guideRating = parseFloat(document.getElementById('GuideRating').value) || 0;
-        const restaurantRating = parseFloat(document.getElementById('RestaurantRating').value) || 0;
+        const hotelRating = parseFloat(document.getElementById('HotelRating').value.replace(',', '.')) || 0;
+        const vehicleRating = parseFloat(document.getElementById('VehicleRating').value.replace(',', '.')) || 0;
+        const guideRating = parseFloat(document.getElementById('GuideRating').value.replace(',', '.')) || 0;
+        const restaurantRating = parseFloat(document.getElementById('RestaurantRating').value.replace(',', '.')) || 0;
 
+        // Tính điểm trung bình
         const averageRating = (hotelRating + vehicleRating + guideRating + restaurantRating) / 4;
-        document.getElementById('TourRating').value = averageRating.toFixed(1);
+
+        // Hiển thị điểm trung bình với định dạng 4,5
+        document.getElementById('TourRating').value = formatRating(averageRating);
+
+        // Cập nhật các trường điểm riêng lẻ với định dạng 4,5
+        document.getElementById('HotelRating').value = formatRating(hotelRating);
+        document.getElementById('VehicleRating').value = formatRating(vehicleRating);
+        document.getElementById('GuideRating').value = formatRating(guideRating);
+        document.getElementById('RestaurantRating').value = formatRating(restaurantRating);
+    }
+
+    function formatRating(rating) {
+        return rating.toFixed(1).replace('.', ',');
     }
 </script>
+
 
 <style>
     .star {
