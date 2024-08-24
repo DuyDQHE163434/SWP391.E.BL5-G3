@@ -20,6 +20,7 @@ namespace SWP391.E.BL5.G3.Controllers
             _logger = logger;
         }
 
+       
         // GET: Booking/Create/5
         [HttpGet]
         [AllowAnonymous]
@@ -53,6 +54,7 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Lấy UserId từ Claims
 
+
             if (!ModelState.IsValid)
             {
                 // Gán UserId và trạng thái cho booking
@@ -73,6 +75,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View(booking);
         }
+
 
 
         // GET: Booking/Confirmation/5
