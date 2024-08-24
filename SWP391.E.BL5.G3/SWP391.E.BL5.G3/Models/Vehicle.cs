@@ -16,7 +16,7 @@ namespace SWP391.E.BL5.G3.Models
 
       
         
-        public int Capacity { get; set; }
+        
 
         public string VehicleName { get; set; } = null!;
         public string? Image { get; set; }

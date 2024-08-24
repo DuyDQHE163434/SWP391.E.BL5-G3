@@ -9,7 +9,7 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
-            <div class="card mb-4">  
+            <div class="card mb-4">
                 <div class="card-header pb-0">
                     <h6>Preview Non-Duplicate Tour Guides</h6>
                 </div>
@@ -38,18 +38,23 @@
                                             <tr>
                                                 <td>
                                                     <h6 class="mb-0 text-sm">@guide.FirstName</h6>
+                                                    <input type="hidden" name="FirstNames" value="@guide.FirstName" />
                                                 </td>
                                                 <td>
                                                     <h6 class="mb-0 text-sm">@guide.LastName</h6>
+                                                    <input type="hidden" name="LastNames" value="@guide.LastName" />
                                                 </td>
                                                 <td>
                                                     <p class="text-xs text-secondary mb-0">@guide.Email</p>
+                                                    <input type="hidden" name="Emails" value="@guide.Email" />
                                                 </td>
                                                 <td>
                                                     <p class="text-xs text-secondary mb-0">@guide.PhoneNumber</p>
+                                                    <input type="hidden" name="PhoneNumbers" value="@guide.PhoneNumber" />
                                                 </td>
                                                 <td>
                                                     <p class="text-xs text-secondary mb-0">@guide.Description</p>
+                                                    <input type="hidden" name="Descriptions" value="@guide.Description" />
                                                 </td>
                                             </tr>
                                         }
@@ -115,9 +120,6 @@
                             </table>
                         </div>
                     }
-                    <div class="mt-4">
-                        <a href="@Url.Action("TourGuideManagement", "Admin")" class="btn btn-secondary">Cancel</a>
-                    </div>
                 </div>
             </div>
         </div>
