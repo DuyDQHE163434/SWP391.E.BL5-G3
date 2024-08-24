@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 public class UserController : Controller
 {
@@ -33,7 +34,6 @@ public class UserController : Controller
         }
 
         ViewBag.UserId = user.UserId;
-        ViewBag.UserImage = user.Image != null ? $"~/images/avatar/{user.Image}" : "~/images/avatar/default-user.png";
 
         return View(user);
     }
@@ -108,6 +108,7 @@ public class UserController : Controller
         TempData["SuccessMessage"] = "Password changed successfully!";
         return RedirectToAction("Profile");
     }
+
     [HttpPost]
     public async Task<IActionResult> UpdateProfileImage(IFormFile ProfileImage)
     {
@@ -132,41 +133,35 @@ public class UserController : Controller
 
         try
         {
-            // Xác định thư mục lưu trữ ảnh
-            var folder = "wwwroot/images/avatar";
-            var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(ProfileImage.FileName);
-            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), folder);
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            // Tạo thư mục nếu chưa tồn tại
-            if (!Directory.Exists(uploadsFolder))
+            if (ProfileImage != null && ProfileImage.Length > 0)
             {
-                Directory.CreateDirectory(uploadsFolder);
-            }
+                // Generate a unique file name to prevent overwriting
+                var fileName = Path.GetFileNameWithoutExtension(ProfileImage.FileName);
+                var extension = Path.GetExtension(ProfileImage.FileName);
+                var uniqueFileName = $"{fileName}_{Guid.NewGuid()}{extension}";
 
-            // Xóa ảnh cũ nếu có
-            if (!string.IsNullOrEmpty(user.Image))
-            {
-                var oldFilePath = Path.Combine(uploadsFolder, user.Image);
-                if (System.IO.File.Exists(oldFilePath))
+                // Save the file to the wwwroot/images directory
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    System.IO.File.Delete(oldFilePath);
+                    await ProfileImage.CopyToAsync(stream);
                 }
-            }
 
-            // Lưu ảnh mới
-            using (var stream = new FileStream(filePath, FileMode.Create))
+                // Store the relative path in the database
+                user.Image = $"/images/{uniqueFileName}";
+            }
+            else
             {
-                await ProfileImage.CopyToAsync(stream);
+                // Assign a default image if no image is uploaded
+                user.Image = "/images/default.png"; // Placeholder image
             }
-
-            // Cập nhật thông tin người dùng
-            user.Image = uniqueFileName;
 
             _context.Update(user);
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Profile image updated successfully!";
+            return RedirectToAction("Profile");
         }
         catch (Exception ex)
         {
