@@ -309,8 +309,6 @@ namespace SWP391.E.BL5.G3.Controllers
                 {
                     restaurant.UserId = restaurant.UserId;
 
-                    var existedRestaurant = restaurant;
-
                     var uploadedImageURLS = new List<string>();
 
                     foreach (var fileImage in images)
@@ -329,12 +327,12 @@ namespace SWP391.E.BL5.G3.Controllers
 
                                 var uploadResult = _cloudinary.Upload(uploadImage);
                                 uploadedImageURLS.Add(uploadResult.SecureUrl.ToString());
-                                existedRestaurant.PriceList = string.Join(",", uploadedImageURLS);
+                                restaurant.PriceList = string.Join(",", uploadedImageURLS);
                             }
                         }
                         else
                         {
-                            existedRestaurant.PriceList = restaurant.PriceList;
+                            restaurant.PriceList = restaurant.PriceList;
                         }
                     }
 
@@ -351,21 +349,22 @@ namespace SWP391.E.BL5.G3.Controllers
                             };
 
                             var uploadResult = _cloudinary.Upload(imageUpload);
-                            existedRestaurant.Image = uploadResult.SecureUrl.ToString();
+                            restaurant.Image = uploadResult.SecureUrl.ToString();
                         }
                     }
                     else
                     {
-                        existedRestaurant.Image = restaurant.Image;
+                        restaurant.Image = restaurant.Image;
                     }
 
-                    existedRestaurant.Rating = restaurant.Rating;
+                    restaurant.Rating = restaurant.Rating;
 
-                    existedRestaurant.CreatedAt = restaurant.CreatedAt;
-                    existedRestaurant.UpdatedAt = DateTime.Now;
+                    restaurant.CreatedAt = restaurant.CreatedAt;
+                    restaurant.UpdatedAt = DateTime.Now;
 
-                    _context.Update(existedRestaurant);
+                    _context.Update(restaurant);
                     _context.SaveChanges();
+
                     TempData["SuccessMessage"] = "Update Restaurant successfully!";
                 }
                 catch (DbUpdateConcurrencyException)
@@ -418,44 +417,6 @@ namespace SWP391.E.BL5.G3.Controllers
             return (_context.Restaurants?.Any(item => item.RestaurantId == id)).GetValueOrDefault();
         }
 
-        // Being fixed
-        // Book a restaurant
-        //[Authorize(RoleEnum.Customer)]
-        //public IActionResult BookRestaurant(int id)
-        //{
-        //    var restaurant = _context.Restaurants.Find(id);
-
-        //    if (restaurant == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var booking = new Booking
-        //    {
-        //        RestaurantId = id
-        //    };
-
-        //    return View(booking);
-        //}
-
-        //[HttpPost]
-        //[Authorize(RoleEnum.Customer)]
-        //public IActionResult BookRestaurant(Booking booking)
-        //{
-        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        booking.UserId = Convert.ToInt32(userId);
-        //        booking.Status = (int)BookingStatusEnum.Pending;
-
-        //        _context.Bookings.Add(booking);
-        //        return RedirectToAction(nameof(ViewRestaurantList));
-        //    }
-
-        //    return View(booking);
-        //}
-
         [Authorize(RoleEnum.Customer)]
         public IActionResult BookRestaurant(int id)
         {
@@ -505,7 +466,5 @@ namespace SWP391.E.BL5.G3.Controllers
 
             return View(booking); // Trả lại thông tin booking và nhà hàng
         }
-
-
     }
 }
