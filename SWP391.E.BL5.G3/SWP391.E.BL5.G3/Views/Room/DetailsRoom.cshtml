@@ -33,6 +33,6 @@
 </div>
 
 <p>
-    <a asp-action="Index" class="btn btn-primary">Back to List</a> |
+    <a asp-controller="Hotels" asp-action="Details" asp-route-id="@Model.HotelId" class="btn btn-primary">Back to List</a>
     <a asp-controller="Booking" asp-action="Create" asp-route-hotelId="@Model.HotelId" asp-route-roomId="@Model.RoomId" class="btn btn-success">Book Now</a>
 </p>
