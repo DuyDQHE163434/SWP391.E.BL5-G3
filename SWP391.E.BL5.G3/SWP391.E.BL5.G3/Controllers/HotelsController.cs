@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SWP391.E.BL5.G3.Controllers
 {
@@ -24,6 +25,8 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             _context = context;
         }
+
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string filter = "None", string searchString = "", int? page = 1)
         {
             var hotels = _context.Hotels.AsQueryable();
@@ -72,9 +75,10 @@ namespace SWP391.E.BL5.G3.Controllers
             }
         }
 
-        
 
-        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
+
+        //[Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
+        [AllowAnonymous]
         public IActionResult Create()
         {
             var provinces = _context.Provinces.ToList();
@@ -84,32 +88,51 @@ namespace SWP391.E.BL5.G3.Controllers
 
 
         [HttpPost]
-        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
+        //[Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("HotelId,HotelName,Location,Description,Image,Status,Price,BookingCount,ProvinceId")] Hotel hotel)
+        public async Task<IActionResult> Create([Bind("HotelName,Location,Description,Status,Price,ProvinceId")] Hotel hotel, IFormFile Image)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                foreach (var modelStateKey in ModelState.Keys)
+                {
+                    var value = ModelState[modelStateKey];
+                    foreach (var error in value.Errors)
+                    {
+                        Console.WriteLine($"Key: {modelStateKey}, Error: {error.ErrorMessage}");
+                    }
+                }
+            }
+            else { 
                 try
                 {
-                    if (hotel.ImageFile != null && hotel.ImageFile.Length > 0)
+                    if (Image != null && Image.Length > 0)
                     {
-                        var fileName = Path.GetFileName(hotel.ImageFile.FileName);
-                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+                        // Generate a unique file name to prevent overwriting
+                        var fileName = Path.GetFileNameWithoutExtension(Image.FileName);
+                        var extension = Path.GetExtension(Image.FileName);
+                        var uniqueFileName = $"{fileName}_{Guid.NewGuid()}{extension}";
+
+                        // Save the file to the wwwroot/images directory
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", uniqueFileName);
 
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
-                            await hotel.ImageFile.CopyToAsync(stream);
+                            await Image.CopyToAsync(stream);
                         }
 
-                        hotel.Image = $"/images/{fileName}";
+                        // Store the relative path in the database
+                        hotel.Image = $"/images/{uniqueFileName}";
                     }
                     else
                     {
+                        // Assign a default image if no image is uploaded
                         hotel.Image = "/images/default.png"; // Placeholder image
                     }
 
-                    hotel.BookingCount = 0;
+                    hotel.BookingCount = 0; // Set the initial booking count to 0
+                    hotel.CreatedAt = DateTime.Now; 
                     _context.Add(hotel);
                     await _context.SaveChangesAsync();
 
@@ -128,7 +151,8 @@ namespace SWP391.E.BL5.G3.Controllers
 
 
         [HttpGet]
-        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
+        //[Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
+        [AllowAnonymous]
         public IActionResult Edit(int id)
         {
             var hotel = _context.Hotels.FirstOrDefault(h => h.HotelId == id);
@@ -151,19 +175,39 @@ namespace SWP391.E.BL5.G3.Controllers
 
 
         [HttpPost]
-        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
+        //[Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("HotelId,HotelName,Location,Description,Image,Status,Price,BookingCount,ProvinceId")] Hotel hotel)
+        public async Task<IActionResult> Edit([Bind("HotelId,HotelName,Location,Description,Image,Status,Price,BookingCount,ProvinceId")] Hotel hotel, IFormFile? Image, string? CurrentImage)
         {
-            if (id != hotel.HotelId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (Image != null && Image.Length > 0)
+                    {
+                        // Generate a unique file name to prevent overwriting
+                        var fileName = Path.GetFileNameWithoutExtension(Image.FileName);
+                        var extension = Path.GetExtension(Image.FileName);
+                        var uniqueFileName = $"{fileName}_{Guid.NewGuid()}{extension}";
+
+                        // Save the file to the wwwroot/images directory
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", uniqueFileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await Image.CopyToAsync(stream);
+                        }
+
+                        // Store the relative path in the database
+                        hotel.Image = $"/images/{uniqueFileName}";
+                    }
+                    else
+                    {
+                        // Assign a default image if no image is uploaded
+                        hotel.Image = CurrentImage; // Placeholder image
+                    }
+                    hotel.UpdatedAt = DateTime.Now;
                     _context.Update(hotel);
                     await _context.SaveChangesAsync();
 
@@ -194,7 +238,8 @@ namespace SWP391.E.BL5.G3.Controllers
 
 
 
-        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
+        //[Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
+        [AllowAnonymous]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -213,7 +258,8 @@ namespace SWP391.E.BL5.G3.Controllers
         }
 
         [HttpPost, ActionName("DeleteConfirmed")]
-        [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
+        //[Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -245,6 +291,8 @@ namespace SWP391.E.BL5.G3.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

@@ -1,8 +1,9 @@
 ﻿@using System.Security.Claims
-@model SWP391.E.BL5.G3.Models.Room
+@model Room
 
 @{
     ViewData["Title"] = "Create Room";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Create Room</h1>
@@ -18,7 +19,12 @@
         @TempData["ErrorMessage"]
     </div>
 }
-<form asp-action="CreateRoom" method="post">
+<form asp-action="CreateRoom" method="post" enctype="multipart/form-data">
+    
+    <div class="form-group">
+    <input type="hidden" name="HotelId" value="@ViewBag.HotelId" />
+    </div>
+
     <div class="form-group">
         <label asp-for="Description" class="control-label"></label>
         <input asp-for="Description" class="form-control" />
@@ -31,19 +37,15 @@
     </div>
     <div class="form-group">
         <label asp-for="Image" class="control-label"></label>
-        <input asp-for="Image" class="form-control" placeholder="Enter image URL" />
+        <input asp-for="Image" type="file" class="form-control"/>
         <span asp-validation-for="Image" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Status" class="control-label"></label>
-        <select asp-for="Status" asp-items="ViewBag.Statuses" class="form-control">
-            <option value="">Select status</option>
+        <select asp-for="Status" asp-items="ViewBag.Statuses" class="form-control" placeholder="Select Status">
         </select>
         <span asp-validation-for="Status" class="text-danger"></span>
     </div>
-    <input type="hidden" name="HotelId" value="@ViewBag.HotelId" />
-    <input type="hidden" asp-for="RoomId" />
-    <input type="hidden" asp-for="UserId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
 
     <button type="submit" class="btn btn-primary">Create</button>
 </form>

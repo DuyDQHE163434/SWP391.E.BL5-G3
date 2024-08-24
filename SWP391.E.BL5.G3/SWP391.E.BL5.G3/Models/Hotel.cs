@@ -31,8 +31,7 @@ namespace SWP391.E.BL5.G3.Models
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        [Required(ErrorMessage = "Image URL is required.")]
-        public string Image { get; set; } = null!;
+        public string? Image { get; set; } = null!;
 
         [Required(ErrorMessage = "Status is required.")]
         public bool Status { get; set; }
@@ -43,13 +42,11 @@ namespace SWP391.E.BL5.G3.Models
 
         public int? BookingCount { get; set; }
 
+        public decimal? Rating { get; set; }
+
         public int? ProvinceId { get; set; }
 
-        [NotMapped]
-        public IFormFile? ImageFile { get; set; }
-
         public virtual Province? Province { get; set; }
-
 
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<Tour> Tours { get; set; }

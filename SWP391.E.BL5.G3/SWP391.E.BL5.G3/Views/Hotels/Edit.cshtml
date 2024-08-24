@@ -1,12 +1,12 @@
 ﻿
 @using SWP391.E.BL5.G3.ViewModels
-@model SWP391.E.BL5.G3.ViewModels.HotelViewModel
+@model HotelViewModel
 
 
 
 <h1>Edit Hotel</h1>
 
-<form asp-action="Edit">
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <input type="hidden" asp-for="Hotel.HotelId" />
     </div>
@@ -30,9 +30,21 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Hotel.Image" class="control-label"></label>
-        <input asp-for="Hotel.Image" type="text" class="form-control" />
-        <span asp-validation-for="Hotel.Image" class="text-danger"></span>
+        <label class="control-label">Current Image</label>
+        @if (!string.IsNullOrEmpty(Model.Hotel.Image))
+        {
+            <img src="@Model.Hotel.Image" alt="Current Image" style="max-width: 200px; max-height: 200px;" />
+            <input type="hidden" name="CurrentImage" value="@Model.Hotel.Image" />
+        }
+        else
+        {
+            <p>No image available.</p>
+        }
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Upload New Image</label>
+        <input type="file" name="Image" class="form-control" />
     </div>
 
     <div class="form-group">
@@ -47,9 +59,14 @@
         <span asp-validation-for="Hotel.Price" class="text-danger"></span>
     </div>
 
+
     <div class="form-group">
         <label asp-for="Hotel.ProvinceId" class="control-label"></label>
-        <select asp-for="Hotel.ProvinceId" class="form-control" asp-items="@(new SelectList(Model.ProvincesList, "ProvinceId", "Name"))"></select>
+        <select asp-for="Hotel.ProvinceId" class="form-control" asp-items="Model.ProvincesList.Select(p => new SelectListItem
+    {
+        Value = p.ProvinceId.ToString(),
+        Text = p.ProvinceName
+    })"></select>
         <span asp-validation-for="Hotel.ProvinceId" class="text-danger"></span>
     </div>
 
