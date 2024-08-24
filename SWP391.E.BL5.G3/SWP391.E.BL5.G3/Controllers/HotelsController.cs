@@ -311,7 +311,7 @@ namespace SWP391.E.BL5.G3.Controllers
             return View(hotel);
         }
 
-
+        [AllowAnonymous]
         public async Task<IActionResult> ListHotelForGuestCustomer(string searchString = "", int? page = 1)
         {
             var hotels = _context.Hotels.AsQueryable();

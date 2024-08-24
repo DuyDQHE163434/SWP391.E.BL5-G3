@@ -43,6 +43,9 @@
                                     <li class="nav-item">
                                         <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Vehicles" asp-action="ListVehicles">Vehicles</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Hotels" asp-action="Index">Hotel</a>
+                                    </li>
                                         if (role == "Admin")
                                         {
                                         <li class="nav-item">
@@ -51,6 +54,11 @@
                                         <li class="nav-item">
                                             <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Admin" asp-action="ListAccount">ListAccount</a>
                                         </li>
+                                        }
+                                        if (role == "Travel_Agent")
+                                        {
+                                            <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Tours"
+                                                asp-action="BookingTourInTravelAgent">BookingTourInTravelAgent</a>
                                         }
                                     }
                                     else
@@ -64,6 +72,9 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Vehicles" asp-action="ViewVehicleList">Vehicles</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Hotels" asp-action="ListHotelForGuestCustomer">Hotels</a>
                                     </li>
                                     }
                                 }
