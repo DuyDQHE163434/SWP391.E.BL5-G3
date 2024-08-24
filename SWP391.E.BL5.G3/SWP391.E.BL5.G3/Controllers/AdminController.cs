@@ -586,15 +586,25 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         public IActionResult ImportTourGuide(IFormFile file)
         {
+
             if (file == null || file.Length == 0)
             {
-                return RedirectToAction("TourGuideManagement"); // Return to the main page if no file was uploaded
+                TempData["Error"] = "No file uploaded.";
+                return RedirectToAction("TourGuideManagement");
             }
 
-            // Process the Excel file and extract data into a list of TourGuideDTO objects
-            TourGuidePreviewViewModel model = ExtractTourGuidesFromExcel(file);
-
-            return View("PreviewTourGuide", model);
+            try
+            {
+                // Process the Excel file and extract data into a list of TourGuideDTO objects
+                TourGuidePreviewViewModel model = ExtractTourGuidesFromExcel(file);
+                return View("PreviewTourGuide", model);
+            }
+            catch (Exception ex)
+            {
+                // Set the error message in TempData to display on the redirected page
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("TourGuideManagement");
+            }
         }
 
         private TourGuidePreviewViewModel ExtractTourGuidesFromExcel(IFormFile file)
@@ -606,6 +616,18 @@ namespace SWP391.E.BL5.G3.Controllers
                     using (var reader = new StreamReader(stream))
                     {
                         var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+                        csv.Read();
+                        csv.ReadHeader();
+
+                        var requiredColumns = new List<string> { "FirstName", "LastName", "PhoneNumber", "Email", "Description" };
+                        var missingColumns = requiredColumns.Where(col => !csv.HeaderRecord.Contains(col)).ToList();
+
+                        // Check for missing columns
+                        if (missingColumns.Any())
+                        {
+                            throw new Exception($"The following required columns are missing in the CSV file: {string.Join(", ", missingColumns)}");
+                        }
+
                         var records = csv.GetRecords<TourGuideDTO>().ToList();
 
                         var listTourGuide = _traveltestContext.TourGuides.ToList();

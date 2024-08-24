@@ -27,13 +27,19 @@
                             <form asp-action="ImportTourGuide" method="post" enctype="multipart/form-data" style="display: inline;">
                                 <label class="btn btn-success ms-3">
                                     Import Tour Guide
-                                    <input type="file" name="file" style="display: none;" onchange="this.form.submit();" />
+                                    <input type="file" name="file" style="display: none;" onchange="validateFile(this);" />
                                 </label>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @TempData["Error"]
+                        </div>
+                    }
                     @if (Model == null || !Model.Items.Any())
                     {
                         <p class="text-center py-4">No tour guides available.</p>
@@ -77,7 +83,7 @@
                                             </td>
                                             <td class="align-middle">
                                                 <span class="text-secondary text-xs font-weight-bold">
-                                                    @(guide.Rate.HasValue ? guide.Rate.ToString().Trim() : "N/A")
+                                                    @(guide.Rate.HasValue ? guide.Rate.Value.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture).Trim() : "N/A")
                                                 </span>
                                             </td>
                                             <td>
@@ -148,4 +154,19 @@
             this.submit(); // Submit the form
         }
     });
+
+    // JavaScript function to validate the file extension
+    function validateFile(input) {
+        const filePath = input.value;
+        const allowedExtensions = /(\.csv)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type. Please select a .csv file.');
+            input.value = ''; // Clear the input if not a valid file
+            return false;
+        } else {
+            // If valid, submit the form
+            input.form.submit();
+        }
+    }
 </script>

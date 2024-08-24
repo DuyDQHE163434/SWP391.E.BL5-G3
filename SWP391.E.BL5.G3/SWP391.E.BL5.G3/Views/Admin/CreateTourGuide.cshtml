@@ -37,7 +37,8 @@
                         </div>
                         <div class="form-group">
                             <label for="imageFile">Image</label>
-                            <input type="file" class="form-control" id="imageFile" name="imageFile" />
+                            <input type="file" class="form-control" id="imageFile" name="imageFile" required/>
+                            <span id="imageError" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Email" class="form-label"></label>
@@ -59,3 +60,31 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+<script>
+    var fileInput = document.getElementById("imageFile");
+    var errorMessage = document.getElementById("imageError");
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+    fileInput.onchange = function () {
+        var filePath = fileInput.value;
+        errorMessage.innerHTML = ''; // Clear previous error message
+
+        // Check if file is selected
+        if (fileInput.files.length === 0) {
+            errorMessage.innerHTML = "Please select an image file.";
+            return;
+        }
+
+        // Check file extension
+        if (!allowedExtensions.exec(filePath)) {
+            alert("Invalid file type. Please upload an image (jpg, jpeg, png, gif).");
+            fileInput.value = ''; // Reset the file input
+            errorMessage.innerHTML = "Invalid file type. Please upload an image.";
+        }
+    };
+</script>
+
