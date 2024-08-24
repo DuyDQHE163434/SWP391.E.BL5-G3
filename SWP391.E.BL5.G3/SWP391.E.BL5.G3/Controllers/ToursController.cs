@@ -582,8 +582,11 @@ namespace SWP391.E.BL5.G3.Controllers
         //[AllowAnonymous]
         public async Task<IActionResult> BookingTourInTravelAgent()
         {
-
-            List<Booking> booking = _context.Bookings.Include(b => b.Tour).Include(b => b.User).Where(x => x.Status == 1 || x.Status == 2 || x.Status == 3 || x.Status == 4 ).ToList();
+            List<Booking> booking = _context.Bookings
+                .Include(b => b.Tour)
+                .Include(b => b.Restaurant)
+                .Include(b => b.Vehicle)
+                .Include(b => b.User).Where(x => x.Status == 1 || x.Status == 2 || x.Status == 3 || x.Status == 4 ).ToList();
             ViewBag.Booking = booking;
 
             return View();
