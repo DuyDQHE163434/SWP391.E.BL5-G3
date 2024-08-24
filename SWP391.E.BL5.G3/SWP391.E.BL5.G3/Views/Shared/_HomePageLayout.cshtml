@@ -100,11 +100,14 @@
                                         </ul>
                                     </li>
                                 }
-                                 <li class="nav-item">
-                                <li><a class="dropdown-item" asp-controller="User" asp-action="Profile" asp-route-id="@ViewBag.UserId">My Profile</a></li>
+                                else
+                                {
+                                    <li class="nav-item">
+                                    <li><a class="dropdown-item" asp-controller="User" asp-action="Profile" asp-route-id="@ViewBag.UserId">My Profile</a></li>
 
                                     <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
-                                </li> 
+                                    </li>
+                                }
                             }
                             else
                             {
