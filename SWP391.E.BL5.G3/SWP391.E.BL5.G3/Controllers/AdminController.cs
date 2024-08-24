@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWP391.E.BL5.G3.Authorization;
-
 using SWP391.E.BL5.G3.DAO_Context;
-
 using SWP391.E.BL5.G3.Models;
 using System.Globalization;
 
@@ -44,10 +42,10 @@ namespace SWP391.E.BL5.G3.Controllers
                 .Sum(p => p.Amount);
 
             // Total Tours
-            var totalTours = _traveltestContext.Tours.Count(); // Assuming you have a Bookings DbSet
+            var totalTours = _traveltestContext.Tours.Count(); 
 
             // Total Tour Guides
-            var totalTourGuides = _traveltestContext.TourGuides.Count(); // Assuming you have a TourGuides DbSet
+            var totalTourGuides = _traveltestContext.TourGuides.Count(); 
 
             // Monthly Sales
             var startOfMonth = new DateTime(today.Year, today.Month, 1);
@@ -56,8 +54,8 @@ namespace SWP391.E.BL5.G3.Controllers
                 .Sum(p => p.Amount);
 
             // Prepare comparison values
-            var salesComparison = CalculateSalesComparison(today); // Implement this method based on your logic
-            var monthlyComparison = CalculateMonthlyComparison(today); // Implement this method based on your logic
+            var salesComparison = CalculateSalesComparison(today); 
+            var monthlyComparison = CalculateMonthlyComparison(today); 
 
             var distinctYears = _traveltestContext.Payments
                 .Select(p => p.PaymentDate.Year)
@@ -77,44 +75,44 @@ namespace SWP391.E.BL5.G3.Controllers
                 .ToList();
 
             // Prepare data for feedback ratings
-            var feedbackCounts = new int[6]; // Adjusting to account for <1 star and 5 star ratings
+            var feedbackCounts = new int[6]; 
 
             foreach (var item in feedbackData)
             {
                 if (item.Rating < 1)
                 {
-                    feedbackCounts[0] += item.Count; // Count for <1 star
+                    feedbackCounts[0] += item.Count; 
                 }
                 else if (item.Rating <= 2)
                 {
-                    feedbackCounts[1] += item.Count; // Count for 1-2 stars
+                    feedbackCounts[1] += item.Count; 
                 }
                 else if (item.Rating <= 3)
                 {
-                    feedbackCounts[2] += item.Count; // Count for 2-3 stars
+                    feedbackCounts[2] += item.Count; 
                 }
                 else if (item.Rating <= 4)
                 {
-                    feedbackCounts[3] += item.Count; // Count for 3-4 stars
+                    feedbackCounts[3] += item.Count; 
                 }
                 else if (item.Rating <= 5)
                 {
-                    feedbackCounts[4] += item.Count; // Count for 4-5 stars
+                    feedbackCounts[4] += item.Count; 
                 }
             }
 
             // Pass data to ViewData
-            ViewData["TodaysSales"] = todaysSales.ToString("N2"); // Format as decimal with 2 decimal places
-            ViewData["SalesComparison"] = salesComparison.ToString("F2"); // Format as decimal with 2 decimal places
+            ViewData["TodaysSales"] = todaysSales.ToString("N2"); 
+            ViewData["SalesComparison"] = salesComparison.ToString("F2"); 
             ViewData["TotalTours"] = totalTours;
             ViewData["TotalTourGuides"] = totalTourGuides;
-            ViewData["MonthlySales"] = monthlySales.ToString("N2"); // Format as decimal with 2 decimal places
-            ViewData["MonthlyComparison"] = monthlyComparison.ToString("F2"); // Format as decimal with 2 decimal places
+            ViewData["MonthlySales"] = monthlySales.ToString("N2"); 
+            ViewData["MonthlyComparison"] = monthlyComparison.ToString("F2"); 
             ViewData["DistinctYears"] = distinctYears;
             ViewData["FeedbackCounts"] = feedbackCounts;
 
             // Prepare monthly sales data for the chart
-            var monthlySalesData = GetMonthlySalesData(today.Year); // Get sales data for the current year
+            var monthlySalesData = GetMonthlySalesData(today.Year); 
             ViewData["MonthlySalesData"] = monthlySalesData;
 
             return View();
@@ -162,6 +160,34 @@ namespace SWP391.E.BL5.G3.Controllers
             }
 
             return monthlySalesData;
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult AddTourGuide(List<string> FirstNames, List<string> LastNames, List<string> Emails, List<string> PhoneNumbers, List<string> Descriptions)
+        {
+           
+            if (FirstNames != null && FirstNames.Count > 0)
+            {
+                for (int i = 0; i < FirstNames.Count; i++)
+                {
+                    
+                    var tourGuide = new TourGuide
+                    {
+                        FirstName = FirstNames[i],
+                        LastName = LastNames[i],
+                        Email = Emails[i],
+                        PhoneNumber = PhoneNumbers[i],
+                        Description = Descriptions[i]
+                    };
+
+                     _traveltestContext.TourGuides.Add(tourGuide);
+                    _traveltestContext.SaveChanges();   
+                }
+            }
+
+            // Chuyển hướng hoặc trả về view sau khi thêm thành công
+            return RedirectToAction("TourGuideManagement"); // Hoặc view khác
         }
 
         //[Authorize(Enum.RoleEnum.Admin)]
@@ -560,15 +586,25 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         public IActionResult ImportTourGuide(IFormFile file)
         {
+
             if (file == null || file.Length == 0)
             {
-                return RedirectToAction("TourGuideManagement"); // Return to the main page if no file was uploaded
+                TempData["Error"] = "No file uploaded.";
+                return RedirectToAction("TourGuideManagement");
             }
 
-            // Process the Excel file and extract data into a list of TourGuideDTO objects
-            TourGuidePreviewViewModel model = ExtractTourGuidesFromExcel(file);
-
-            return View("PreviewTourGuide", model);
+            try
+            {
+                // Process the Excel file and extract data into a list of TourGuideDTO objects
+                TourGuidePreviewViewModel model = ExtractTourGuidesFromExcel(file);
+                return View("PreviewTourGuide", model);
+            }
+            catch (Exception ex)
+            {
+                // Set the error message in TempData to display on the redirected page
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("TourGuideManagement");
+            }
         }
 
         private TourGuidePreviewViewModel ExtractTourGuidesFromExcel(IFormFile file)
@@ -580,6 +616,18 @@ namespace SWP391.E.BL5.G3.Controllers
                     using (var reader = new StreamReader(stream))
                     {
                         var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+                        csv.Read();
+                        csv.ReadHeader();
+
+                        var requiredColumns = new List<string> { "FirstName", "LastName", "PhoneNumber", "Email", "Description" };
+                        var missingColumns = requiredColumns.Where(col => !csv.HeaderRecord.Contains(col)).ToList();
+
+                        // Check for missing columns
+                        if (missingColumns.Any())
+                        {
+                            throw new Exception($"The following required columns are missing in the CSV file: {string.Join(", ", missingColumns)}");
+                        }
+
                         var records = csv.GetRecords<TourGuideDTO>().ToList();
 
                         var listTourGuide = _traveltestContext.TourGuides.ToList();
@@ -590,10 +638,10 @@ namespace SWP391.E.BL5.G3.Controllers
                         foreach (var r in records)
                         {
                             var existingTourGuide = listTourGuide.FirstOrDefault(x =>
-                                x.FirstName.ToLower() == r.FirstName.ToLower() &&
-                                x.LastName.ToLower() == r.LastName.ToLower() &&
-                                x.PhoneNumber.ToLower() == r.PhoneNumber.ToLower() &&
-                                x.Email.ToLower() == r.Email.ToLower());
+                                x.FirstName.ToLower().Trim() == r.FirstName.ToLower().Trim() &&
+                                x.LastName.ToLower().Trim() == r.LastName.ToLower().Trim() &&
+                                x.PhoneNumber.ToLower().Trim() == r.PhoneNumber.ToLower().Trim() &&
+                                x.Email.ToLower().Trim() == r.Email.ToLower().Trim());
 
                             if (existingTourGuide == null)
                             {

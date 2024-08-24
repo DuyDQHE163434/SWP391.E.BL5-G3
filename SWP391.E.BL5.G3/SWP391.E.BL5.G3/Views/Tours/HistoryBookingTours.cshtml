@@ -1,0 +1,105 @@
+﻿@model IEnumerable<SWP391.E.BL5.G3.Models.Booking>
+
+@{
+    ViewData["Title"] = "Booking History";
+    Layout = "/Views/Shared/_HomeLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Booking Type</th>
+                <th>Service Name</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var booking in Model)
+                {
+                    <tr>
+                        <td>@booking.Name</td>
+                        <td>@booking.Phone</td>
+                        <td>@booking.StartDate.GetValueOrDefault().ToString("dd/MM/yyyy")</td>
+                        <td>@booking.EndDate.GetValueOrDefault().ToString("dd/MM/yyyy")</td>
+                        <td>
+                            @if (booking.TourId != null)
+                            {
+                                <span class="badge bg-success">Tour</span>
+                            }
+                            else if (booking.RestaurantId != null)
+                            {
+                                <span class="badge bg-warning">Restaurant</span>
+                            }
+                            else if (booking.VehicleId != null)
+                            {
+                                <span class="badge bg-primary">Vehicle</span>
+                            }
+                        </td>
+                        <td>
+                            @if (booking.TourId != null)
+                                @booking.Tour?.Name
+
+
+                            @if (booking.RestaurantId != null)
+                                @booking.Restaurant?.RestaurantName
+
+
+                            @if (booking.VehicleId != null)
+                                @booking.Vehicle?.VehicleName
+
+                        </td>
+                        <td>
+                            @{
+                                switch (booking.Status)
+                                {
+                                    case 3:
+                                        <span class="badge bg-danger">Canceled</span>
+                                        break;
+                                    case 4:
+                                        <span class="badge bg-success">Done</span>
+                                        break;
+                                    default:
+                                        <span class="badge bg-warning">Unknown</span>
+                                        break;
+                                }
+                            }
+                        </td>
+                        <td class="input-group">
+                            @if (booking.Status == 4)
+                            {
+                                <a class="btn btn-sm btn-outline-info" asp-action="UserFeedback" asp-route-id="@booking.BookingId" title="Feedback">
+                                    <i class="fas fa-comments fa-sm"></i> Feedback
+                                </a>
+                            } else
+                            {
+                                <a class="btn btn-sm btn-secondary disabled" asp-action="UserFeedback" asp-route-id="@booking.BookingId" title="Feedback">
+                                    <i class="fas fa-comments fa-sm"></i> Feedback
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8" class="text-center">No booking history found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script> <!-- Thêm Font Awesome cho biểu tượng -->
+}

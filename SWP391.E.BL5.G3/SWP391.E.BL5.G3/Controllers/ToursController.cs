@@ -32,7 +32,6 @@ namespace SWP391.E.BL5.G3.Controllers
             // Lấy ID của người dùng hiện tại
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-n
             int userrole = Convert.ToInt32(User.FindFirstValue(ClaimTypes.Role));
 
             var toursQuery = _context.Tours.Include(t => t.Province).AsQueryable();
@@ -358,8 +357,6 @@ n
                 // Chuyển hướng về danh sách tour sau khi đặt
                 return RedirectToAction(nameof(ListTourForGuests));
             }
-
-
             // Nếu model không hợp lệ, trả lại tương ứng với thông tin đã nhập
             return View(booking);
         }
@@ -394,27 +391,107 @@ n
 
 
         [HttpGet]
-        [Authorize] // Bảo vệ action này, chỉ cho phép người dùng đã xác thực
+        [Authorize] // Bảo vệ action này
         public async Task<IActionResult> MyBookingTours()
         {
             // Lấy ID của người dùng hiện tại
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // Truy vấn các booking của người dùng
+            // Truy vấn các booking có trạng thái Pending hoặc Confirmed của người dùng
             var bookings = await _context.Bookings
-                .Where(b => b.UserId.ToString() == userId) // Hoặc điều chỉnh theo cách bạn lưu userId
+                .Where(b => b.UserId.ToString() == userId && (b.Status == (int)BookingStatusEnum.Pending || b.Status == (int)BookingStatusEnum.Confirmed))
                 .Include(b => b.Tour) // Bao gồm thông tin tour
+                .Include(b => b.Restaurant)
+                .Include(b => b.Vehicle)
                 .ToListAsync();
 
-            return View("MyBookingTours", bookings); // Đảm bảo trả về view mới
+            return View("MyBookingTours", bookings); // Trả về view với danh sách bookings
         }
 
 
-    }   
-}
+        [HttpGet]
+        [Authorize] // Bảo vệ action này
+        public async Task<IActionResult> HistoryBookingTours()
+        {
+            // Lấy ID của người dùng hiện tại
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        
-        
+            // Truy vấn các booking có trạng thái Done hoặc Canceled của người dùng
+            var historyBookings = await _context.Bookings
+                .Where(b => b.UserId.ToString() == userId && (b.Status == (int)BookingStatusEnum.Done || b.Status == (int)BookingStatusEnum.Canceled))
+                .Include(b => b.Tour) // Bao gồm thông tin tour
+                .Include (b => b.Restaurant)
+                .Include(b => b.Vehicle)
+                .ToListAsync();
+
+            return View("HistoryBookingTours", historyBookings); // Trả về view với danh sách bookings lịch sử
+        }
+
+        [HttpPost]
+        [Authorize] // Bảo vệ action này
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CancelTour(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking == null)
+            {
+                return NotFound(); // Nếu không tìm thấy booking theo ID
+            }
+
+            // Cập nhật trạng thái của booking thành Canceled
+            booking.Status = (int)BookingStatusEnum.Canceled;
+
+            // Lưu vào cơ sở dữ liệu
+            _context.Update(booking);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(MyBookingTours)); // Quay lại danh sách tour của người dùng
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> ViewDetailBookingTour(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking == null)
+            {
+                return NotFound(); // Nếu không tìm thấy booking
+            }
+
+            // Chuyển thông tin booking đến view để xem chi tiết
+            return View(booking);
+        }
+
+
+        [HttpGet]
+        [Authorize] // Bảo vệ action này
+        public async Task<IActionResult> EditBookingTour(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking == null)
+            {
+                return NotFound(); // Nếu không tìm thấy booking
+            }
+
+            // Chuyển thông tin booking đến view để chỉnh sửa
+            return View(booking);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditBookingTour([Bind("BookingId,Name,Phone,StartDate,EndDate,NumPeople,Message,TourId,UserId")] Booking booking)
+        {
+            if (ModelState.IsValid)
+            {
+                // Cập nhật thông tin booking trong cơ sở dữ liệu
+                _context.Update(booking);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(MyBookingTours)); // Quay về danh sách tours đã đặt
+            }
+            return View(booking); // Nếu có lỗi, trở về view để người dùng chỉnh sửa lại
+        }
+
         [HttpPost]
         public async Task<IActionResult> Pay([Bind("Name,Phone,StartDate,EndDate,NumPeople,Message,TourId,UserId")] Booking booking)
         {
@@ -500,18 +577,21 @@ n
             return View(booking);
         }
 
-
         [HttpGet]
         [Authorize(RoleEnum.Travel_Agent)]
         //[AllowAnonymous]
         public async Task<IActionResult> BookingTourInTravelAgent()
         {
-            
-            List<Booking> booking = _context.Bookings.Include(b=>b.Tour).Include(b=>b.User).Where(x=>x.Status==2||x.Status==3||x.Status==4).ToList();
+            List<Booking> booking = _context.Bookings
+                .Include(b => b.Tour)
+                .Include(b => b.Restaurant)
+                .Include(b => b.Vehicle)
+                .Include(b => b.User).Where(x => x.Status == 1 || x.Status == 2 || x.Status == 3 || x.Status == 4 ).ToList();
             ViewBag.Booking = booking;
 
-            return View(); 
+            return View();
         }
+
         public IActionResult RequestAccept(int id, string email)
         {
             DAO dal = new DAO();
@@ -529,6 +609,7 @@ n
             dal.AccessBookingTravel(id, stt);
             return RedirectToAction("BookingTourInTravelAgent", "Tours");
         }
+
         public IActionResult RequestUnaccept(int id, string email)
         {
             DAO dal = new DAO();
@@ -546,7 +627,16 @@ n
             dal.AccessBookingTravel(id, stt);
             return RedirectToAction("BookingTourInTravelAgent", "Tours");
         }
-
     }
 }
+
+
+
+
+
+
+
+
+
+
 

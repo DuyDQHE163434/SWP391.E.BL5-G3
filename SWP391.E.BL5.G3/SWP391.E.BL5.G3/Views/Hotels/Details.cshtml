@@ -151,7 +151,7 @@
             <tr>
                 <td>@room.RoomId</td>
                 <td>@room.Price?.ToString("C")</td>
-                <td>@(room.Status == true ? "Booked" : "Available")</td>
+                <td>@(room.Status == true ? "Available" : "Booked")</td>
                 <td>
                     @if (!string.IsNullOrEmpty(room.Image))
                     {
@@ -165,7 +165,7 @@
                 <td>
                     <a asp-controller="Room" asp-action="DetailsRoom" asp-route-id="@room.RoomId" class="btn btn-info">Detail</a>
                     <a asp-controller="Room" asp-action="EditRoom" asp-route-id="@room.RoomId" class="btn btn-warning">Edit</a>
-                    <form asp-controller="Room" asp-action="Delete" asp-route-id="@room.RoomId" method="post" onsubmit="return confirm('Are you sure you want to delete this room?');" style="display:inline;">
+                    <form asp-controller="Room" asp-action="Delete" asp-route-id="@room.RoomId" method="post" style="display:inline;">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>
@@ -179,6 +179,6 @@
    
         <a asp-action="Edit" asp-route-id="@Model.HotelId" class="btn btn-warning">Edit Hotel</a>
 
-    <a asp-controller="Room" asp-action="CreateRoom" asp-route-hotelId="@Model.HotelId" class="btn btn-success">Add New Room</a>
+        <a asp-controller="Room" asp-action="CreateRoom" asp-route-hotelId="@Model.HotelId" class="btn btn-success">Add New Room</a>
 
 </div>

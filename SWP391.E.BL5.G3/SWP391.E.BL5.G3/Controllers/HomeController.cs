@@ -26,6 +26,9 @@ namespace SWP391.E.BL5.G3.Controllers
             // Kiểm tra vai trò người dùng
             if (User.Identity.IsAuthenticated)
             {
+                var user = (User)HttpContext.Items["User"];
+                ViewData["User"] = user;
+
                 var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
                 var roleName =  ((RoleEnum)int.Parse(role)).ToString();

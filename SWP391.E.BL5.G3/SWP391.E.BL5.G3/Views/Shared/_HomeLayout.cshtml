@@ -27,90 +27,46 @@
                                 <a class="btn btn-primary mx-2 rounded-5 px-3 " asp-area="" asp-controller="Home"
                                    asp-action="Index">Home</a>
                             </li>
-                            <li class="nav-item">
-
+                            
                                 @{
                                     var role = ViewData["Role"]?.ToString();
-                                    if (role == "Admin")
+
+                                    // Display options for Admin and Travel Agent
+                                    if (role == "Admin" || role == "Travel_Agent")
                                     {
                                     <li class="nav-item">
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Tours"
-                                           asp-action="ListTour">Tours</a>
-
-                                      <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants"
-                                           asp-action="ListRestaurants">Restaurants</a>
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Vehicles"
-                                           asp-action="ListVehicles">Vehicles</a>
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Admin"
-                                           asp-action="ListRegisterTravelAgent">ListRegisterTravelAgent</a>
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Admin"
-                                           asp-action="ListAccount">ListAccount</a>
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Hotels"
-                                           asp-action="Index">ListHotels</a>
-
-                                    }
-                                    else if (role == "Travel_Agent")
-                                    {
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Tours"
-                                           asp-action="ListTour">Tours</a>
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants"
-                                           asp-action="ListRestaurants">Restaurants</a>
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Vehicles"
-                                           asp-action="ListVehicles">Vehicles</a>
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Hotels"
-                                           asp-action="Index">ListHotels</a>
-
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Tours" asp-action="ListTour">Tours</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants"
-                                           asp-action="ListRestaurants">Restaurants</a>
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants" asp-action="ListRestaurants">Restaurants</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Vehicles"
-                                           asp-action="ListVehicles">Vehicles</a>
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Vehicles" asp-action="ListVehicles">Vehicles</a>
                                     </li>
-
                                         if (role == "Admin")
                                         {
                                         <li class="nav-item">
-                                            <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Admin"
-                                               asp-action="ListRegisterTravelAgent">ListRegisterTravelAgent</a>
+                                            <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Admin" asp-action="ListRegisterTravelAgent">ListTravelAgent</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Admin"
-                                               asp-action="ListAccount">ListAccount</a>
+                                            <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Admin" asp-action="ListAccount">ListAccount</a>
                                         </li>
                                         }
-
                                     }
                                     else
                                     {
+                                        // Options for regular guests
                                     <li class="nav-item">
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Tours"
-                                           asp-action="ListTourForGuests">Tours</a>
-
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants"
-                                           asp-action="ViewRestaurantList">Restaurants</a>
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Vehicles"
-                                           asp-action="ListVehicles">Vehicles</a>
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Hotels"
-                                           asp-action="ListHotelForGuestCustomer">Hotels</a>
-
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Tours" asp-action="ListTourForGuests">Tours</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants"
-                                           asp-action="ViewRestaurantList">Restaurants</a>
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Restaurants" asp-action="ViewRestaurantList">Restaurants</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Vehicles"
-                                           asp-action="ViewVehicleList">Vehicles</a>
+                                        <a class="btn btn-primary mx-2 rounded-5 px-3" asp-area="" asp-controller="Vehicles" asp-action="ViewVehicleList">Vehicles</a>
                                     </li>
-
                                     }
                                 }
-
-                            </li>
-                            
 
                             <li class="flex-fill"> </li>
 

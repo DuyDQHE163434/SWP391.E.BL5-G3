@@ -22,6 +22,7 @@
                                 <img src="@Model.Image" class="img-fluid" alt="Tour Guide Image" id="tourGuideImage" style="cursor: pointer;" />
                             </div>
                             <input type="file" class="d-none" id="imageFile" name="imageFile" accept="image/*" onchange="previewImage(event)" />
+                            <span id="imageError" class="text-danger"></span>
                         </div>
 
                         <div class="row">
@@ -73,10 +74,34 @@
 
     function previewImage(event) {
         const reader = new FileReader();
+        const fileInput = event.target;
+        const filePath = fileInput.value;
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        const imageError = document.getElementById('imageError');
+        imageError.innerHTML = ''; // Clear previous error message
+
+        // Check if file is selected
+        if (fileInput.files.length === 0) {
+            return; // No file selected, do nothing
+        }
+
+        // Check file extension
+        if (!allowedExtensions.exec(filePath)) {
+            alert("Invalid file type. Please upload an image (jpg, jpeg, png, gif).");
+            imageError.innerHTML = "Invalid file type. Please upload an image.";
+            fileInput.value = ''; // Reset the file input
+            return; // Stop further processing
+        }
+
+        // If valid, read the file and update the image preview
         reader.onload = function () {
             const output = document.getElementById('tourGuideImage');
             output.src = reader.result;
         };
-        reader.readAsDataURL(event.target.files[0]);
+        reader.readAsDataURL(fileInput.files[0]);
     }
 </script>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

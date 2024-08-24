@@ -14,7 +14,11 @@ namespace SWP391.E.BL5.G3.Models
 
         public int RestaurantId { get; set; }
 
+        [Required(ErrorMessage = "Restaurant name cannot be empty.")]
+
+
         
+
 
         public string RestaurantName { get; set; } = null!;
       
@@ -47,7 +51,7 @@ namespace SWP391.E.BL5.G3.Models
         public DateTime? UpdatedAt { get; set; }
 
         public string? Image { get; set; }
-        public int? ProvinceId { get; set; }
+        
        
         public string? ContactNumber { get; set; }
 

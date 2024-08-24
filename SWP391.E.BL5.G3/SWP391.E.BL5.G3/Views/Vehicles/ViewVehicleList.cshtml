@@ -112,7 +112,7 @@
                             }
                             else
                             {
-                                <img src="" class="img-thumbnail" alt="@item.VehicleName" />
+                                <img src="@item.Image" class="img-thumbnail" alt="@item.VehicleName" />
                             }
                         </a>
                         <div class="rate">
@@ -133,7 +133,7 @@
                         </div>
                     </div>
                     <div class="item-child-details">
-                        <a asp-action="ViewRestaurantDetails" asp-route-id="@item.VehicleId" class="item-link-desc">
+                        <a asp-action="ViewVehicleDetails" asp-route-id="@item.VehicleId" class="item-link-desc">
                             <h3 class="item-child-headline overflow-ellipsis-two">
                                 @item.VehicleName
                             </h3>
@@ -161,7 +161,8 @@
                                 var role = ViewData["Role"]?.ToString();
                                 if (role == "Customer")
                                 {
-                                    <a asp-action="" asp-route-id="@item.VehicleId" class="btn btn-primary btn-lg">Book now</a>
+                                    <a asp-action="BookingVehicle" asp-route-vehicleId="@item.VehicleId" class="btn btn-primary btn-lg">Book now</a>
+
                                 }
                                 else
                                 {

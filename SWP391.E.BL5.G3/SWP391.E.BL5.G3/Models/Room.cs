@@ -9,11 +9,8 @@ namespace SWP391.E.BL5.G3.Models
         {
             Bookings = new HashSet<Booking>();
         }
-        [Key]
         public int RoomId { get; set; }
-
-        [Required]
-        public int HotelId { get; set; } // Required field
+        public int? HotelId { get; set; }
 
         [Required(ErrorMessage = "Price is required.")]
         [Range(0, double.MaxValue, ErrorMessage = "Price must be a positive number.")]
@@ -22,17 +19,9 @@ namespace SWP391.E.BL5.G3.Models
         public bool? Status { get; set; }  // Nullable field, can be null
         [StringLength(500, ErrorMessage = "Description cannot be longer than 500 characters.")]
         public string? Description { get; set; } // Nullable field, can be null
-
-   
         public string Image { get; set; } 
         // Navigation property
         public virtual Hotel Hotel { get; set; }
-
         public virtual ICollection<Booking> Bookings { get; set; }
-
-        [Required]
-        public int UserId { get; set; } // Required field
-
-        public virtual User User { get; set; }
     }
 }
