@@ -30,7 +30,7 @@ namespace SWP391.E.BL5.G3.Models
         public virtual Vehicle? Vehicle { get; set; }
 
         public virtual Room? Room { get; set; }
-        public int RoomId { get; set; }
+        public int? RoomId { get; set; }
 
         public virtual ICollection<Payment> Payments { get; set; }
 
