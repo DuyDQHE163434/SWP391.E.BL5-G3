@@ -77,12 +77,12 @@
                         <td class="input-group">
                             @if (booking.Status == 4)
                             {
-                                <a class="btn btn-sm btn-outline-info" asp-action="UserFeedback" asp-route-id="@booking.BookingId" title="Feedback">
+                                <a class="btn btn-sm btn-outline-info" asp-controller="Feedback" asp-action="UserFeedback" asp-route-id="@booking.BookingId" title="Feedback">
                                     <i class="fas fa-comments fa-sm"></i> Feedback
                                 </a>
                             } else
                             {
-                                <a class="btn btn-sm btn-secondary disabled" asp-action="UserFeedback" asp-route-id="@booking.BookingId" title="Feedback">
+                                <a class="btn btn-sm btn-secondary disabled" asp-controller="Feedback" asp-action="UserFeedback" asp-route-id="@booking.BookingId" title="Feedback">
                                     <i class="fas fa-comments fa-sm"></i> Feedback
                                 </a>
                             }

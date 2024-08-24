@@ -34,6 +34,9 @@ namespace SWP391.E.BL5.G3.Controllers
         [AllowAnonymous]
         public IActionResult Dashboard()
         {
+            var user = HttpContext.Items["User"] as User;
+            ViewBag.User = user;
+
             var today = DateTime.Today;
 
             // Today's Sales
@@ -166,7 +169,9 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         public IActionResult AddTourGuide(List<string> FirstNames, List<string> LastNames, List<string> Emails, List<string> PhoneNumbers, List<string> Descriptions)
         {
-           
+            var user = HttpContext.Items["User"] as User;
+            ViewBag.User = user;
+
             if (FirstNames != null && FirstNames.Count > 0)
             {
                 for (int i = 0; i < FirstNames.Count; i++)
@@ -195,6 +200,8 @@ namespace SWP391.E.BL5.G3.Controllers
         [AllowAnonymous]
         public IActionResult CreateTourGuide()
         {
+            var user = HttpContext.Items["User"] as User;
+            ViewBag.User = user;
             return View();
         }
 
@@ -204,6 +211,9 @@ namespace SWP391.E.BL5.G3.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> CreateTourGuide([Bind("FirstName,LastName,PhoneNumber,Email,Description")] TourGuide tourGuide, IFormFile imageFile)
         {
+            var user = HttpContext.Items["User"] as User;
+            ViewBag.User = user;
+
             if (ModelState.IsValid)
             {
                 tourGuide.FirstName = tourGuide.FirstName?.Trim();
@@ -242,6 +252,9 @@ namespace SWP391.E.BL5.G3.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> EditTourGuide(int id)
         {
+            var user = HttpContext.Items["User"] as User;
+            ViewBag.User = user;
+
             var tourGuide = await _traveltestContext.TourGuides.FindAsync(id);
             if (tourGuide == null)
             {
@@ -255,6 +268,9 @@ namespace SWP391.E.BL5.G3.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> EditTourGuide([Bind("TourGuideId,FirstName,LastName,PhoneNumber,Email,Description,Image,Rate")] TourGuide tourGuide, IFormFile? imageFile)
         {
+            var user = HttpContext.Items["User"] as User;
+            ViewBag.User = user;
+
             if (ModelState.IsValid)
             {
                 var existingTourGuide = await _traveltestContext.TourGuides.FindAsync(tourGuide.TourGuideId);
@@ -304,6 +320,9 @@ namespace SWP391.E.BL5.G3.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> TourGuideManagement(string searchQuery, int page = 1, int pageSize = 1)
         {
+            var user = HttpContext.Items["User"] as User;
+            ViewBag.User = user;
+
             var query = _traveltestContext.TourGuides.AsQueryable();
 
             if (!string.IsNullOrEmpty(searchQuery))
@@ -358,6 +377,9 @@ namespace SWP391.E.BL5.G3.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> FeedbackManagement(string searchQuery, int page = 1, int pageSize = 3)
         {
+            var user = HttpContext.Items["User"] as User;
+            ViewBag.User = user;
+
             var query = _traveltestContext.Feedbacks
                 .Include(f => f.User); // Include the User information
 
@@ -408,6 +430,9 @@ namespace SWP391.E.BL5.G3.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ReplyFeedback(int id)
         {
+            var user = HttpContext.Items["User"] as User;
+            ViewBag.User = user;
+
             var feedback = _traveltestContext.Feedbacks.FirstOrDefault(f => f.FeedbackId == id);
 
             if (feedback == null)
@@ -415,7 +440,7 @@ namespace SWP391.E.BL5.G3.Controllers
                 return NotFound();
             }
 
-            var user = _traveltestContext.Users.FirstOrDefault(u => u.UserId == feedback.UserId);
+            var user_1 = _traveltestContext.Users.FirstOrDefault(u => u.UserId == feedback.UserId);
 
             if (user == null)
             {
@@ -425,9 +450,9 @@ namespace SWP391.E.BL5.G3.Controllers
             var viewModel = new ReplyFeedbackViewModel
             {
                 Feedback = feedback,
-                UserAvatar = user.Image,
-                UserFirstName = user.FirstName,
-                UserLastName = user.LastName
+                UserAvatar = user_1.Image,
+                UserFirstName = user_1.FirstName,
+                UserLastName = user_1.LastName
             };
 
             return View(viewModel);
@@ -437,6 +462,9 @@ namespace SWP391.E.BL5.G3.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ReplyFeedback(ReplyFeedbackViewModel model)
         {
+            var user = HttpContext.Items["User"] as User;
+            ViewBag.User = user;
+
             var u = (User)HttpContext.Items["User"];
 
             var replyFeedback = new Feedback();
@@ -466,6 +494,9 @@ namespace SWP391.E.BL5.G3.Controllers
         
         public IActionResult RequestUnaccept(int id, string email)
         {
+            var user = HttpContext.Items["User"] as User;
+            ViewBag.User = user;
+
             DAO dal = new DAO();
             string fromEmail = "duydqhe163434@fpt.edu.vn";
             string toEmail = email;
@@ -586,6 +617,9 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         public IActionResult ImportTourGuide(IFormFile file)
         {
+
+            var user = HttpContext.Items["User"] as User;
+            ViewBag.User = user;
 
             if (file == null || file.Length == 0)
             {
