@@ -307,7 +307,7 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 try
                 {
-                    restaurant.UserId = restaurant.UserId;
+                    restaurant.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
                     var uploadedImageURLS = new List<string>();
 

@@ -105,7 +105,7 @@ namespace SWP391.E.BL5.G3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTour([Bind("Name,Description,Price,ProvinceId,UserId")] Tour tour, IFormFile image)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 tour.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -176,7 +176,7 @@ namespace SWP391.E.BL5.G3.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {
