@@ -14,15 +14,9 @@ namespace SWP391.E.BL5.G3.Models
 
         public int VehicleId { get; set; }
 
-      
-        
-        
-
         public string VehicleName { get; set; } = null!;
         public string? Image { get; set; }
         public string? Location { get; set; }
-
-       
 
         public int? ProvinceId { get; set; }
 
@@ -41,14 +35,6 @@ namespace SWP391.E.BL5.G3.Models
         public DateTime? CreatedAt { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}")]
         public DateTime? UpdatedAt { get; set; }
-
-        
-
-
-    
-
-        
-
 
         public int? UserId { get; set; }
 

@@ -102,7 +102,14 @@
                         @Html.DisplayFor(modelItem => item.VehicleName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Image)
+                        @if (item.Image == null)
+                        {
+                            <img src="https://cdn.otstatic.com/legacy-cw/default2-original.png" class="img-thumbnail" alt="@item.VehicleName" style="width: 100px; height: 100px;" />
+                        }
+                        else
+                        {
+                            <img src="@item.Image" class="img-thumbnail" alt="@item.VehicleName" style="width: 100px; height: 100px;" />
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Location)
