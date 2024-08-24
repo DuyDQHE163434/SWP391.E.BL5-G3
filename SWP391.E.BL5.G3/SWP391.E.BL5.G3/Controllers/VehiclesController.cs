@@ -101,7 +101,12 @@ namespace SWP391.E.BL5.G3.Controllers
             var vehicles = _context.Vehicles
                     .Include(item => item.Province)
                     .ToList();
-
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            if(int.Parse(role) == (int)RoleEnum.Travel_Agent)
+            {
+                var userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                vehicles = vehicles.Where(x => x.UserId == int.Parse(userID)).ToList();
+            }
             if (searchString != null)
             {
                 page = 1;
@@ -124,7 +129,7 @@ namespace SWP391.E.BL5.G3.Controllers
             int pageSize = 10;
             int pageNumber = (page ?? 1);
 
-            var totalItems = _context.Restaurants.Count();
+            var totalItems = _context.Vehicles.Count();
             var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
 
             pageNumber = pageNumber < 1 ? 1 : pageNumber;

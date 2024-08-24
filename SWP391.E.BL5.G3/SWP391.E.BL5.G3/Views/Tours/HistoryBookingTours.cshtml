@@ -75,10 +75,14 @@
                             }
                         </td>
                         <td class="input-group">
-                            <!-- Hiển thị nút Feedback chỉ nếu status là Done -->
                             @if (booking.Status == 4)
                             {
                                 <a class="btn btn-sm btn-outline-info" asp-action="UserFeedback" asp-route-id="@booking.BookingId" title="Feedback">
+                                    <i class="fas fa-comments fa-sm"></i> Feedback
+                                </a>
+                            } else
+                            {
+                                <a class="btn btn-sm btn-secondary disabled" asp-action="UserFeedback" asp-route-id="@booking.BookingId" title="Feedback">
                                     <i class="fas fa-comments fa-sm"></i> Feedback
                                 </a>
                             }
