@@ -102,7 +102,6 @@ namespace SWP391.E.BL5.G3.Controllers
 
                     // Cập nhật trạng thái phòng và UserId trong Room
                     room.Status = true;
-                    room.UserId = (int)booking.UserId;
                     _context.Rooms.Update(room);
 
                     // Lưu tất cả các thay đổi vào cơ sở dữ liệu

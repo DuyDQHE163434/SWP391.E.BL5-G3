@@ -23,7 +23,6 @@ namespace SWP391.E.BL5.G3.Models
         public virtual DbSet<CuisineType> CuisineTypes { get; set; }
         public virtual DbSet<District> Districts { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
-
         public virtual DbSet<Feedback> Feedbacks { get; set; }
         public virtual DbSet<Hotel> Hotels { get; set; }
         public virtual DbSet<Payment> Payments { get; set; } = null!;
@@ -169,6 +168,8 @@ namespace SWP391.E.BL5.G3.Models
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.Rating).HasColumnType("decimal(18, 2)");
 
                 entity.HasOne(d => d.Province)
                     .WithMany(p => p.Hotels)
@@ -398,10 +399,6 @@ namespace SWP391.E.BL5.G3.Models
                 entity.HasKey(e => e.RoomId);
                 entity.Property(e => e.RoomId).ValueGeneratedOnAdd();
 
-
-                entity.Property(e => e.HotelId)
-                    .IsRequired();
-
                 entity.Property(e => e.Price)
                     .HasColumnType("decimal(18, 2)")
                     .IsRequired();
@@ -416,10 +413,6 @@ namespace SWP391.E.BL5.G3.Models
 
                 entity.Property(e => e.Status)
                     .IsRequired();
-
-                entity.Property(e => e.UserId)
-                    .IsRequired();
-
 
                 entity.HasOne(d => d.Hotel)
                     .WithMany(p => p.Rooms)

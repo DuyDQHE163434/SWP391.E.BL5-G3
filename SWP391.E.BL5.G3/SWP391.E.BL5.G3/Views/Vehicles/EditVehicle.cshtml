@@ -1,0 +1,136 @@
+﻿@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@model SWP391.E.BL5.G3.Models.Vehicle
+
+@{
+    ViewData["Title"] = "Edit " + Model.VehicleName;
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<style>
+
+    .control-label {
+        font-weight: bold;
+    }
+
+</style>
+
+<div class="mt-4 d-flex flex-column">
+
+    <h1 class="text-center mb-4">Add a new Vehicle</h1>
+
+    <div class="card shadow-lg p-4">
+
+        <form asp-action="EditVehicle" enctype="multipart/form-data">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="VehicleId" />
+
+            <div class="form-group">
+                <label asp-for="VehicleName" class="control-label">Vehicle Name:</label>
+                <input asp-for="VehicleName" class="form-control" />
+                <span asp-validation-for="VehicleName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="imageFile" class="control-label">Image:</label>
+                <input type="file" class="form-control" id="imageFile" name="imageFile" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Location" class="control-label">Location:</label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ProvinceId" class="control-label">Province:</label>
+                <select asp-for="ProvinceId" class="form-control" asp-items="ViewBag.Province">
+                    <option value="">-- Select Province --</option>
+                </select>
+                <span asp-validation-for="ProvinceId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ContactNumber" class="control-label">Contact Number:</label>
+                <input asp-for="ContactNumber" class="form-control" />
+                <span asp-validation-for="ContactNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="VehicleSupplier" class="control-label">Vehicle Supplier:</label>
+                <input asp-for="VehicleSupplier" class="form-control" />
+                <span asp-validation-for="VehicleSupplier" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Transmission" class="control-label">Transmission:</label>
+                <select asp-for="Transmission" class="form-control">
+                    <option value="">Select Type</option>
+                    <option value="True">AUTOMATIC</option>
+                    <option value="False">MANUAL</option>
+                </select>
+                <span asp-validation-for="Transmission" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="VehicleType" class="control-label">Vehicle Type:</label>
+                <select asp-for="VehicleType" class="form-control">
+                    <option value="">Select Type</option>
+                    <option value="1">City Car</option>
+                    <option value="2">Compact MPV</option>
+                    <option value="3">SUV</option>
+                </select>
+                <span asp-validation-for="VehicleType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="BaggageNumber" class="control-label">Number of Baggage:</label>
+                <input asp-for="BaggageNumber" class="form-control" />
+                <span asp-validation-for="BaggageNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NumberOfSeats" class="control-label">Number of Seats:</label>
+                <input asp-for="NumberOfSeats" class="form-control" />
+                <span asp-validation-for="NumberOfSeats" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Price" class="control-label">Price:</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status" class="control-label">Status:</label>
+                <select asp-for="Status" class="form-control">
+                    <option value="">-- Select Status --</option>
+                    <option value="1">Có sẵn</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Description:</label>
+                <textarea asp-for="Description" rows="8" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="text-center mt-4 d-flex flex-column">
+                <input type="submit" value="Update" class="btn btn-primary btn-lg" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="text-center mt-4 d-flex flex-column">
+    <a asp-action="ListVehicles" class="btn btn-primary btn-lg">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
