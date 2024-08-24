@@ -8,6 +8,7 @@
 @{
     ViewData["Title"] = "Hotel Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var role = ViewData["Role"]?.ToString();
 }
 
 <style>
@@ -114,7 +115,7 @@
         </dd>
 
         <dt class="col-sm-2">Price:</dt>
-        <dd class="col-sm-10">@Model.Price?.ToString("C")</dd>
+        <dd class="col-sm-10">@Model.Price?.ToString("C0", new CultureInfo("vi-VN"))</dd>
 
         <dt class="col-sm-2">Booking Count:</dt>
         <dd class="col-sm-10">@Model.BookingCount</dd>
@@ -150,7 +151,7 @@
         {
             <tr>
                 <td>@room.RoomId</td>
-                <td>@room.Price?.ToString("C")</td>
+                <td>@room.Price?.ToString("C0", new CultureInfo("vi-VN"))</td>
                 <td>@(room.Status == true ? "Available" : "Booked")</td>
                 <td>
                     @if (!string.IsNullOrEmpty(room.Image))
@@ -162,23 +163,35 @@
                         <p>No Image</p>
                     }
                 </td>
+                <td>@room.Description</td>
+
                 <td>
                     <a asp-controller="Room" asp-action="DetailsRoom" asp-route-id="@room.RoomId" class="btn btn-info">Detail</a>
-                    <a asp-controller="Room" asp-action="EditRoom" asp-route-id="@room.RoomId" class="btn btn-warning">Edit</a>
-                    <form asp-controller="Room" asp-action="Delete" asp-route-id="@room.RoomId" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                    @{
+                        if (role == "Admin" || role == "Travel_Agent")
+                        {
+                            <a asp-controller="Room" asp-action="EditRoom" asp-route-id="@room.RoomId" class="btn btn-warning">Edit</a>
+                            <form asp-controller="Room" asp-action="Delete" asp-route-id="@room.RoomId" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        }
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
+@{
+    if (role == "Admin" || role == "Travel_Agent")
+    {
+        <div class="action-buttons">
+            
 
-<div class="action-buttons">
+            <a asp-action="Edit" asp-route-id="@Model.HotelId" class="btn btn-warning">Edit Hotel</a>
+
+            <a asp-controller="Room" asp-action="CreateRoom" asp-route-hotelId="@Model.HotelId" class="btn btn-success">Add New Room</a>
+        </div>
+    }
         <a asp-action="Index" class="btn btn-primary">Back to List</a>
-   
-        <a asp-action="Edit" asp-route-id="@Model.HotelId" class="btn btn-warning">Edit Hotel</a>
-
-        <a asp-controller="Room" asp-action="CreateRoom" asp-route-hotelId="@Model.HotelId" class="btn btn-success">Add New Room</a>
-
-</div>
+    
+}

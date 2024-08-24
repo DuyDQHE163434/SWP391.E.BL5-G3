@@ -2,11 +2,11 @@
 @using SWP391.E.BL5.G3.Enum
 @model IEnumerable<SWP391.E.BL5.G3.Models.Hotel>
 @using SWP391.E.BL5.G3.ViewModels
-
+@using System.Globalization
 
 @{
     ViewData["Title"] = "List of Hotels";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
     var currentFilter = ViewData["CurrentFilter"]?.ToString() ?? "None";
     var currentSearch = ViewData["CurrentSearch"]?.ToString() ?? string.Empty;
 }
@@ -54,15 +54,31 @@
     .img-thumbnail {
         border-radius: 0.25rem;
     }
+
+    .btn-group .btn {
+        margin-right: 0.5rem;
+    }
+
+    .filter-search-container .input-group {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .filter-search-container .form-control {
+        width: auto;
+        flex-grow: 1;
+    }
+
+    .filter-search-container .btn {
+        flex-shrink: 0;
+    }
 </style>
-
-
-
-
 
 <h1>List of Hotels</h1>
 
-
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Hotel</a>
+</p>
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -78,20 +94,16 @@
 }
 
 <div class="filter-search-container mb-4">
-    <form asp-controller="Hotels" asp-action="Index" method="get" class="form-inline">
-        <div class="form-group mb-2">
-            <input type="text" name="searchString" value="@currentSearch" placeholder="Search by hotel name..." class="form-control" />
-        </div>
-        <div class="form-group mx-sm-3 mb-2">
-            @Html.DropDownList("filter", new SelectList(new[]
-                     {
-            new { Value = "None", Text = "None" },
-            new { Value = "HighestPrice", Text = "Highest Price" },
-            new { Value = "LowestPrice", Text = "Lowest Price" },
-            new { Value = "MostBooked", Text = "Most Booked" }
-            }, "Value", "Text", currentFilter), new { @class = "form-control", onchange = "this.form.submit()" })
-        </div>
-        <button type="submit" class="btn btn-primary mb-2">Search</button>
+    <form asp-controller="Hotels" asp-action="Index" method="get" class="input-group">
+        <input type="text" name="searchString" value="@currentSearch" placeholder="Search by hotel name..." class="form-control" />
+        @Html.DropDownList("filter", new SelectList(new[]
+                 {
+        new { Value = "None", Text = "None" },
+        new { Value = "HighestPrice", Text = "Highest Price" },
+        new { Value = "LowestPrice", Text = "Lowest Price" },
+        new { Value = "MostBooked", Text = "Most Booked" }
+        }, "Value", "Text", currentFilter), new { @class = "form-control", onchange = "this.form.submit()" })
+        <button type="submit" class="btn btn-primary">Search</button>
     </form>
 </div>
 
@@ -126,15 +138,12 @@
                         <span>No Image</span>
                     }
                 </td>
-                <td>@(item.Price.HasValue ? item.Price.Value.ToString("C") : "N/A")</td>
+                <td>@(item.Price?.ToString("C0", new CultureInfo("vi-VN")))</td>
                 <td>@(item.Status ? "Active" : "Inactive")</td>
                 <td>
                     <div class="btn-group">
-
-                       
-
+                        
                         <a asp-action="Details" asp-route-id="@item.HotelId" class="btn btn-info btn-sm">Details</a>
-
                     </div>
                 </td>
             </tr>

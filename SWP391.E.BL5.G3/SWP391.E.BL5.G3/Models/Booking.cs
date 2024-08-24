@@ -8,6 +8,7 @@ namespace SWP391.E.BL5.G3.Models
         public int BookingId { get; set; }
         public int? UserId { get; set; }
         public string? Name { get; set; }
+
         public string? Phone { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

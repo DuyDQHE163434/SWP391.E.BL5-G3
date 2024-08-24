@@ -2,26 +2,50 @@
 
 @{
     ViewData["Title"] = "Booking Confirmation";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container mt-5">
+    <h1 class="mb-4">@ViewData["Title"]</h1>
 
-<div>
     <div class="alert alert-success">
         <strong>Success!</strong> Your booking has been created successfully.
     </div>
 
-    <div>
-        <h3>Booking Details</h3>
-        <p><strong>Booking ID:</strong> @Model.BookingId</p>
-        <p><strong>Hotel ID:</strong> @Model.HotelId</p>
-        <p><strong>Room ID:</strong> @Model.RoomId</p>
-        <p><strong>Name:</strong> @Model.Name</p>
-        <p><strong>Phone:</strong> @Model.Phone</p>
-        <p><strong>Start Date:</strong> @(Model.StartDate.HasValue ? Model.StartDate.Value.ToShortDateString() : "N/A")</p>
-        <p><strong>End Date:</strong> @(Model.EndDate.HasValue ? Model.EndDate.Value.ToShortDateString() : "N/A")</p>
-        <p><strong>Number of People:</strong> @Model.NumPeople</p>
-        <p><strong>Message:</strong> @Model.Message</p>
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Booking Details</h3>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Booking ID:</dt>
+                <dd class="col-sm-9">@Model.BookingId</dd>
+
+                <dt class="col-sm-3">Hotel ID:</dt>
+                <dd class="col-sm-9">@Model.HotelId</dd>
+
+                <dt class="col-sm-3">Room ID:</dt>
+                <dd class="col-sm-9">@Model.RoomId</dd>
+
+                <dt class="col-sm-3">Name:</dt>
+                <dd class="col-sm-9">@Model.Name</dd>
+
+                <dt class="col-sm-3">Phone:</dt>
+                <dd class="col-sm-9">@Model.Phone</dd>
+
+                <dt class="col-sm-3">Start Date:</dt>
+                <dd class="col-sm-9">@(Model.StartDate.HasValue ? Model.StartDate.Value.ToShortDateString() : "N/A")</dd>
+
+                <dt class="col-sm-3">End Date:</dt>
+                <dd class="col-sm-9">@(Model.EndDate.HasValue ? Model.EndDate.Value.ToShortDateString() : "N/A") </dd>
+
+                <dt class="col-sm-3">Number of People:</dt>
+                <dd class="col-sm-9">@Model.NumPeople</dd>
+
+                <dt class="col-sm-3">Message:</dt>
+                <dd class="col-sm-9">@Model.Message</dd>
+            </dl>
+        </div>
+        
     </div>
 </div>

@@ -16,9 +16,8 @@
     </ul>
 }
 
-<form asp-action="Create" method="post">
+<form id="bookingForm" asp-action="Create" method="post">
     @Html.AntiForgeryToken()
-
 
     <div class="form-group">
         <label asp-for="Name" class="control-label"></label>
@@ -62,3 +61,23 @@
 
     <button type="submit" class="btn btn-primary">Book Room</button>
 </form>
+
+<script>
+    document.getElementById("bookingForm").addEventListener("submit", function (event) {
+        var startDate = new Date(document.querySelector("input[name='StartDate']").value);
+        var endDate = new Date(document.querySelector("input[name='EndDate']").value);
+
+        if (endDate <= startDate) {
+            event.preventDefault(); // Ngăn chặn gửi biểu mẫu
+            alert("Ngày kết thúc phải lớn hơn ngày bắt đầu."); // Hiển thị thông báo lỗi
+            var phonePattern = /^\d{10}$/; // Mẫu để kiểm tra số điện thoại có đúng 10 chữ số
+
+            if (endDate <= startDate) {
+                event.preventDefault(); // Ngăn chặn gửi biểu mẫu
+                alert("Ngày kết thúc phải lớn hơn ngày bắt đầu."); // Hiển thị thông báo lỗi
+            } else if (!phonePattern.test(phone)) {
+                event.preventDefault(); // Ngăn chặn gửi biểu mẫu
+                alert("Số điện thoại phải có đúng 10 chữ số."); // Hiển thị thông báo lỗi
+        }
+    });
+</script>

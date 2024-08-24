@@ -6,33 +6,99 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
+<style>
+    .room-details-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-<div>
-    <dl class="row">
-        <dt class="col-sm-2">Room ID</dt>
-        <dd class="col-sm-10">@Model.RoomId</dd>
+        .room-details-container h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-        <dt class="col-sm-2">Hotel ID</dt>
-        <dd class="col-sm-10">@Model.HotelId</dd>
+        .room-details-container dl {
+            margin-bottom: 20px;
+        }
 
-        <dt class="col-sm-2">Price</dt>
-        <dd class="col-sm-10">@Model.Price?.ToString("C0", new CultureInfo("vi-VN"))</dd>
+        .room-details-container dt {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+        }
 
-        <dt class="col-sm-2">Status</dt>
-        <dd class="col-sm-10">@(@Model.Status == true ? "Booked" : "Available")</dd>
+        .room-details-container dd {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: #555;
+        }
 
-        <dt class="col-sm-2">Image</dt>
-        <dd class="col-sm-10">
-            <img src="@Model.Image" alt="Hotel Image" class="img-thumbnail" style="max-width: 100px; height: auto;" />
-        </dd>
+        .room-details-container img {
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
 
-        <dt class="col-sm-2">Description</dt>
-        <dd class="col-sm-10">@Model.Description</dd>
-    </dl>
+    .room-details-actions {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn-custom {
+        font-size: 1rem;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-transform: uppercase;
+    }
+
+    .btn-primary-custom {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-success-custom {
+        background-color: #28a745;
+        border-color: #28a745;
+        color: #fff;
+    }
+</style>
+
+<div class="room-details-container">
+    <h1>@ViewData["Title"]</h1>
+
+    <div>
+        <dl class="row">
+            <dt class="col-sm-3">Room ID</dt>
+            <dd class="col-sm-9">@Model.RoomId</dd>
+
+            <dt class="col-sm-3">Hotel ID</dt>
+            <dd class="col-sm-9">@Model.RoomId</dd>
+
+            <dt class="col-sm-3">Price</dt>
+            <dd class="col-sm-9">@Model.Price?.ToString("C0", new CultureInfo("vi-VN"))</dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@(@Model.Status == true ? "Booked" : "Available")</dd>
+
+            <dt class="col-sm-3">Image</dt>
+            <dd class="col-sm-9">
+                <img src="@Model.Image" alt="Room Image" class="img-thumbnail" />
+            </dd>
+
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">@Model.Description</dd>
+        </dl>
+    </div>
+
+    <div class="room-details-actions">
+        <a asp-controller="Hotels" asp-action="Details" asp-route-id="@Model.HotelId" class="btn btn-primary-custom btn-custom">Back to List</a>
+        <a asp-controller="Booking" asp-action="Create" asp-route-hotelId="@Model.HotelId" asp-route-roomId="@Model.RoomId" class="btn btn-success-custom btn-custom">Book Now</a>
+    </div>
 </div>
-
-<p>
-    <a asp-controller="Hotels" asp-action="Details" asp-route-id="@Model.HotelId" class="btn btn-primary">Back to List</a>
-    <a asp-controller="Booking" asp-action="Create" asp-route-hotelId="@Model.HotelId" asp-route-roomId="@Model.RoomId" class="btn btn-success">Book Now</a>
-</p>
