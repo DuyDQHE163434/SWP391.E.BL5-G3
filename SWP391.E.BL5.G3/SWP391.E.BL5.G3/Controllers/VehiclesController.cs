@@ -1,4 +1,5 @@
 ﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -173,14 +174,38 @@ namespace SWP391.E.BL5.G3.Controllers
         [HttpPost]
         //[AllowAnonymous]
         [Authorize(RoleEnum.Admin, RoleEnum.Travel_Agent)]
-        public IActionResult AddVehicle(Vehicle vehicle)
+        public IActionResult AddVehicle(Vehicle vehicle, IFormFile imageFile)
         {
             if (ModelState.IsValid)
             {
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        imageFile.CopyTo(stream);
+                        stream.Position = 0;
+
+                        var imageUpload = new ImageUploadParams()
+                        {
+                            File = new FileDescription(imageFile.FileName, stream)
+                        };
+
+                        var uploadResult = _cloudinary.Upload(imageUpload);
+                        vehicle.Image = uploadResult.SecureUrl.ToString();
+                    }
+
+                    
+                }
+
+                vehicle.Rating = 5;
+                vehicle.CreatedAt = DateTime.Now;
+                vehicle.UpdatedAt = vehicle.CreatedAt;
+
                 _context.Add(vehicle);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(ListVehicles));
             }
+
             var provinces = _context.Provinces.ToList();
             ViewData["Province"] = new SelectList(provinces, "ProvinceId", "ProvinceName");
             return View(vehicle);

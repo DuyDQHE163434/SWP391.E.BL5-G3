@@ -21,7 +21,7 @@
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Number</th>
-                <th>Tour</th>
+                <th>Booking</th>
                 <th>Note</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -36,7 +36,18 @@
                     <td>@booking.StartDate.GetValueOrDefault().ToString("dd/MM/yyyy")</td>
                     <td>@booking.EndDate.GetValueOrDefault().ToString("dd/MM/yyyy")</td>
                     <td>@booking.NumPeople</td>
-                    <td>@booking.Tour?.Name</td>
+                    @if (booking.TourId == null && booking.RestaurantId != null)
+                    {
+                        <td>@booking.Restaurant?.RestaurantName</td>
+                    }
+                    @if (booking.TourId != null && booking.RestaurantId != null)
+                    {
+                        <td>@booking.Tour?.Name and RestaurantName = @booking.Restaurant?.RestaurantName</td>
+                    }
+                    @if (booking.TourId != null && booking.RestaurantId == null)
+                    {
+                        <td>@booking.Tour?.Name</td>
+                    }
                     <td>@booking.Message</td>
                     <td>
                         @{

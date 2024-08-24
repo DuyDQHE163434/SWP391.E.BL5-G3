@@ -403,6 +403,7 @@ namespace SWP391.E.BL5.G3.Controllers
             var bookings = await _context.Bookings
                 .Where(b => b.UserId.ToString() == userId && (b.Status == (int)BookingStatusEnum.Pending || b.Status == (int)BookingStatusEnum.Confirmed))
                 .Include(b => b.Tour) // Bao gồm thông tin tour
+                .Include(b => b.Restaurant)
                 .ToListAsync();
 
             return View("MyBookingTours", bookings); // Trả về view với danh sách bookings

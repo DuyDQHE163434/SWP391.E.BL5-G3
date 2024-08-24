@@ -420,6 +420,42 @@ namespace SWP391.E.BL5.G3.Controllers
 
         // Being fixed
         // Book a restaurant
+        //[Authorize(RoleEnum.Customer)]
+        //public IActionResult BookRestaurant(int id)
+        //{
+        //    var restaurant = _context.Restaurants.Find(id);
+
+        //    if (restaurant == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var booking = new Booking
+        //    {
+        //        RestaurantId = id
+        //    };
+
+        //    return View(booking);
+        //}
+
+        //[HttpPost]
+        //[Authorize(RoleEnum.Customer)]
+        //public IActionResult BookRestaurant(Booking booking)
+        //{
+        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        booking.UserId = Convert.ToInt32(userId);
+        //        booking.Status = (int)BookingStatusEnum.Pending;
+
+        //        _context.Bookings.Add(booking);
+        //        return RedirectToAction(nameof(ViewRestaurantList));
+        //    }
+
+        //    return View(booking);
+        //}
+
         [Authorize(RoleEnum.Customer)]
         public IActionResult BookRestaurant(int id)
         {
@@ -430,30 +466,46 @@ namespace SWP391.E.BL5.G3.Controllers
                 return NotFound();
             }
 
+            // Tạo một đối tượng booking mới mặc định
             var booking = new Booking
             {
                 RestaurantId = id
             };
+
+            // Truyền tên nhà hàng vào ViewBag để hiển thị trong view
+            ViewBag.RestaurantName = restaurant.RestaurantName;
 
             return View(booking);
         }
 
         [HttpPost]
         [Authorize(RoleEnum.Customer)]
-        public IActionResult BookRestaurant(Booking booking)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BookRestaurant([Bind("Name,Phone,StartDate,EndDate,NumPeople,Message,RestaurantId")] Booking booking)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Lấy UserId từ Claims
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                // Gán UserId và trạng thái cho booking
                 booking.UserId = Convert.ToInt32(userId);
-                booking.Status = (int)BookingStatusEnum.Pending;
+                booking.Status = (int)BookingStatusEnum.Pending; // Trạng thái ban đầu
+                booking.EndDate = booking.StartDate;
 
+                // Lưu vào cơ sở dữ liệu
                 _context.Bookings.Add(booking);
-                return RedirectToAction(nameof(ViewRestaurantList));
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Đặt bàn thành công!"; // Thông báo thành công
+                return RedirectToAction("ViewRestaurantList"); // Chuyển hướng về danh sách nhà hàng
             }
 
-            return View(booking);
+            // Nếu model không hợp lệ, truyền lại thông tin nhà hàng vào ViewBag
+            ViewBag.RestaurantName = _context.Restaurants.Find(booking.RestaurantId)?.RestaurantName;
+
+            return View(booking); // Trả lại thông tin booking và nhà hàng
         }
+
+
     }
 }
