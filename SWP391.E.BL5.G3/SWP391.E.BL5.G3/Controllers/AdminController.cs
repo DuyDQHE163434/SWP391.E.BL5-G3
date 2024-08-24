@@ -68,6 +68,7 @@ namespace SWP391.E.BL5.G3.Controllers
 
             // Fetch feedback ratings
             var feedbackData = _traveltestContext.Feedbacks
+                .Where(f => f.ParentId == null)
                 .GroupBy(f => f.Rating)
                 .Select(g => new
                 {
@@ -328,11 +329,11 @@ namespace SWP391.E.BL5.G3.Controllers
             if (!string.IsNullOrEmpty(searchQuery))
             {
                 query = query.Where(tg =>
-                    tg.Email.Contains(searchQuery) ||
-                    tg.FirstName.Contains(searchQuery) ||
-                    tg.LastName.Contains(searchQuery) ||
-                    (tg.FirstName + " " + tg.LastName).Contains(searchQuery) ||
-                    tg.PhoneNumber.Contains(searchQuery));
+                    tg.Email.Contains(searchQuery.Trim()) ||
+                    tg.FirstName.Contains(searchQuery.Trim()) ||
+                    tg.LastName.Contains(searchQuery.Trim()) ||
+                    (tg.FirstName + " " + tg.LastName).Contains(searchQuery.Trim()) ||
+                    tg.PhoneNumber.Contains(searchQuery.Trim()));
             }
 
             var tourGuides = await query.ToListAsync();
@@ -396,9 +397,9 @@ namespace SWP391.E.BL5.G3.Controllers
             if (!string.IsNullOrEmpty(searchQuery))
             {
                 allFeedbacks = allFeedbacks.Where(f => f.Content.Contains(searchQuery) ||
-                                                       f.User.FirstName.ToLower().Contains(searchQuery.ToLower()) ||
-                                                       f.User.LastName.ToLower().Contains(searchQuery.ToLower()) ||
-                                                       (f.User.FirstName.ToLower() + " " + f.User.LastName.ToLower()).Contains(searchQuery.ToLower())).ToList();
+                                                       f.User.FirstName.ToLower().Contains(searchQuery.ToLower().Trim()) ||
+                                                       f.User.LastName.ToLower().Contains(searchQuery.ToLower().Trim()) ||
+                                                       (f.User.FirstName.ToLower() + " " + f.User.LastName.ToLower()).Contains(searchQuery.ToLower().Trim())).ToList();
             }
 
             // Filter out feedbacks with EntityId = 6 for display
@@ -409,7 +410,7 @@ namespace SWP391.E.BL5.G3.Controllers
                 .Take(pageSize)
                 .ToList(); // Apply pagination
 
-            var totalItems = allFeedbacks.Count; // Total items before pagination
+            var totalItems = feedbacksToDisplay.Count; // Total items before pagination
 
             var pagedResult = new PagedResult<Feedback>
             {
@@ -442,17 +443,22 @@ namespace SWP391.E.BL5.G3.Controllers
 
             var user_1 = _traveltestContext.Users.FirstOrDefault(u => u.UserId == feedback.UserId);
 
-            if (user == null)
+            if (user_1 == null)
             {
                 return NotFound();
             }
+
+            // Check if there is an existing reply
+            var existingReply = _traveltestContext.Feedbacks.FirstOrDefault(f => f.ParentId == feedback.FeedbackId && f.UserId == user.UserId);
 
             var viewModel = new ReplyFeedbackViewModel
             {
                 Feedback = feedback,
                 UserAvatar = user_1.Image,
                 UserFirstName = user_1.FirstName,
-                UserLastName = user_1.LastName
+                UserLastName = user_1.LastName,
+                ReplyContent = existingReply?.Content.Trim() ?? "", // Populate existing reply content if it exists
+                Rating = existingReply?.Rating.ToString() ?? "0" // Populate existing rating if it exists
             };
 
             return View(viewModel);
@@ -465,33 +471,39 @@ namespace SWP391.E.BL5.G3.Controllers
             var user = HttpContext.Items["User"] as User;
             ViewBag.User = user;
 
-            var u = (User)HttpContext.Items["User"];
+            var existingReply = _traveltestContext.Feedbacks.FirstOrDefault(f => f.ParentId == model.Feedback.FeedbackId && f.UserId == user.UserId);
 
-            var replyFeedback = new Feedback();
-
-            if (!ModelState.IsValid)
+            if (existingReply != null)
             {
-                // Set the ParentId to the FeedbackId of the feedback being replied to
-                replyFeedback.ParentId = model.Feedback.FeedbackId;
-                replyFeedback.UserId = u.UserId;
-                replyFeedback.EntityId = 6;
-                replyFeedback.Content = model.ReplyContent;
-                replyFeedback.Rating = double.Parse(model.Rating);
-                replyFeedback.CreatedDate = DateTime.UtcNow;
-                replyFeedback.ModifiedDate = null; // or set the modified date if needed
+                // Update existing reply
+                existingReply.Content = model.ReplyContent;
+                existingReply.Rating = double.Parse(model.Rating);
+                existingReply.ModifiedDate = DateTime.Now;
 
-                // Add the new feedback to the database
+                _traveltestContext.Feedbacks.Update(existingReply);
+            }
+            else
+            {
+                // Create a new reply
+                var replyFeedback = new Feedback
+                {
+                    ParentId = model.Feedback.FeedbackId,
+                    UserId = user.UserId,
+                    EntityId = 6,
+                    Content = model.ReplyContent.Trim(),
+                    Rating = double.Parse(model.Rating),
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = null
+                };
+
                 _traveltestContext.Feedbacks.Add(replyFeedback);
-                await _traveltestContext.SaveChangesAsync();
-
-                // Redirect to the feedback management page or another appropriate page
-                return RedirectToAction("FeedbackManagement", new { page = 1 });
             }
 
-            // If the model state is invalid, return the view with the existing data to show validation errors
-            return View(replyFeedback);
+            await _traveltestContext.SaveChangesAsync();
+
+            return RedirectToAction("FeedbackManagement", new { page = 1 });
         }
-        
+
         public IActionResult RequestUnaccept(int id, string email)
         {
             var user = HttpContext.Items["User"] as User;
