@@ -161,7 +161,8 @@
                                 var role = ViewData["Role"]?.ToString();
                                 if (role == "Customer")
                                 {
-                                    <a asp-action="ViewVehicleList" asp-route-id="@item.VehicleId" class="btn btn-primary btn-lg">Book now</a>
+                                    <a asp-action="BookingVehicle" asp-route-vehicleId="@item.VehicleId" class="btn btn-primary btn-lg">Book now</a>
+
                                 }
                                 else
                                 {

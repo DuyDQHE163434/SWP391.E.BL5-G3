@@ -357,8 +357,6 @@ namespace SWP391.E.BL5.G3.Controllers
                 // Chuyển hướng về danh sách tour sau khi đặt
                 return RedirectToAction(nameof(ListTourForGuests));
             }
-
-
             // Nếu model không hợp lệ, trả lại tương ứng với thông tin đã nhập
             return View(booking);
         }
@@ -404,6 +402,7 @@ namespace SWP391.E.BL5.G3.Controllers
                 .Where(b => b.UserId.ToString() == userId && (b.Status == (int)BookingStatusEnum.Pending || b.Status == (int)BookingStatusEnum.Confirmed))
                 .Include(b => b.Tour) // Bao gồm thông tin tour
                 .Include(b => b.Restaurant)
+                .Include(b => b.Vehicle)
                 .ToListAsync();
 
             return View("MyBookingTours", bookings); // Trả về view với danh sách bookings
@@ -421,6 +420,8 @@ namespace SWP391.E.BL5.G3.Controllers
             var historyBookings = await _context.Bookings
                 .Where(b => b.UserId.ToString() == userId && (b.Status == (int)BookingStatusEnum.Done || b.Status == (int)BookingStatusEnum.Canceled))
                 .Include(b => b.Tour) // Bao gồm thông tin tour
+                .Include (b => b.Restaurant)
+                .Include(b => b.Vehicle)
                 .ToListAsync();
 
             return View("HistoryBookingTours", historyBookings); // Trả về view với danh sách bookings lịch sử
@@ -582,7 +583,7 @@ namespace SWP391.E.BL5.G3.Controllers
         public async Task<IActionResult> BookingTourInTravelAgent()
         {
 
-            List<Booking> booking = _context.Bookings.Include(b => b.Tour).Include(b => b.User).Where(x => x.Status == 2 || x.Status == 3 || x.Status == 4).ToList();
+            List<Booking> booking = _context.Bookings.Include(b => b.Tour).Include(b => b.User).Where(x => x.Status == 1 || x.Status == 2 || x.Status == 3 || x.Status == 4 ).ToList();
             ViewBag.Booking = booking;
 
             return View();

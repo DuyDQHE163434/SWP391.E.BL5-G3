@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWP391.E.BL5.G3.Authorization;
+using SWP391.E.BL5.G3.DTOs;
 using SWP391.E.BL5.G3.Enum;
 using SWP391.E.BL5.G3.Models;
 using System.Security.Claims;
@@ -325,5 +326,66 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             return (_context.Vehicles?.Any(item => item.VehicleId == id)).GetValueOrDefault();
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> BookingVehicle(int vehicleId)
+        {
+            var vehicle = await _context.Vehicles.FindAsync(vehicleId);
+            if (vehicle == null)
+            {
+                return NotFound(); // Trả về NotFound nếu xe không tồn tại
+            }
+
+            // Tạo một đối tượng booking mới
+            var bookingModel = new Booking
+            {
+                VehicleId = vehicleId, // Gán ID của xe vào booking
+            };
+
+            // Truyền giá của xe vào ViewBag để hiển thị trong view
+            ViewBag.Price = vehicle.Price; // Đảm bảo trường Price trong Vehicle không phải là null
+            ViewBag.MaxPeople = vehicle.NumberOfSeats; // Gán MaxPeople nếu có giới hạn
+
+            return View(bookingModel); // Trả về view với bookingModel
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BookingVehicle([Bind("Name,Phone,StartDate,EndDate,Message,VehicleId")] Booking booking)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Lấy UserId từ Claims
+            if (userId != null)
+            {
+                booking.UserId = Convert.ToInt32(userId); // Gán UserId từ Claims
+            }
+            else
+            {
+                ModelState.AddModelError("", "User is not logged in."); // Thêm lỗi nếu không có UserId
+                return View(booking); // Nếu không có UserId, trả lại view
+            }
+
+            if (!ModelState.IsValid)
+            {
+                // Gán trạng thái ban đầu cho booking
+                booking.Status = (int)BookingStatusEnum.Pending; // Trạng thái ban đầu
+
+                // Lưu vào cơ sở dữ liệu
+                _context.Bookings.Add(booking);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Đặt xe thành công!"; // Thông báo thành công
+                return RedirectToAction("ViewVehicleList"); // Chuyển hướng về danh sách xe
+            }
+
+            // Nếu model không hợp lệ, truyền lại giá xe vào ViewBag
+            ViewBag.Price = _context.Vehicles.Find(booking.VehicleId)?.Price; // Gán giá xe
+            ViewBag.MaxPeople = _context.Vehicles.Find(booking.VehicleId)?.NumberOfSeats; // Gán MaxPeople
+
+            return View(booking); // Trả lại thông tin booking và xe
+        }
+
+
     }
 }

@@ -1,0 +1,61 @@
+﻿@using System.Security.Claims
+@model SWP391.E.BL5.G3.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking Vehicle";
+    Layout = "/Views/Shared/_HomeLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+
+    <form asp-action="BookingVehicle" method="post" class="needs-validation" novalidate>
+        <input type="hidden" asp-for="VehicleId" />
+        <input type="hidden" asp-for="UserId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Name</label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Phone" class="control-label">Phone</label>
+            <input asp-for="Phone" class="form-control" required />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="StartDate" class="control-label">Start Date</label>
+            <input asp-for="StartDate" class="form-control" type="date" id="startDate" required min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EndDate" class="control-label">End Date</label>
+            <input asp-for="EndDate" class="form-control" type="date" id="endDate" required min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Total Price for 1 Day:</label>
+            <p id="vehiclePrice">@String.Format("{0:N0} VND", ViewBag.Price)</p> <!-- Hiển thị giá theo định dạng VND -->
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Message" class="control-label">Note</label>
+            <textarea asp-for="Message" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Booking</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
