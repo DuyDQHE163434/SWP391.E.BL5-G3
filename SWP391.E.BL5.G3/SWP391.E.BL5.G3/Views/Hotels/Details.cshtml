@@ -7,8 +7,10 @@
 
 @{
     ViewData["Title"] = "Hotel Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
     var role = ViewData["Role"]?.ToString();
+
 }
 
 <style>
@@ -185,13 +187,14 @@
     if (role == "Admin" || role == "Travel_Agent")
     {
         <div class="action-buttons">
-            
 
             <a asp-action="Edit" asp-route-id="@Model.HotelId" class="btn btn-warning">Edit Hotel</a>
 
             <a asp-controller="Room" asp-action="CreateRoom" asp-route-hotelId="@Model.HotelId" class="btn btn-success">Add New Room</a>
         </div>
+
     }
         <a asp-action="Index" class="btn btn-primary">Back to List</a>
     
+
 }

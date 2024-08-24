@@ -249,7 +249,7 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 try
                 {
-                    vehicle.UserId = vehicle.UserId;
+                    vehicle.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
                     if (imageFile != null && imageFile.Length > 0)
                     {
