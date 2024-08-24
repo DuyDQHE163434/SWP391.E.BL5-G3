@@ -55,16 +55,30 @@
     .img-thumbnail {
         border-radius: 0.25rem;
     }
+
+    .btn-group .btn {
+        margin-right: 0.5rem;
+    }
+
+    .filter-search-container .input-group {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .filter-search-container .form-control {
+        width: auto;
+        flex-grow: 1;
+    }
+
+    .filter-search-container .btn {
+        flex-shrink: 0;
+    }
 </style>
-
-
-
-
 
 <h1>List of Hotels</h1>
 
 <p>
-        <a asp-action="Create" class="btn btn-primary">Add New Hotel</a>
+    <a asp-action="Create" class="btn btn-primary">Add New Hotel</a>
 </p>
 
 @if (TempData["SuccessMessage"] != null)
@@ -81,6 +95,7 @@
 }
 
 <div class="filter-search-container mb-4">
+
     <form asp-controller="Hotels" asp-action="Index" method="get" class="form-inline">
         <div class="form-group mb-2">
             <input type="text" name="searchString" value="@currentSearch" placeholder="Search by hotel name..." class="form-control" />
@@ -95,6 +110,7 @@
             }, "Value", "Text", currentFilter), new { @class = "form-control", onchange = "this.form.submit()" })
         </div>
         <button type="submit" class="btn btn-primary mb-2">Search</button>
+
     </form>
 </div>
 
@@ -133,12 +149,9 @@
                 <td>@(item.Status ? "Active" : "Inactive")</td>
                 <td>
                     <div class="btn-group">
-                        
-                            <a asp-action="Edit" asp-route-id="@item.HotelId" class="btn btn-warning btn-sm">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@item.HotelId" class="btn btn-danger btn-sm">Delete</a>
-  
+                        <a asp-action="Edit" asp-route-id="@item.HotelId" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.HotelId" class="btn btn-danger btn-sm">Delete</a>
                         <a asp-action="Details" asp-route-id="@item.HotelId" class="btn btn-info btn-sm">Details</a>
-                        
                     </div>
                 </td>
             </tr>
