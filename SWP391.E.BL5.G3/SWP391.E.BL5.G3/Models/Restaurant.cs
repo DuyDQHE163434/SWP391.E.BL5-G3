@@ -16,15 +16,9 @@ namespace SWP391.E.BL5.G3.Models
 
         [Required(ErrorMessage = "Restaurant name cannot be empty.")]
 
-
-        
-
-
         public string RestaurantName { get; set; } = null!;
       
         public string? Location { get; set; }
-
-     
 
         public int? ProvinceId { get; set; }
 

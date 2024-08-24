@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SWP391.E.BL5.G3.Models
 {
@@ -7,8 +8,15 @@ namespace SWP391.E.BL5.G3.Models
     {
         public int BookingId { get; set; }
         public int? UserId { get; set; }
+
+        [Required(ErrorMessage = "Name is required.")]
         public string? Name { get; set; }
+
+        [Required(ErrorMessage = "Phone number is required.")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
         public string? Phone { get; set; }
+
+        [Required(ErrorMessage = "Start date is required.")]
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int? NumPeople { get; set; }
