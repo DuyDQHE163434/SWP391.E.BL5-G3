@@ -98,7 +98,17 @@
     </div>
 
     <div class="room-details-actions">
-        <a asp-controller="Hotels" asp-action="Details" asp-route-id="@Model.HotelId" class="btn btn-primary-custom btn-custom">Back to List</a>
-        <a asp-controller="Booking" asp-action="Create" asp-route-hotelId="@Model.HotelId" asp-route-roomId="@Model.RoomId" class="btn btn-success-custom btn-custom">Book Now</a>
+        @{
+            var role = ViewData["Role"]?.ToString();
+            if (role == "Customer")
+            {
+                <a asp-controller="Hotels" asp-action="Details" asp-route-id="@Model.HotelId" class="btn btn-primary-custom btn-custom">Back to List</a>
+                <a asp-controller="Booking" asp-action="Create" asp-route-hotelId="@Model.HotelId" asp-route-roomId="@Model.RoomId" class="btn btn-success-custom btn-custom">Book Now</a>
+            }
+            else
+            {
+                <a asp-controller="Hotels" asp-action="Details" asp-route-id="@Model.HotelId" class="btn btn-primary-custom btn-custom">Back to List</a>
+            }
+        }
     </div>
 </div>

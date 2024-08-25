@@ -210,6 +210,8 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 restaurant.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
+                restaurant.RestaurantName.Trim();
+
                 var uploadedImageURLS = new List<string>();
 
                 foreach (var fileImage in images)
@@ -307,6 +309,8 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 try
                 {
+                    restaurant.RestaurantName.Trim();
+
                     restaurant.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
                     var uploadedImageURLS = new List<string>();

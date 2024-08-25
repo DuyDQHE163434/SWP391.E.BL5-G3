@@ -125,7 +125,7 @@
     if (role == "Customer")
     {
         <div class="text-center mt-4 d-flex flex-column">
-            <a asp-action="ViewVehicleDetails" asp-route-id="@Model?.VehicleId" class="btn btn-primary btn-lg">Book now</a>
+            <a asp-action="BookingVehicle" asp-route-id="@Model?.VehicleId" class="btn btn-primary btn-lg">Book now</a>
         </div>
     }
     else
@@ -137,5 +137,5 @@
 }
 
 <div class="text-center mt-4 d-flex flex-column">
-    <a asp-action="ListVehicles" class="btn btn-primary btn-lg">Back to List</a>
+    <a asp-action="ViewVehicleList" class="btn btn-primary btn-lg">Back to List</a>
 </div>

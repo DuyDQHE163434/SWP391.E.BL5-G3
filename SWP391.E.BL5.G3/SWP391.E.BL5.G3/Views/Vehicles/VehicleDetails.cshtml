@@ -5,6 +5,28 @@
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<link href="~/Content/lightbox.min.css" rel="stylesheet" />
+<script src="~/Scripts/lightbox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+<style>
+
+    .star-rating {
+        align-items: center;
+        display: inline-flex;
+    }
+
+        .star-rating .fa-star,
+        .star-rating .fa-star-half-alt,
+        .star-rating .fa-star.far {
+            color: #FFD700;
+            font-size: 12px;
+        }
+
+</style>
+
 <h1>Details</h1>
 
 <div>
@@ -21,7 +43,7 @@
             @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Image)
+            <img src="@Model.Image" style="width:200px; height:auto;" />
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Location)
@@ -86,7 +108,35 @@
             @Html.DisplayNameFor(model => model.Rating)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Rating)
+            @if (Model.Rating != null)
+            {
+                <div class="star-rating">
+                    @{
+                        int fullStars = Model.Rating != null ? (int)Model.Rating : 0;
+                        int halfStars = (Model.Rating - fullStars) >= 0.5 ? 1 : 0;
+                        int emptyStars = 5 - fullStars - halfStars;
+                    }
+
+                    @for (int i = 0; i < fullStars; i++)
+                    {
+                        <i class="fas fa-star"></i>
+                    }
+
+                    @if (halfStars > 0)
+                    {
+                        <i class="fas fa-star-half-alt"></i>
+                    }
+
+                    @for (int i = 0; i < emptyStars; i++)
+                    {
+                        <i class="far fa-star"></i>
+                    }
+                </div>
+            }
+            else
+            {
+                <p>N/A</p>
+            }
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Status)
