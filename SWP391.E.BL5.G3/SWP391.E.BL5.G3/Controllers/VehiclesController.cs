@@ -101,6 +101,7 @@ namespace SWP391.E.BL5.G3.Controllers
             var vehicles = _context.Vehicles
                     .Include(item => item.Province)
                     .ToList();
+
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
             if(int.Parse(role) == (int)RoleEnum.Travel_Agent)
