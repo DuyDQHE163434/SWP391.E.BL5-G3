@@ -37,13 +37,13 @@
 
             <div class="form-group">
                 <label asp-for="Location" class="control-label">Location:</label>
-                <input asp-for="Location" class="form-control" />
+                <input asp-for="Location" class="form-control" required />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="ProvinceId" class="control-label">Province:</label>
-                <select asp-for="ProvinceId" class="form-control" asp-items="ViewBag.Province">
+                <select asp-for="ProvinceId" class="form-control" required asp-items="ViewBag.Province">
                     <option value="">-- Select Province --</option>
                 </select>
                 <span asp-validation-for="ProvinceId" class="text-danger"></span>
@@ -51,19 +51,19 @@
 
             <div class="form-group">
                 <label asp-for="ContactNumber" class="control-label">Contact Number:</label>
-                <input asp-for="ContactNumber" class="form-control" />
+                <input asp-for="ContactNumber" required class="form-control" />
                 <span asp-validation-for="ContactNumber" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="VehicleSupplier" class="control-label">Vehicle Supplier:</label>
-                <input asp-for="VehicleSupplier" class="form-control" />
+                <input asp-for="VehicleSupplier" required class="form-control" />
                 <span asp-validation-for="VehicleSupplier" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Transmission" class="control-label">Transmission:</label>
-                <select asp-for="Transmission" class="form-control">
+                <select asp-for="Transmission" required class="form-control">
                     <option value="">Select Type</option>
                     <option value="True">AUTOMATIC</option>
                     <option value="False">MANUAL</option>
@@ -73,7 +73,7 @@
 
             <div class="form-group">
                 <label asp-for="VehicleType" class="control-label">Vehicle Type:</label>
-                <select asp-for="VehicleType" class="form-control">
+                <select asp-for="VehicleType" required class="form-control">
                     <option value="">Select Type</option>
                     <option value="1">City Car</option>
                     <option value="2">Compact MPV</option>
@@ -84,25 +84,25 @@
 
             <div class="form-group">
                 <label asp-for="BaggageNumber" class="control-label">Number of Baggage:</label>
-                <input asp-for="BaggageNumber" class="form-control" />
+                <input asp-for="BaggageNumber" required class="form-control" />
                 <span asp-validation-for="BaggageNumber" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="NumberOfSeats" class="control-label">Number of Seats:</label>
-                <input asp-for="NumberOfSeats" class="form-control" />
+                <input asp-for="NumberOfSeats" required class="form-control" />
                 <span asp-validation-for="NumberOfSeats" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Price" class="control-label">Price:</label>
-                <input asp-for="Price" class="form-control" />
+                <input asp-for="Price" required class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Status" class="control-label">Status:</label>
-                <select asp-for="Status" class="form-control">
+                <select asp-for="Status" required class="form-control">
                     <option value="">-- Select Status --</option>
                     <option value="1">Có sẵn</option>
                 </select>

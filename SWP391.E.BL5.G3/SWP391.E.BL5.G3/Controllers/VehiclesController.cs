@@ -102,6 +102,7 @@ namespace SWP391.E.BL5.G3.Controllers
                     .Include(item => item.Province)
                     .ToList();
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
             if(int.Parse(role) == (int)RoleEnum.Travel_Agent)
             {
                 var userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -180,6 +181,8 @@ namespace SWP391.E.BL5.G3.Controllers
         {
             if (ModelState.IsValid)
             {
+                vehicle.VehicleName.Trim();
+
                 vehicle.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
                 if (imageFile != null && imageFile.Length > 0)
@@ -249,6 +252,8 @@ namespace SWP391.E.BL5.G3.Controllers
             {
                 try
                 {
+                    vehicle.VehicleName.Trim();
+
                     vehicle.UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
                     if (imageFile != null && imageFile.Length > 0)

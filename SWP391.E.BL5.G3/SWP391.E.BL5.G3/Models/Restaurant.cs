@@ -26,7 +26,7 @@ namespace SWP391.E.BL5.G3.Models
         public TimeSpan? OpenedTime { get; set; }
         public TimeSpan? ClosedTime { get; set; }
         [Phone(ErrorMessage = "Please enter a valid phone number.")]
-        [StringLength(10, ErrorMessage = "The contact number cannot be longer than 10 characters.")]
+        [StringLength(11, ErrorMessage = "The contact number cannot be longer than 11 characters.")]
         [MinLength(10, ErrorMessage = "The contact number must be at least 10 characters long.")]
         public string? ContactNumber { get; set; }
         public string? Description { get; set; }
