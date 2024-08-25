@@ -300,13 +300,25 @@ namespace SWP391.E.BL5.G3.Controllers
                 return NotFound();
             }
 
-            var hotel = await _context.Hotels
-                .Include(h => h.Rooms) // Bao gồm thông tin phòng
-                .FirstOrDefaultAsync(m => m.HotelId == id);
+            var hotel = await _context.Hotels.Include(h => h.Rooms)
+                .SingleOrDefaultAsync(h => h.HotelId == id);
+
             if (hotel == null)
             {
                 return NotFound();
             }
+
+            // Xử lý thuộc tính Status
+            bool? statusBool = null;
+
+            // Kiểm tra nếu Status là bool
+            if (hotel.Status is bool boolStatus)
+            {
+                statusBool = boolStatus;
+            }
+
+            // Lưu trữ vào ViewBag để sử dụng trong view
+            ViewBag.StatusBool = statusBool;
 
             return View(hotel);
         }
